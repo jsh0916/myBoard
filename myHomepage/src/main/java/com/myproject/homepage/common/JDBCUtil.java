@@ -16,7 +16,7 @@ public class JDBCUtil {
 			 * mysql, oralce 등 각 벤더사마다 클래스 이름이 다르다.
 			 * 연동했던 jar 파일을 보면 com.mysql.jdbc 패키지에 Driver 클래스가 있다.
 			 * */
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			
 			/*
 			 * 2. 연결하기
@@ -26,12 +26,13 @@ public class JDBCUtil {
 			
 			// @param getConnection(url, userName, password);
 			// @return Connection
-			conn = DriverManager.getConnection(url, "jsh", "1q2w3e4r");
+			conn = DriverManager.getConnection(url, "jsh", "1234");
+			
 			System.out.println("연결 성공");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return conn;
 	}
 	
 	public static void close(PreparedStatement stmt, Connection conn) {

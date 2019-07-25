@@ -31,8 +31,8 @@ public class BoardDAO {
 		System.out.println("===> JDBC로 insertBoard() 기능 처리");
 		
 		try {
-			conn = JDBCUtil.getConnection();
-			stmt = conn.prepareStatement("insert into board(title, writer, content) values (?, ?, ?)");
+			conn = JDBCUtil.getConnection();			
+			stmt = conn.prepareStatement(BOARD_INSERT);
 			stmt.setString(1, vo.getTitle());
 			stmt.setString(2, vo.getWriter());
 			stmt.setString(3, vo.getContent());
