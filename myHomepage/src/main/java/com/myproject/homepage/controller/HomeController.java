@@ -1,4 +1,4 @@
-package com.myproject.homepage;
+package com.myproject.homepage.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
