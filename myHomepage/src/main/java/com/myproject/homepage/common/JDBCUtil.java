@@ -22,7 +22,7 @@ public class JDBCUtil {
 			 * 2. 연결하기
 			 * 드라이버 매니저에게 Connection 객체를 달라고 요청한다.
 			 * */
-			String url = "jdbc:mysql://localhost:3306/board?useSSL=false&serverTimezone=UTC";
+			String url = "jdbc:mysql://localhost:3306/board?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 			
 			// @param getConnection(url, userName, password);
 			// @return Connection
