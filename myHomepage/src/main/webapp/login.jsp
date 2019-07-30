@@ -1,28 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="EUC-KR">
-		<title>ทฮฑืภฮ</title>
+		<meta charset="UTF-8">
+		<title>๋ก๊ทธ์ธ</title>
 	</head>
 	<body>
 		<center>
-			<h1>ทฮฑืภฮ</h1>
+			<h1>๋ก๊ทธ์ธ</h1>
 			<hr>
 			
 			<form action="login_proc.jsp" method="post">
 				<table border="1" cellpadding="0" cellspacing="0">
 					<tr>
-						<td bgcolor="orange">พฦภฬต๐</td>
+						<td bgcolor="orange">์•์ด๋””</td>
 						<td><input type="text" name="id"/></td>
 					</tr>
 					<tr>
-						<td bgcolor="orange">บ๑นะน๘ศฃ</td>
+						<td bgcolor="orange">๋น๋ฐ€๋ฒํธ</td>
 						<td><input type="password" name="password"/></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="submit" value="ทฮฑืภฮ"/>
+							<input type="submit" value="๋ก๊ทธ์ธ"/>
 						</td>
 					</tr>
 				</table>

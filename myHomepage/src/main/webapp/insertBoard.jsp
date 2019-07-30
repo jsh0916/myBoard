@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="EUC-KR">
-		<title>ªı±€µÓ∑œ</title>
+		<meta charset="UTF-8">
+		<title>ÏÉàÍ∏ÄÎì±Î°ù</title>
 	</head>
 	<body>
 		<center>
-			<h1>±€ µÓ∑œ</h1>
+			<h1>Í∏Ä Îì±Î°ù</h1>
 			<a href="logout_proc.jsp">Log-out</a>
 			<hr>
 			<form action="insertBoard_proc.jsp" method="post">
@@ -32,13 +32,13 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="submit" value="ªı±€ µÓ∑œ"/>
+							<input type="submit" value="ÏÉàÍ∏Ä Îì±Î°ù"/>
 						</td>
 					</tr>
 				</table>
 			</form>
 			<hr>
-			<a href="getBoradList.jsp">±€ ∏Ò∑œ ∞°±‚</a>
+			<a href="getBoradList.jsp">Í∏Ä Î™©Î°ù Í∞ÄÍ∏∞</a>
 		</center>	
 	</body>
 </html>

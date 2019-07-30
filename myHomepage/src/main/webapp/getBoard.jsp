@@ -1,44 +1,44 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.myproject.homepage.board.impl.BoardDAO" %>
 <%@ page import="com.myproject.homepage.board.BoardVO" %>
 
 <%
-	// 1. °Ë»öÇÒ °Ô½Ã±Û ¹øÈ£ ÃßÃâ
+	// 1. ê²€ìƒ‰í•  ê²Œì‹œê¸€ ë²ˆí˜¸ ì¶”ì¶œ
 	String seq = request.getParameter("seq");
 
-	// 2. DB ¿¬µ¿ Ã³¸®
+	// 2. DB ì—°ë™ ì²˜ë¦¬
 	BoardVO vo = new BoardVO();
 	vo.setSeq(Integer.parseInt(seq));
 	
 	BoardDAO boardDAO = new BoardDAO();
 	BoardVO board = boardDAO.getBoard(vo);
 
-	// 3. ÀÀ´ä È­¸é ±¸¼º
+	// 3. ì‘ë‹µ í™”ë©´ êµ¬ì„±
 %>
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="EUC-KR">
-		<title>±Û »ó¼¼</title>
+		<meta charset="UTF-8">
+		<title>ê¸€ ìƒì„¸</title>
 	</head>
 	<body>
 		<center>
-			<h1>±Û »ó¼¼</h1>
+			<h1>ê¸€ ìƒì„¸</h1>
 			<a href="logout_proc.jsp">Log-out</a>
 			<hr>
 			<form action="updateBoard_proc.jsp" method="post">
 				<table border="1" cellpadding="0" cellspacing="0">
 					<tr>
-						<td bgcolor="orange" width="70">Á¦¸ñ</td>
+						<td bgcolor="orange" width="70">ì œëª©</td>
 						<td align="left"><input name="title" type="text" value="<%= board.getTitle() %>"/></td>
 					</tr>
 					<tr>
-						<td bgcolor="orange">ÀÛ¼ºÀÚ</td>
+						<td bgcolor="orange">ìž‘ì„±ìž</td>
 						<td align="left"><%= board.getWriter() %></td>
 					</tr>
 					<tr>
-						<td bgcolor="orange">³»¿ë</td>
+						<td bgcolor="orange">ë‚´ìš©</td>
 						<td align="left">
 							<textarea name="content" cols="40" rows="10">
 								<%= board.getContent() %>
@@ -46,24 +46,24 @@
 						</td>
 					</tr>
 					<tr>
-						<td bgcolor="orange">µî·ÏÀÏ</td>
+						<td bgcolor="orange">ë“±ë¡ì¼</td>
 						<td align="left"><%= board.getRegDate() %></td>
 					</tr>
 					<tr>
-						<td bgcolor="orange">Á¶È¸¼ö</td>
+						<td bgcolor="orange">ì¡°íšŒìˆ˜</td>
 						<td align="left"><%= board.getCnt() %></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="submit" value="±Û ¼öÁ¤"/>
+							<input type="submit" value="ê¸€ ìˆ˜ì •"/>
 						</td>
 					</tr>
 				</table>
 			</form>
 			<hr>
-			<a href="insertBoard.jsp">±Ûµî·Ï</a>&nbsp;&nbsp;&nbsp;
-			<a href="deleteBoard_proc">±Û»èÁ¦</a>&nbsp;&nbsp;&nbsp;
-			<a href="getBoardList.jsp">±Û¸ñ·Ï</a>
+			<a href="insertBoard.jsp">ê¸€ë“±ë¡</a>&nbsp;&nbsp;&nbsp;
+			<a href="deleteBoard_proc">ê¸€ì‚­ì œ</a>&nbsp;&nbsp;&nbsp;
+			<a href="getBoardList.jsp">ê¸€ëª©ë¡</a>
 		</center>	
 	</body>
 </html>

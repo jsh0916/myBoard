@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR" pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.myproject.homepage.user.impl.UserDAO" %>
 <%@ page import="com.myproject.homepage.user.UserVO" %>
 
 <%
-	// 1. »ç¿ëÀÚ ÀÔ·Â Á¤º¸ ÃßÃâ
+	// 1. ì‚¬ìš©ìž ìž…ë ¥ ì •ë³´ ì¶”ì¶œ
 	String id = request.getParameter("id");
 	String password = request.getParameter("password");
 	
-	// 2. DB ¿¬µ¿ Ã³¸®
+	// 2. DB ì—°ë™ ì²˜ë¦¬
 	UserVO vo = new UserVO();
 	vo.setId(id);
 	vo.setPassword(password);
@@ -15,7 +15,7 @@
 	UserDAO userDAO = new UserDAO();
 	UserVO user = userDAO.getUser(vo);
 	
-	// 3. È­¸é ³×ºñ°ÔÀÌ¼Ç
+	// 3. í™”ë©´ ë„¤ë¹„ê²Œì´ì…˜
 	if (user != null) {
 		response.sendRedirect("getBoardList.jsp");
 	} else {
@@ -25,27 +25,27 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="EUC-KR">
-		<title>·Î±×ÀÎ</title>
+		<meta charset="UTF-8">
+		<title>ë¡œê·¸ì¸</title>
 	</head>
 	<body>
 		<center>
-			<h1>·Î±×ÀÎ</h1>
+			<h1>ë¡œê·¸ì¸</h1>
 			<hr>
 			
 			<form action="login_proc.jsp" method="post">
 				<table border="1" cellpadding="0" cellspacing="0">
 					<tr>
-						<td bgcolor="orange">¾ÆÀÌµð</td>
+						<td bgcolor="orange">ì•„ì´ë””</td>
 						<td><input type="text" name="id"/></td>
 					</tr>
 					<tr>
-						<td bgcolor="orange">ºñ¹Ð¹øÈ£</td>
+						<td bgcolor="orange">ë¹„ë°€ë²ˆí˜¸</td>
 						<td><input type="password" name="password"/></td>
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="submit" value="·Î±×ÀÎ"/>
+							<input type="submit" value="ë¡œê·¸ì¸"/>
 						</td>
 					</tr>
 				</table>
