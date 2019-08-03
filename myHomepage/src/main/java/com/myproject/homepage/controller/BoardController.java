@@ -1,5 +1,7 @@
 package com.myproject.homepage.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,12 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.board.impl.BoardDAO;
 
 @Controller
 /*
@@ -32,7 +33,14 @@ public class BoardController {
 	
 	// 글 등록
 	@RequestMapping(value="insertBoard.do")
-	public String insertBoard(BoardVO vo) {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo) throws IOException {		// 커맨드객체 사용
+		// 파일 업로드 처리
+		MultipartFile uploadFile = vo.getUploadFile();
+		if (!uploadFile.isEmpty()) {
+			String fileName = uploadFile.getOriginalFilename();
+			uploadFile.transferTo(new File("C:/" + fileName));
+		}
+		
 		boardService.insertBoard(vo);
 
 		return "getBoardList.do";

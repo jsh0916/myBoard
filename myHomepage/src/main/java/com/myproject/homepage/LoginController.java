@@ -15,7 +15,7 @@ public class LoginController {
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(UserVO vo) {
 		System.out.println("로그인 화면으로 이동");
-
+		
 		vo.setId("test");
 		vo.setPassword("test123");
 
