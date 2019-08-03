@@ -2,6 +2,8 @@ package com.myproject.homepage.board;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 // VO(Value Object)
 public class BoardVO {
 
@@ -11,6 +13,9 @@ public class BoardVO {
 	private String content;
 	private Date regDate;
 	private int cnt;
+	private String searchCondition;
+	private String searchKeyword;
+	private MultipartFile uploadFile;
 
 	public int getSeq() {
 		return seq;
@@ -48,10 +53,29 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+	public String getSearchCondition() {
+		return searchCondition;
+	}
+	public void setSearchCondition(String searchCondition) {
+		this.searchCondition = searchCondition;
+	}
+	public String getSearchKeyword() {
+		return searchKeyword;
+	}
+	public void setSearchKeyword(String searchKeyword) {
+		this.searchKeyword = searchKeyword;
+	}
+	public MultipartFile getUploadFile() {
+		return uploadFile;
+	}
+	public void setUploadFile(MultipartFile uploadFile) {
+		this.uploadFile = uploadFile;
+	}
 
 	@Override
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
-				+ regDate + ", cnt=" + cnt + "]";
+				+ regDate + ", cnt=" + cnt + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
+				+ ", uploadFile=" + uploadFile + "]";
 	}
 }

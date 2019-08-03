@@ -14,7 +14,6 @@ import com.myproject.homepage.common.JDBCUtil;
 // DAO (Date Access Object)
 @Repository("boardDAO")
 public class BoardDAO {
-	// JDBC °ü·Ã º¯¼ö
 	private Connection conn = null;
 	private PreparedStatement stmt = null;
 	private ResultSet rs = null;
@@ -24,11 +23,11 @@ public class BoardDAO {
 	private final String BOARD_DELETE 	= "delete board where seq = ?";
 	private final String BOARD_GET 		= "select * from board where seq = ?";
 	private final String BOARD_LIST 	= "select * from board order by seq desc";
-	
-	// CRUD
-	// ±Û µî·Ï
+	private final String BOARD_LIST_T	= "select * from board where title like concat('%', ?, '%') order by seq desc";
+	private final String BOARD_LIST_C	= "select * from board where content like concat('%', ?, '%') order by seq desc";
+
 	public void insertBoard(BoardVO vo) {
-		System.out.println("===> JDBC·Î insertBoard() ±â´É Ã³¸®");
+		System.out.println("===> JDBC insertBoard() ê¸°ëŠ¥ì²˜ë¦¬");
 		
 		try {
 			conn = JDBCUtil.getConnection();			
@@ -43,10 +42,9 @@ public class BoardDAO {
 			JDBCUtil.close(stmt, conn);
 		}
 	}
-	
-	// ±Û ¼öÁ¤
+
 	public void updateBoard(BoardVO vo) {
-		System.out.println("===> JDBC·Î updateBoard() ±â´É Ã³¸®");
+		System.out.println("===> JDBC updateBoard() ê¸°ëŠ¥ì²˜ë¦¬");
 		
 		try {
 			conn = JDBCUtil.getConnection();
@@ -61,10 +59,9 @@ public class BoardDAO {
 			JDBCUtil.close(stmt, conn);
 		}
 	}
-	
-	// ±Û »èÁ¦
+
 	public void deleteBoard(BoardVO vo) {
-		System.out.println("===> JDBC·Î deleteBoard() ±â´É Ã³¸®");
+		System.out.println("===> JDBC deleteBoard() ê¸°ëŠ¥ì²˜ë¦¬");
 		
 		try {
 			conn = JDBCUtil.getConnection();
@@ -77,10 +74,9 @@ public class BoardDAO {
 			JDBCUtil.close(stmt, conn);
 		}
 	}
-	
-	// ±Û »ó¼¼ Á¶È¸
+
 	public BoardVO getBoard(BoardVO vo) {
-		System.out.println("===> JDBC·Î getBoard() ±â´É Ã³¸®");
+		System.out.println("===> JDBC getBoard() ê¸°ëŠ¥ì²˜ë¦¬");
 		BoardVO board = null;
 		
 		try {
@@ -107,15 +103,20 @@ public class BoardDAO {
 		
 		return board;
 	}
-	
-	// ±Û ¸ñ·Ï Á¶È¸
+
 	public List<BoardVO> getBoardList(BoardVO vo) {
-		System.out.println("===> JDBC·Î getBoardList() ±â´É Ã³¸®");
+		System.out.println("===> JDBC getBoardList() ê¸°ëŠ¥ì²˜ë¦¬");
 		List<BoardVO> boardList = new ArrayList<>();
 		
 		try {
 			conn = JDBCUtil.getConnection();
-			stmt = conn.prepareStatement(BOARD_LIST);
+			if (vo.getSearchCondition().equals("TITLE")) {
+				stmt = conn.prepareStatement(BOARD_LIST_T);
+			} else if (vo.getSearchCondition().equals("TITLE")) {
+				stmt = conn.prepareStatement(BOARD_LIST_C);
+			}
+
+			stmt.setString(1, vo.getSearchKeyword());
 			rs = stmt.executeQuery();
 			
 			while (rs.next()) {

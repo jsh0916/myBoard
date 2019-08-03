@@ -16,6 +16,21 @@
   	<url-pattern>*.do</url-pattern>
   </filter-mapping>
   
+  <!-- DispatcherServlet이 생성되어 presentation-layer.xml 파일을 읽고 스프링 컨테이너를 구동하여 Controller 객체들이 메모리에 생성되기 전에 
+  		src/main/resources 에 있는 applicationContext.xml 파일을 읽어 비즈니스 컴포넌트들을 메모리에 생성하기 위해 사용	
+  		ContextLoaderListener 클래스는 서블릿 컨테이너가 web.xml 파일을 읽어 구동될 때 자동으로 메모리에 생성됨. 
+  		기본적으로는 /WEB-INF/applicationContext.xml 에 위치함. -->
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+  
+  <listener>
+  	<listener-class>
+  		org.springframework.web.context.ContextLoaderListener
+  	</listener-class>
+  </listener>
+  
   <!-- Client 의 모든 *.do 요청을 DispatcherServlet 클래스의 객체가 처리하기 위한 설정 -->
   <!-- DispatcherSErvlet은 Spring 컨테이너를 구동할 때 web.xml 파일에 등록된 servlet-name 뒤에 '-servlet.xml'을 붙여서 스프링 설정파일을 찾는다. -->
   <servlet>
