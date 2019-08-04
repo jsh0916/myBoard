@@ -24,7 +24,7 @@
 								</c:forEach>
 							</select>
 							<input name="searchKeyword" type="text"/>
-							<input type="submit" value="<spring:message code="message.board.search.condition.btn"/>"/>
+							<input type="submit" value="<spring:message code="message.board.list.search.condition.btn"/>"/>
 						</td>
 					</tr>
 				</table>
@@ -56,7 +56,7 @@
 				
 				</c:forEach>
 				<br>
-				<a href="insertBoard.jsp"><spring:message code="message.board.list.table.head.insertBoard"/></a>
+				<a href="insertBoard.jsp"><spring:message code="message.board.list.link.insertBoard"/></a>
 			</table>
 		</center>	
 	</body>
