@@ -33,7 +33,7 @@ public class BoardController {
 	
 	// 글 등록
 	@RequestMapping(value="insertBoard.do")
-	public String insertBoard(BoardVO vo) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, Model model) throws IOException {		// 커맨드객체 사용
 		// 파일 업로드 처리
 		MultipartFile uploadFile = vo.getUploadFile();
 		if (!uploadFile.isEmpty()) {
@@ -42,26 +42,31 @@ public class BoardController {
 		}
 		
 		boardService.insertBoard(vo);
+		
+		getBoardListData(vo, model);
 
-		return "getBoardList.do";
+		return "getBoardList";
 	}
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do")
-	public String updateBoard(@ModelAttribute("board") BoardVO vo) {
+	public String updateBoard(@ModelAttribute("board") BoardVO vo, Model model) {
 
 		boardService.updateBoard(vo);
+		
+		getBoardListData(vo, model);
 
-		return "getBoardList.do";
+		return "getBoardList";
 	}
 	
 	// 글 삭제
 	@RequestMapping(value="/deleteBoard.do")
-	public String deleteBoard(BoardVO vo) {
+	public String deleteBoard(BoardVO vo, Model model) {
 
 		boardService.deleteBoard(vo);
+		getBoardListData(vo, model);
 
-		return "getBoardList.do";
+		return "getBoardList";
 	}
 	
 	// 글 상세 조회
@@ -70,7 +75,7 @@ public class BoardController {
 
 		model.addAttribute("board", boardService.getBoard(vo));
 
-		return "getBoard.jsp";
+		return "getBoard";
 	}
 	
 	// 검색 조건 목록 설정
@@ -92,6 +97,16 @@ public class BoardController {
 	// 글 목록 검색
 	@RequestMapping(value="/getBoardList.do")
 	public String getBoardList(BoardVO vo, Model model) {
+		/*
+		 * DispatcherServlet은 Controller가 리턴한 mav 객체에서 Model 정보를 추출한 다음
+		 * HttpServletRequest 객체에 검색 결과에 해당하는 Model 정보를 저장하여 JSP로 포워딩.
+		 * */
+		getBoardListData(vo, model);
+		
+		return "getBoardList";
+	}
+	
+	public void getBoardListData(BoardVO vo, Model model) {
 		if (vo.getSearchCondition() == null) {
 			vo.setSearchCondition("TITLE");
 		}
@@ -99,12 +114,7 @@ public class BoardController {
 		if (vo.getSearchKeyword() == null) {
 			vo.setSearchKeyword("");
 		}
-		/*
-		 * DispatcherServlet은 Controller가 리턴한 mav 객체에서 Model 정보를 추출한 다음
-		 * HttpServletRequest 객체에 검색 결과에 해당하는 Model 정보를 저장하여 JSP로 포워딩.
-		 * */
-		model.addAttribute("boardList", boardService.getBoardList(vo));
 		
-		return "getBoardList.jsp";
+		model.addAttribute("boardList", boardService.getBoardList(vo));
 	}
 }

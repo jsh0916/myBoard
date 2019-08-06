@@ -10,25 +10,14 @@ public class JDBCUtil {
 		Connection conn = null;
 		
 		try {
-			/*
-			 * 1. 드라이버 로딩
-			 * 드라이버 인터페이스를 구현한 클래스 로딩
-			 * mysql, oralce 등 각 벤더사마다 클래스 이름이 다르다.
-			 * 연동했던 jar 파일을 보면 com.mysql.jdbc 패키지에 Driver 클래스가 있다.
-			 * */
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			
-			/*
-			 * 2. 연결하기
-			 * 드라이버 매니저에게 Connection 객체를 달라고 요청한다.
-			 * */
 			String url = "jdbc:mysql://localhost:3306/board?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 			
 			// @param getConnection(url, userName, password);
 			// @return Connection
 			conn = DriverManager.getConnection(url, "jsh", "1234");
 			
-			System.out.println("연결 성공");
+			System.out.println("占쏙옙占쏙옙 占쏙옙占쏙옙");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

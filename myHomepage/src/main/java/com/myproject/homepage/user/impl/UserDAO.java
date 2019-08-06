@@ -12,7 +12,6 @@ import com.myproject.homepage.user.UserVO;
 // DAO(Data Access Object)
 @Repository("userDAO")
 public class UserDAO {
-	// JDBC 관련 변수
 	private Connection conn = null;
 	private PreparedStatement stmt = null;
 	private ResultSet rs = null;
@@ -22,9 +21,7 @@ public class UserDAO {
 	public UserVO getUser(UserVO vo) {
 		UserVO user = null;
 
-		try {	
-			System.out.println("===> JDBC로 getUser() 기능 처리");
-			
+		try {
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(USER_GET);
 			stmt.setString(1, vo.getId());
