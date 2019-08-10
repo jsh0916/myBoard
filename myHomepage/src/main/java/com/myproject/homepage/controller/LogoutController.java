@@ -1,4 +1,4 @@
-package com.myproject.homepage;
+package com.myproject.homepage.controller;
 
 import javax.servlet.http.HttpSession;
 

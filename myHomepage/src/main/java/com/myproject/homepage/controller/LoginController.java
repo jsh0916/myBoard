@@ -1,4 +1,4 @@
-package com.myproject.homepage;
+package com.myproject.homepage.controller;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
+import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
 import com.myproject.homepage.user.impl.UserDAO;
 
@@ -18,6 +19,9 @@ public class LoginController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(UserVO vo) {
@@ -30,12 +34,12 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(UserVO vo, UserDAO userDAO, HttpSession session, Model model, BoardVO boardVO) {
+	public String login(UserVO vo, HttpSession session, Model model, BoardVO boardVO) {
 		System.out.println("로그인 인증처리");
 		
-		UserVO user = userDAO.getUser(vo);
+		UserVO user = userService.getUser(vo);
 		
-		if (userDAO.getUser(vo) != null) {
+		if (user != null) {
 			session.setAttribute("userName", user.getName());
 			
 			if (boardVO.getSearchCondition() == null) {
