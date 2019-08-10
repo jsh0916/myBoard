@@ -32,7 +32,7 @@
 
 	<delete id="deleteBoard">
 		<![CDATA[
-			DELETE BOARD
+			DELETE FROM BOARD
 			WHERE SEQ = #{seq}
 		]]>
 	</delete>
