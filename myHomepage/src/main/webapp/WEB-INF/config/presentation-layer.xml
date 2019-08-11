@@ -30,7 +30,7 @@
 				</prop>
 			</props>
 		</property>
-		<property name="defaultErrorView" value="common/error.jsp"></property>
+		<property name="defaultErrorView" value="common/error"></property>
 	</bean>
 	
 	<!-- 다국어 설정 -->

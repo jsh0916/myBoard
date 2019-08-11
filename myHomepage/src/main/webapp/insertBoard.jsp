@@ -21,7 +21,7 @@
 					<tr>
 						<td bgcolor="orange">작성자</td>
 						<td align="left">
-							<input type="text" name="writer" size="10"/>
+							${userName }
 						</td>
 					</tr>
 					<tr>
@@ -44,7 +44,7 @@
 				</table>
 			</form>
 			<hr>
-			<a href="getBoradList.jsp">글 목록 가기</a>
+			<a href="getBoardList.do">글 목록 가기</a>
 		</center>	
 	</body>
 </html>

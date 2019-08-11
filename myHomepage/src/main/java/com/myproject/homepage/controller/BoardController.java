@@ -5,16 +5,21 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
+import com.myproject.homepage.user.UserVO;
 
 @Controller
 /*
@@ -32,7 +37,14 @@ public class BoardController {
 	private BoardService boardService;
 	
 	// 글 등록
-	@RequestMapping(value="insertBoard.do")
+	@RequestMapping(value="insertBoard.do", method=RequestMethod.GET)
+	public String insertBoardView(HttpServletRequest request, Model model) {
+		model.addAttribute("userName", request.getParameter("userName"));
+		
+		return "insertBoard";
+	}
+	
+	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
 	public String insertBoard(BoardVO vo, Model model) throws IOException {		// 커맨드객체 사용
 		// 파일 업로드 처리
 		MultipartFile uploadFile = vo.getUploadFile();

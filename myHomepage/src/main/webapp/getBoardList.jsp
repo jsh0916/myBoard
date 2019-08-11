@@ -56,7 +56,7 @@
 				
 				</c:forEach>
 				<br>
-				<a href="insertBoard.jsp"><spring:message code="message.board.list.link.insertBoard"/></a>
+				<a href="insertBoard.do?userName=${userName }"><spring:message code="message.board.list.link.insertBoard"/></a>
 			</table>
 		</center>	
 	</body>

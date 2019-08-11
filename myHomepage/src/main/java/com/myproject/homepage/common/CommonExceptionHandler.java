@@ -13,7 +13,7 @@ public class CommonExceptionHandler {
 	public ModelAndView handleArithmeticException(Exception e) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("exception", e);
-		mav.setViewName("/common/arithmeticError.jsp");
+		mav.setViewName("/common/arithmeticError");
 		
 		return mav;
 	}
@@ -22,7 +22,7 @@ public class CommonExceptionHandler {
 	public ModelAndView handleNullPointerException(Exception e) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("exception", e);
-		mav.setViewName("/common/nullPointerError.jsp");
+		mav.setViewName("/common/nullPointerError");
 		
 		return mav;
 	}
@@ -31,7 +31,7 @@ public class CommonExceptionHandler {
 	public ModelAndView handleException(Exception e) {
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("exception", e);
-		mav.setViewName("/common/error.jsp");
+		mav.setViewName("/common/error");
 		
 		return mav;
 	}
