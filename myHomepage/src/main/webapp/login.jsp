@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="UTF-8">
 		<title><spring:message code="message.user.login.title"/></title>
 	</head>
 	<body>

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +22,23 @@ import com.myproject.homepage.user.impl.UserDAO;
 
 @Controller
 public class LoginController {
+	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 	
 	@Autowired
 	private BoardService boardService;
 	
 	@Autowired
 	private UserService userService;
+	
+
+	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
+	public String home(BoardVO boardVO, Model model) {
+		logger.info("Welcome home!");
+
+		getBoardListData(boardVO, model);
+
+		return "index";
+	}
 
 	@RequestMapping(value="/login.do", method=RequestMethod.GET)
 	public String loginView(UserVO vo) {
@@ -38,7 +51,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(UserVO vo, HttpSession session, Model model, BoardVO boardVO) {
+	public String login(UserVO vo, BoardVO boardVO, HttpSession session, Model model) {
 		System.out.println("로그인 인증처리");
 		
 		UserVO user = userService.getUser(vo);
@@ -46,20 +59,10 @@ public class LoginController {
 		if (user != null) {
 			session.setAttribute("userName", user.getName());
 			
-			if (boardVO.getSearchCondition() == null) {
-				boardVO.setSearchCondition("TITLE");
-			}
-			
-			if (boardVO.getSearchKeyword() == null) {
-				boardVO.setSearchKeyword("");
-			}
-			
-			model.addAttribute("boardList", boardService.getBoardList(boardVO));
-			
-			return "getBoardList";
-		} else {
-			return "login";
+			getBoardListData(boardVO, model);
 		}
+
+		return "index";
 	}
 	
 	@ModelAttribute("conditionMap")
@@ -69,5 +72,26 @@ public class LoginController {
 		conditionMap.put("내용", "CONTENT");
 		
 		return conditionMap;
+	}
+	
+	@RequestMapping("/logout.do")
+	public String logout(BoardVO vo, Model model, HttpSession session) {
+		session.invalidate();
+		
+		getBoardListData(vo, model);
+		
+		return "index";
+	}
+	
+	public void getBoardListData(BoardVO vo, Model model) {
+		if (vo.getSearchCondition() == null) {
+			vo.setSearchCondition("TITLE");
+		}
+		
+		if (vo.getSearchKeyword() == null) {
+			vo.setSearchKeyword("");
+		}
+		
+		model.addAttribute("boardList", boardService.getBoardList(vo));
 	}
 }

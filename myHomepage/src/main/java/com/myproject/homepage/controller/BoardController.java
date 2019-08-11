@@ -57,7 +57,7 @@ public class BoardController {
 		
 		getBoardListData(vo, model);
 
-		return "getBoardList";
+		return "index";
 	}
 	
 	// 글 수정
@@ -68,7 +68,7 @@ public class BoardController {
 		
 		getBoardListData(vo, model);
 
-		return "getBoardList";
+		return "index";
 	}
 	
 	// 글 삭제
@@ -78,7 +78,7 @@ public class BoardController {
 		boardService.deleteBoard(vo);
 		getBoardListData(vo, model);
 
-		return "getBoardList";
+		return "index";
 	}
 	
 	// 글 상세 조회
@@ -107,16 +107,18 @@ public class BoardController {
 		return conditionMap;
 	}
 	// 글 목록 검색
+	/*
 	@RequestMapping(value="/getBoardList.do")
 	public String getBoardList(BoardVO vo, Model model) {
-		/*
-		 * DispatcherServlet은 Controller가 리턴한 mav 객체에서 Model 정보를 추출한 다음
-		 * HttpServletRequest 객체에 검색 결과에 해당하는 Model 정보를 저장하여 JSP로 포워딩.
-		 * */
+		
+		//  DispatcherServlet은 Controller가 리턴한 mav 객체에서 Model 정보를 추출한 다음
+		//  HttpServletRequest 객체에 검색 결과에 해당하는 Model 정보를 저장하여 JSP로 포워딩.
+		 
 		getBoardListData(vo, model);
 		
-		return "getBoardList";
+		return "index";
 	}
+	*/
 	
 	public void getBoardListData(BoardVO vo, Model model) {
 		if (vo.getSearchCondition() == null) {
