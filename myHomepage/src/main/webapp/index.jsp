@@ -34,7 +34,7 @@
 				</button>
 				<c:if test="${userName != null }">
 					<div style="color: white;">
-						${userName } 님 환영합니다!
+						${userName } <spring:message code="message.board.list.welcomeMsg"/>
 					</div>
 				</c:if>
 				<div class="collapse navbar-collapse" id="navbarResponsive">
@@ -47,12 +47,11 @@
 						<li class="nav-item">
 							<c:if test="${userName == null }">
 								<a class="nav-link" href="login.do">
-									로그인
+									<spring:message code="message.user.login.title"/>
 								</a>
 							</c:if>
 							<c:if test="${userName != null }">
 								<a class="nav-link" href="logout.do">
-<%-- 									<h3>${userName}<spring:message code="message.board.list.welcomeMsg"/>&nbsp;&nbsp;&nbsp;<a href="logout.do">Log-out</a></h3>									 --%>
 									Log-out
 								</a>
 							</c:if>
