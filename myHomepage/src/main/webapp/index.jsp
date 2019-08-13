@@ -17,11 +17,43 @@
 		
 		<!-- Custom styles for this template -->
 		<link href="/resources/myhomepage/css/blog-home.css" rel="stylesheet">
+		<link href="/resources/myhomepage/css/style.css" rel="stylesheet">
 		
 		<!-- Bootstrap core JavaScript -->
 		<script src="/resources/myhomepage/vendor/jquery/jquery.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		
+<!-- 		<script src="/resources/myhomepage/js/board.js"></script> -->
 	</head>
+	<script>
+		$(document).ready(function() {
+			$(".overlay, .login-modal").css("display", "none");
+			
+			$("#loginButton").click(function() {
+				$(".login-modal, .overlay").css("display", "block");
+				
+				$('#guest, .close-modal').click(function() {
+				    $('.login-modal, .overlay').fadeOut();
+				  });
+				  
+				  $('#login').click(function() {
+				    $('.modal-content').slideToggle();
+				    $('.username').focus();
+				  });
+				  
+				  $('.register-link').click(function() {
+				    $('.register-slide').addClass('active-register');
+				    $('.login-form').addClass('move-form');
+				  });
+				  
+				  $('.close-register').click(function() {
+				    $('.register-slide').removeClass('active-register');
+				    $('.login-form').removeClass('move-form');
+				    $('.username').focus();
+				  });
+			});
+		})
+	</script>
 	<body>
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -46,7 +78,7 @@
 						</li>
 						<li class="nav-item">
 							<c:if test="${userName == null }">
-								<a class="nav-link" href="login.do">
+								<a id="loginButton" class="nav-link" href="#">
 									<spring:message code="message.user.login.title"/>
 								</a>
 							</c:if>
@@ -188,7 +220,7 @@
 	
 		</div>
 		<!-- /.container -->
-	
+
 		<!-- Footer -->
 		<footer class="py-5 bg-dark">
 			<div class="container">
@@ -198,4 +230,32 @@
 			<!-- /.container -->
 		</footer>
 	</body>
+	
+	<!-- Layer Popup START -->
+	
+	<div class="login-modal">
+		<div class="modal-inner">
+			<div class="modal-top"><i class="material-icons">exit_to_app</i><br/>
+				<h4>How would you like to checkout?</h4>
+			</div>
+			<div class="modal-content">
+				<form class="login-form" action="login.do" method="post">
+					<fieldset class="form-group">
+						<input class="form-control username" type="text" name="id" placeholder="Username" required="required"/>
+					</fieldset>
+					<fieldset class="form-group">
+						<input class="form-control" type="password" name="password" placeholder="Password" required="required"/>
+					</fieldset>
+					<button class="btn btn-primary" type="submit">Submit</button><span><a class="register-link" href="#0">Don't have an account?</a></span>
+				</form>
+				<div class="register-slide"><a class="close-register" href="#0"><i class="lnr lnr-cross"></i></a>
+					<p>Click the "Create Account" checkbox to create an account during checkout.</p><a class="close-modal btn btn-primary" href="#0">Begin Checkout</a>
+				</div>
+			</div>
+			<div class="modal-bottom"><a class="modal-btn" href="#0" id="login">Login</a><a class="modal-btn" href="#0" id="guest">Guest</a></div>
+		</div>
+	</div>
+	<div class="overlay"></div>
+
+	<!-- Layer Popup END -->
 </html>
