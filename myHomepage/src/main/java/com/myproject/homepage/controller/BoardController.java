@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -45,7 +46,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, Model model) throws IOException {		// 커맨드객체 사용
+	public void insertBoard(BoardVO vo, Model model, HttpServletResponse resp) throws IOException {		// 커맨드객체 사용
 		// 파일 업로드 처리
 		MultipartFile uploadFile = vo.getUploadFile();
 		if (!uploadFile.isEmpty()) {
@@ -57,7 +58,8 @@ public class BoardController {
 		
 		getBoardListData(vo, model);
 
-		return "index";
+		resp.sendRedirect("index");
+//		return "index";
 	}
 	
 	// 글 수정
