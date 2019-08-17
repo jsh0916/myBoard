@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.user.UserVO;
 
 @Controller
 /*
@@ -33,6 +34,7 @@ import com.myproject.homepage.user.UserVO;
  * */
 @SessionAttributes("board")
 public class BoardController {
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@Autowired
 	private BoardService boardService;
@@ -40,26 +42,33 @@ public class BoardController {
 	// 글 등록
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.GET)
 	public String insertBoardView(HttpServletRequest request, Model model) {
-		model.addAttribute("userName", request.getParameter("userName"));
+		String userName = request.getParameter("userName");
+		
+		logger.info("userName : " + userName);
+		
+		model.addAttribute("userName", userName);
 		
 		return "insertBoard";
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public void insertBoard(BoardVO vo, Model model, HttpServletResponse resp) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, Model model) throws IOException {		// 커맨드객체 사용
 		// 파일 업로드 처리
 		MultipartFile uploadFile = vo.getUploadFile();
 		if (!uploadFile.isEmpty()) {
 			String fileName = uploadFile.getOriginalFilename();
-			uploadFile.transferTo(new File("C:/" + fileName));
+			uploadFile.transferTo(new File("C:/upload/tmp/" + fileName));
+			
+			logger.info("FileName : " + fileName);
+			logger.info("FileSize : " + uploadFile.getSize());
 		}
 		
 		boardService.insertBoard(vo);
 		
 		getBoardListData(vo, model);
 
-		resp.sendRedirect("index");
-//		return "index";
+//		resp.sendRedirect("index.jsp");
+		return "index";
 	}
 	
 	// 글 수정

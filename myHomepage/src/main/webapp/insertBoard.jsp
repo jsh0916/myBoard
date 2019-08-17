@@ -21,7 +21,7 @@
 					<tr>
 						<td bgcolor="orange">작성자</td>
 						<td align="left">
-							${userName }
+							<input type="text" name="writer" readonly="readonly" value="${userName }"/>
 						</td>
 					</tr>
 					<tr>

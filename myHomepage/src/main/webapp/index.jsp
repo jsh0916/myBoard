@@ -27,9 +27,7 @@
 <!-- 		<script src="/resources/myhomepage/js/board.js"></script> -->
 	</head>
 	<script>
-		$(document).ready(function() {
-			$(".overlay, .login-modal").css("display", "none");
-			
+		$(document).ready(function() {	
 			$("#loginButton").click(function() {
 				$(".login-modal, .overlay").css("display", "block");
 				
@@ -54,6 +52,16 @@
 				  });
 			});
 		})
+		
+		function insertBoard() {
+			var userName = "${userName }";
+			
+			if (userName == "") {
+				alert("로그인해주시기 바랍니다.");
+			} else {
+				location.href = "insertBoard.do?userName=" + userName;
+			}
+		}
 	</script>
 	<body>
 		<!-- Navigation -->
@@ -135,7 +143,7 @@
 			</table>
 			<hr/>
 			
-			<a class="btn btn-default pull-right" href="insertBoard.do?userName=${userName }">
+			<a class="btn btn-default pull-right" onclick="insertBoard()" href="#">
 				<spring:message code="message.board.list.link.insertBoard"/>
 			</a>
 			

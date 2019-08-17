@@ -15,6 +15,17 @@
 		<script src="/resources/myhomepage/vendor/jquery/jquery.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	</head>
+	<script>
+		function insertBoard() {
+			var userName = ${userName};
+			
+			if (userName == "") {
+				alert("로그인해주시기 바랍니다.");
+			} else {
+				location.url = "insertBoard.do?userName=" + userName;				
+			}
+		}
+	</script>
 	<body>
 		<center>
 			<h1><spring:message code="message.board.list.mainTitle"/></h1>
@@ -79,9 +90,8 @@
 						<li><a href="#">3</a></li>
 					</ul>
 				</div>
-				<a class="btn btn-default pull-right" href="insertBoard.do?userName=${userName }"><spring:message code="message.board.list.link.insertBoard"/></a>
+				<a class="btn btn-default pull-right" onclick="insertBoard()" href="#"><spring:message code="message.board.list.link.insertBoard"/></a>
 			</div>
-			
 			
 			
 			

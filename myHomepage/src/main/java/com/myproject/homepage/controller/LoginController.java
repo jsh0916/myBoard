@@ -18,7 +18,6 @@ import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
 import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
-import com.myproject.homepage.user.impl.UserDAO;
 
 @Controller
 public class LoginController {
