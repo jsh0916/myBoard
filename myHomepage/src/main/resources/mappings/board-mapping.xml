@@ -3,16 +3,17 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="BoardDAO">
-	<resultMap id="boardResult" type="board">
+	<resultMap id="boardResult" type="boardVO">
 		<id property="seq" column="SEQ"/>
 		<result property="title" column="TITLE"/>
 		<result property="writer" column="WRITER"/>
 		<result property="content" column="CONTENT"/>
 		<result property="regDate" column="REGDATE"/>
+		<result property="updateDate" column="UPDATEDATE"/>
 		<result property="cnt" column="CNT"/>
 	</resultMap>
 
-	<insert id="insertBoard" parameterType="board">
+	<insert id="insertBoard" parameterType="boardVO">
 		<![CDATA[
 			INSERT INTO BOARD
 				(title, writer, content)
@@ -25,7 +26,8 @@
 		<![CDATA[
 			UPDATE BOARD SET
 				TITLE = #{title},
-				CONTENT = #{content}
+				CONTENT = #{content},
+				UPDATEDATE = CURDATE()
 			WHERE SEQ = #{seq}
 		]]>
 	</update>
@@ -46,7 +48,7 @@
 		]]>
 	</select>
 
-	<select id="getBoard" resultType="board">
+	<select id="getBoard" resultType="boardVO">
 		<![CDATA[
 			SELECT *
 			FROM BOARD

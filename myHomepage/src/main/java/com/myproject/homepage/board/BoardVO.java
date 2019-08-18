@@ -12,6 +12,7 @@ public class BoardVO {
 	private String writer;
 	private String content;
 	private Date regDate;
+	private Date updateDate;
 	private int cnt;
 	private String searchCondition;
 	private String searchKeyword;
@@ -47,6 +48,12 @@ public class BoardVO {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
 	public int getCnt() {
 		return cnt;
 	}
@@ -71,11 +78,11 @@ public class BoardVO {
 	public void setUploadFile(MultipartFile uploadFile) {
 		this.uploadFile = uploadFile;
 	}
-
+	
 	@Override
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
-				+ regDate + ", cnt=" + cnt + ", searchCondition=" + searchCondition + ", searchKeyword=" + searchKeyword
-				+ ", uploadFile=" + uploadFile + "]";
+				+ regDate + ", updateDate=" + updateDate + ", cnt=" + cnt + ", searchCondition=" + searchCondition
+				+ ", searchKeyword=" + searchKeyword + ", uploadFile=" + uploadFile + "]";
 	}
 }

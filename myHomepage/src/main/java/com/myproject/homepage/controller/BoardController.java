@@ -25,7 +25,7 @@ import com.myproject.homepage.board.BoardVO;
 
 @Controller
 /*
- * Client가 상세화면을 요청하면 getBoard() 네소드는 검색 결과인 BoardVO 객체를 board 라는 이름으로 Model에 저장함
+ * Client가 상세화면을 요청하면 getBoard() 메소드는 검색 결과인 BoardVO 객체를 board 라는 이름으로 Model에 저장함
  * @SessionAttributes('board') 설정으로 Model 에 'board' 라는 이름으로 저장되는 데이터가 있다면
  * 그 데이터를 세션(HttpSession)에도 자동으로 저장하라는 설정.
  * --> updateBoard 가 호출될 때, 스프링 컨테이너는 @ModelAttribute 설정을 해석하여
@@ -87,6 +87,7 @@ public class BoardController {
 	public String deleteBoard(BoardVO vo, Model model) {
 
 		boardService.deleteBoard(vo);
+		
 		getBoardListData(vo, model);
 
 		return "index";
@@ -95,7 +96,9 @@ public class BoardController {
 	// 글 상세 조회
 	@RequestMapping(value="/getBoard.do")
 	public String getBoard(BoardVO vo, Model model) {
-
+		logger.info("vo : " + vo);
+		logger.info("getBoard(vo) : " + boardService.getBoard(vo));
+		
 		model.addAttribute("board", boardService.getBoard(vo));
 
 		return "getBoard";
