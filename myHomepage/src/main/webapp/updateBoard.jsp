@@ -10,7 +10,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		
-		<title>글 등록</title>
+		<title>글 수정</title>
 		
 		<!-- Bootstrap core CSS -->
 		<link href="/resources/myhomepage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -65,8 +65,8 @@
 		</nav>
 		
 		<div class="container">
-			<h2>게시글 등록</h2>
-			<form action="insertBoard.do" method="post" enctype="multipart/form-data">
+			<h2>게시글 수정</h2>
+			<form action="updateBoard.do" method="post" enctype="multipart/form-data">
 				<table class="table">
 					<tbody>
 						<tr>
@@ -74,7 +74,7 @@
 								<label for="title">제목</label>
 							</td>
 							<td>
-								<input type="text" class="form-control" name="title" placeholder="제목을 입력해 주세요">
+								<input type="text" class="form-control" name="title" placeholder="제목을 입력해 주세요" value="${board.title }">
 							</td>
 						</tr>
 						<tr>
@@ -82,7 +82,7 @@
 								<label for="reg_id">작성자</label>
 							</td>
 							<td>
-								<input type="text" class="form-control" name="writer" readonly="readonly" value="${board.writer }">
+								<input type="text" class="form-control" name="writer" readonly="readonly" placeholder="이름을 입력해 주세요" value="${board.writer }">
 							</td>
 						</tr>
 						<tr>
@@ -90,7 +90,7 @@
 								<label for="content">내용</label>
 							</td>
 							<td>
-								<textarea class="form-control" rows="5" name="content" placeholder="내용을 입력해 주세요" ></textarea>
+								<textarea class="form-control" rows="5" name="content" placeholder="내용을 입력해 주세요" >${board.content }</textarea>
 							</td>
 						</tr>
 						<tr>
@@ -103,7 +103,7 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="submit" class="btn btn-sm btn-primary" id="btnSave" value="글 등록"/>			
+								<input type="submit" class="btn btn-sm btn-primary" id="btnSave" value="글 수정"/>			
 								<input type="button" onclick="boardList()" class="btn btn-sm btn-primary" id="btnList" value="목록"/>
 							</td>
 						</tr>

@@ -68,18 +68,28 @@ public class BoardController {
 		getBoardListData(vo, model);
 
 //		resp.sendRedirect("index.jsp");
-		return "index";
+		return "redirect:index.do";
 	}
 	
 	// 글 수정
-	@RequestMapping(value="/updateBoard.do")
+	@RequestMapping(value="/updateBoard.do", method=RequestMethod.GET)
+	public String updateBoardView(@ModelAttribute("board") BoardVO vo, Model model) {
+		logger.info("UpdateBoardView START");
+
+		model.addAttribute("board", vo);
+		
+		return "updateBoard";
+	}
+	
+	// 글 수정
+	@RequestMapping(value="/updateBoard.do", method=RequestMethod.POST)
 	public String updateBoard(@ModelAttribute("board") BoardVO vo, Model model) {
 
 		boardService.updateBoard(vo);
 		
 		getBoardListData(vo, model);
 
-		return "index";
+		return "redirect:index.do";
 	}
 	
 	// 글 삭제
@@ -90,7 +100,7 @@ public class BoardController {
 		
 		getBoardListData(vo, model);
 
-		return "index";
+		return "redirect:index.do";
 	}
 	
 	// 글 상세 조회

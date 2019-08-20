@@ -112,7 +112,7 @@
 	
 		<!-- Image board Page Content -->
 		<div class="container">
-			<table class="table table-striped">
+			<table class="table table-bordered table-hover">
 				<thead>
 					<tr>
 						<th><spring:message code="message.board.list.table.head.seq"/></th>

@@ -143,7 +143,13 @@
 						</div>
 					</div>
 	
+					<div>
+						<a href="updateBoard.do">글수정</a>&nbsp;&nbsp;&nbsp;
+						<a href="deleteBoard.do?seq=${board.seq }">글삭제</a>&nbsp;&nbsp;&nbsp; 
+						<a href="/index.do">글목록</a>
+					</div>
 				</div>
+				
 	
 				<!-- Sidebar Widgets Column -->
 				<div class="col-md-4">
