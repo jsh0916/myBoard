@@ -3,9 +3,15 @@ package com.myproject.homepage.board;
 import java.util.List;
 
 public interface BoardService {
-	void insertBoard(BoardVO vo);
-	void updateBoard(BoardVO vo);
-	void deleteBoard(BoardVO vo);
-	BoardVO getBoard(BoardVO vo);
-	List<BoardVO> getBoardList(BoardVO vo);
+	public void insertBoard(BoardVO vo);
+	
+	public void updateBoard(BoardVO vo);
+	
+	public void deleteBoard(BoardVO vo);
+	
+	public BoardVO getBoard(BoardVO vo);
+	
+	public List<BoardVO> getBoardList(BoardVO vo);
+	
+	public List<BoardVO> getListWithPaging(PageDTO pd); 
 }

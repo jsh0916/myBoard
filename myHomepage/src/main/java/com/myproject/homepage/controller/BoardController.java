@@ -145,14 +145,17 @@ public class BoardController {
 	*/
 	
 	public void getBoardListData(BoardVO vo, Model model) {
+		/*
 		if (vo.getSearchCondition() == null) {
 			vo.setSearchCondition("TITLE");
 		}
 		
-		if (vo.getSearchKeyword() == null) {
+		if (vo.getSearchKeyword() == null || vo.getSearchKeyword().equals("")) {
 			vo.setSearchKeyword("");
 		}
+		*/
 		
-		model.addAttribute("boardList", boardService.getBoardList(vo));
+//		model.addAttribute("boardList", boardService.getBoardList(vo));
+//		model.addAttribute("boardList", boardService.getListWithPaging(vo));
 	}
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.controller.BoardController;
+import com.myproject.homepage.board.PageDTO;
 
 
 // DAO (Date Access Object)
@@ -43,5 +43,10 @@ public class BoardDAO {
 	public List<BoardVO> getBoardList(BoardVO vo) {
 		logger.info("===> getBoardList() 기능처리");
 		return mybatis.selectList("BoardDAO.getBoardList", vo);
+	}
+
+	public List<BoardVO> getListWithPaging(PageDTO pd) {
+		logger.info("===> getListWithPaging() 기능처리");
+		return mybatis.selectList("BoardDAO.getListWithPaging", pd);
 	}
 }

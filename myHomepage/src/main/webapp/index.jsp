@@ -51,6 +51,17 @@
 				    $('.username').focus();
 				  });
 			});
+			
+			
+			var actionForm = $("#actionForm");
+			
+			$(".paginate_button a").click(function(e) {
+				e.preventDefault(); // a 태그 클릭해도 원래 기능 동작X
+				console.log('click');
+				
+				actionForm.find("input[name='pageNum']").val($(this).attr('href'));
+				actionForm.submit();
+			});
 		})
 		
 		function insertBoard() {
@@ -147,13 +158,37 @@
 				<spring:message code="message.board.list.link.insertBoard"/>
 			</a>
 			
+			<!-- Pagination START -->
+
 			<div class="text-center">
 				<ul class="pagination">
-					<li class="page-item"><a href="#">1</a></li>
-					<li class="page-item"><a href="#">2</a></li>
-					<li class="page-item"><a href="#">3</a></li>
+					<c:if test="${pageMaker.prev }">
+						<li class="paginate_button previous">
+							<a href="${pageMaker.startPage - 1 }">이전</a>
+						</li>
+					</c:if>
+					
+					<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
+						<li class="paginate_button" ${pageMaker.pageNum == num ? "active" : "" }>
+							<a href="${num }">${num }</a>
+						</li>
+					</c:forEach>
+					
+					<c:if test="${pageMaker.next }">
+						<li class="paginate_button next">
+							<a href="${pageMaker.endPage + 1 }">다음</a>
+						</li>
+					</c:if>
 				</ul>
 			</div>
+			
+			<form id="actionForm" action="index.do" method="get">
+				<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
+				<input type="hidden" name="amount" value="${pageMaker.amount }">
+			</form>
+
+			<!-- Pagination END -->
+			
 		</div>
 		<!-- /.container -->
 

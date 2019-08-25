@@ -56,4 +56,24 @@
 		]]>
 	</select>
 
+	<select id="getListWithPaging" resultMap="boardResult">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				(
+					SELECT @ROWNUM:=0
+				) TMP,
+				(
+					SELECT
+						@ROWNUM:=@ROWNUM + 1 AS NUM, SEQ, TITLE, WRITER, CONTENT, REGDATE, UPDATEDATE
+					FROM
+						BOARD
+					WHERE
+						@ROWNUM <= #{pageNum} * #{amount}
+				) RN
+			WHERE
+				NUM > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
 </mapper>

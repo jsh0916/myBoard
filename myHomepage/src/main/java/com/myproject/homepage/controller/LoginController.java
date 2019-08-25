@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
+import com.myproject.homepage.board.PageDTO;
 import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
 
@@ -31,10 +32,10 @@ public class LoginController {
 	
 
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String home(BoardVO boardVO, Model model) {
+	public String home(BoardVO boardVO, PageDTO pd, Model model) {
 		logger.info("Welcome home!");
 
-		getBoardListData(boardVO, model);
+		getBoardListData(boardVO, pd, model);
 
 		return "index";
 	}
@@ -50,7 +51,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(UserVO vo, BoardVO boardVO, HttpSession session, Model model) {
+	public String login(UserVO vo, BoardVO boardVO, PageDTO pd, HttpSession session, Model model) {
 		System.out.println("로그인 인증처리");
 		
 		UserVO user = userService.getUser(vo);
@@ -58,7 +59,7 @@ public class LoginController {
 		if (user != null) {
 			session.setAttribute("userName", user.getName());
 			
-			getBoardListData(boardVO, model);
+			getBoardListData(boardVO, pd, model);
 		}
 
 		return "index";
@@ -74,23 +75,46 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/logout.do")
-	public String logout(BoardVO vo, Model model, HttpSession session) {
+	public String logout(BoardVO vo, Model model, PageDTO pd, HttpSession session) {
 		session.invalidate();
 		
-		getBoardListData(vo, model);
+		getBoardListData(vo, pd, model);
 		
 		return "index";
 	}
 	
-	public void getBoardListData(BoardVO vo, Model model) {
+	public void getBoardListData(BoardVO vo, PageDTO pd, Model model) {
+		/*
 		if (vo.getSearchCondition() == null) {
 			vo.setSearchCondition("TITLE");
 		}
 		
-		if (vo.getSearchKeyword() == null) {
+		if (vo.getSearchKeyword() == null || vo.getSearchKeyword().equals("")) {
 			vo.setSearchKeyword("");
 		}
+		*/
+		pd.setPageNum(1); // 임시설정
+		pd.setAmount(20); // 임시설정
 		
-		model.addAttribute("boardList", boardService.getBoardList(vo));
+		logger.info("pageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
+		
+		pd.setEndPage((int)Math.ceil(pd.getPageNum() / 10.0) * 10);
+		pd.setStartPage(pd.getEndPage() - 9);
+		
+		logger.info("EndPage : " + pd.getEndPage() + " | StartPage : " + pd.getStartPage());
+		
+		int total = 123; // 임시설정
+		int realEnd = (int)(Math.ceil((total * 1.0) / pd.getAmount()));
+		
+		if (realEnd < pd.getEndPage()) {
+			pd.setEndPage(realEnd);
+		}
+		
+		pd.setPrev(pd.getStartPage() > 1);
+		pd.setNext(pd.getEndPage() < realEnd);
+		
+//		model.addAttribute("boardList", boardService.getBoardList(vo));
+		model.addAttribute("boardList", boardService.getListWithPaging(pd));
+		model.addAttribute("pageMaker", pd);
 	}
 }
