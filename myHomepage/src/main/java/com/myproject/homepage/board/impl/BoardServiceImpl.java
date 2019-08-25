@@ -35,13 +35,13 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> getBoardList(BoardVO vo) {
-		return boardDAO.getBoardList(vo);
+	public List<BoardVO> getListWithPaging(PageDTO pd) {
+		return boardDAO.getListWithPaging(pd);
 	}
 
 	@Override
-	public List<BoardVO> getListWithPaging(PageDTO pd) {
-		return boardDAO.getListWithPaging(pd);
+	public int getTotalCount() {
+		return boardDAO.getTotalCount();
 	}
 
 }

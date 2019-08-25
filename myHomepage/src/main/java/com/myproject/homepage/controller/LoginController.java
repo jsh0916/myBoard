@@ -110,7 +110,7 @@ public class LoginController {
 		
 		logger.info("EndPage : " + pd.getEndPage() + " | StartPage : " + pd.getStartPage());
 		
-		int total = 123; // 임시설정
+		int total = boardService.getTotalCount(); // 임시설정
 		int realEnd = (int)(Math.ceil((total * 1.0) / pd.getAmount()));
 		
 		if (realEnd < pd.getEndPage()) {
@@ -120,7 +120,6 @@ public class LoginController {
 		pd.setPrev(pd.getStartPage() > 1);
 		pd.setNext(pd.getEndPage() < realEnd);
 		
-//		model.addAttribute("boardList", boardService.getBoardList(vo));
 		model.addAttribute("boardList", boardService.getListWithPaging(pd));
 		model.addAttribute("pageMaker", pd);
 	}

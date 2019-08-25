@@ -40,13 +40,13 @@ public class BoardDAO {
 		return (BoardVO) mybatis.selectOne("BoardDAO.getBoard", vo);
 	}
 
-	public List<BoardVO> getBoardList(BoardVO vo) {
-		logger.info("===> getBoardList() 기능처리");
-		return mybatis.selectList("BoardDAO.getBoardList", vo);
-	}
-
 	public List<BoardVO> getListWithPaging(PageDTO pd) {
 		logger.info("===> getListWithPaging() 기능처리");
 		return mybatis.selectList("BoardDAO.getListWithPaging", pd);
+	}
+
+	public int getTotalCount() {
+		logger.info("===> getTotalCount() 기능처리");
+		return mybatis.selectOne("BoardDAO.getTotalCount");
 	}
 }

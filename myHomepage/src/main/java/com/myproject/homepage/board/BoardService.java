@@ -11,7 +11,7 @@ public interface BoardService {
 	
 	public BoardVO getBoard(BoardVO vo);
 	
-	public List<BoardVO> getBoardList(BoardVO vo);
-	
-	public List<BoardVO> getListWithPaging(PageDTO pd); 
+	public List<BoardVO> getListWithPaging(PageDTO pd);
+
+	public int getTotalCount(); 
 }

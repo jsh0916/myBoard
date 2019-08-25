@@ -24,11 +24,14 @@
 
 	<update id="updateBoard">
 		<![CDATA[
-			UPDATE BOARD SET
+			UPDATE
+				BOARD
+			SET
 				TITLE = #{title},
 				CONTENT = #{content},
 				UPDATEDATE = CURDATE()
-			WHERE SEQ = #{seq}
+			WHERE
+				SEQ = #{seq}
 		]]>
 	</update>
 
@@ -38,7 +41,7 @@
 			WHERE SEQ = #{seq}
 		]]>
 	</delete>
-	
+	<!--  
 	<select id="getBoardList" resultMap="boardResult">
 		<![CDATA[
 			SELECT *
@@ -47,12 +50,15 @@
 			ORDER BY SEQ DESC
 		]]>
 	</select>
-
+	-->
 	<select id="getBoard" resultType="boardVO">
 		<![CDATA[
-			SELECT *
-			FROM BOARD
-			WHERE SEQ = #{seq}
+			SELECT
+				*
+			FROM
+				BOARD
+			WHERE
+				SEQ = #{seq}
 		]]>
 	</select>
 
@@ -74,6 +80,17 @@
 				) RN
 			WHERE
 				NUM > (#{pageNum} - 1) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		<![CDATA[
+			SELECT 
+				COUNT(*)
+			FROM 
+				BOARD
+			WHERE
+				SEQ > 0
 		]]>
 	</select>
 </mapper>
