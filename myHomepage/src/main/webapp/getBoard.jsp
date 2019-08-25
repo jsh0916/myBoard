@@ -20,6 +20,20 @@
 		<script src="/resources/myhomepage/vendor/jquery/jquery.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 	</head>
+	<script>
+		$(document).ready(function(){
+			var getBoardForm = $("#getBoardForm");
+			
+			$(".button").click(function(e) {
+				e.preventDefault();
+				
+				alert($(this).attr("href"));
+				
+				getBoardForm.attr("action", $(this).attr("href"));
+				getBoardForm.submit();
+			})
+		});
+	</script>
 	<body>
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -144,10 +158,15 @@
 					</div>
 	
 					<div>
-						<a href="updateBoard.do">글수정</a>&nbsp;&nbsp;&nbsp;
-						<a href="deleteBoard.do?seq=${board.seq }">글삭제</a>&nbsp;&nbsp;&nbsp; 
-						<a href="/index.do">글목록</a>
+						<a class="button" href="updateBoard.do">글수정</a>&nbsp;&nbsp;&nbsp;
+						<a class="button" href="deleteBoard.do?seq=${board.seq }">글삭제</a>&nbsp;&nbsp;&nbsp; 
+						<a class="button" href="index.do">글목록</a>
 					</div>
+					
+					<form id="getBoardForm" method="get">
+						<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
+						<input type="hidden" name="amount" value="${pageMaker.amount }">
+					</form>
 				</div>
 				
 	

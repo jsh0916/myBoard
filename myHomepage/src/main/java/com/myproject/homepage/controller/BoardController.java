@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
+import com.myproject.homepage.board.PageDTO;
 
 @Controller
 /*
@@ -42,17 +43,22 @@ public class BoardController {
 	// 글 등록
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.GET)
 	public String insertBoardView(HttpServletRequest request, Model model) {
+		logger.info("=============== insertBoardView START ===============");
+		
 		String userName = request.getParameter("userName");
 		
 		logger.info("userName : " + userName);
 		
 		model.addAttribute("userName", userName);
 		
+		logger.info("=============== insertBoardView END ===============");
 		return "insertBoard";
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, Model model) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) throws IOException {		// 커맨드객체 사용
+		logger.info("=============== insertBoard.do START ===============");
+		
 		// 파일 업로드 처리
 		MultipartFile uploadFile = vo.getUploadFile();
 		if (!uploadFile.isEmpty()) {
@@ -64,53 +70,61 @@ public class BoardController {
 		}
 		
 		boardService.insertBoard(vo);
-		
-		getBoardListData(vo, model);
+		pd = setPage(pd, request);
+		getBoardListData(vo, pd, model);
 
-//		resp.sendRedirect("index.jsp");
+		logger.info("=============== insertBoard.do END ===============");
 		return "redirect:index.do";
 	}
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.GET)
 	public String updateBoardView(@ModelAttribute("board") BoardVO vo, Model model) {
-		logger.info("UpdateBoardView START");
+		logger.info("=============== updateBoardView START ===============");
 
 		model.addAttribute("board", vo);
 		
+		logger.info("=============== updateBoardView END ===============");
 		return "updateBoard";
 	}
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.POST)
-	public String updateBoard(@ModelAttribute("board") BoardVO vo, Model model) {
-
-		boardService.updateBoard(vo);
+	public String updateBoard(@ModelAttribute("board") BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+		logger.info("=============== updateBoard.do START ===============");
 		
-		getBoardListData(vo, model);
+		boardService.updateBoard(vo);
+		pd = setPage(pd, request);
+		getBoardListData(vo, pd, model);
 
+		logger.info("=============== updateBoard.do END ===============");
 		return "redirect:index.do";
 	}
 	
 	// 글 삭제
 	@RequestMapping(value="/deleteBoard.do")
-	public String deleteBoard(BoardVO vo, Model model) {
-
-		boardService.deleteBoard(vo);
+	public String deleteBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+		logger.info("=============== deleteBoard.do START ===============");
 		
-		getBoardListData(vo, model);
-
+		boardService.deleteBoard(vo);
+		pd = setPage(pd, request);
+		getBoardListData(vo, pd, model);
+		
+		logger.info("=============== deleteBoard.do END ===============");
 		return "redirect:index.do";
 	}
 	
 	// 글 상세 조회
 	@RequestMapping(value="/getBoard.do")
-	public String getBoard(BoardVO vo, Model model) {
-		logger.info("vo : " + vo);
-		logger.info("getBoard(vo) : " + boardService.getBoard(vo));
+	public String getBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+		logger.info("=============== getBoard.do START ===============");
 		
+		pd = setPage(pd, request);
+		
+		model.addAttribute("pageMaker", pd);
 		model.addAttribute("board", boardService.getBoard(vo));
 
+		logger.info("=============== getBoard.do END ===============");
 		return "getBoard";
 	}
 	
@@ -144,7 +158,7 @@ public class BoardController {
 	}
 	*/
 	
-	public void getBoardListData(BoardVO vo, Model model) {
+	public void getBoardListData(BoardVO vo, PageDTO pd, Model model) {
 		/*
 		if (vo.getSearchCondition() == null) {
 			vo.setSearchCondition("TITLE");
@@ -154,8 +168,33 @@ public class BoardController {
 			vo.setSearchKeyword("");
 		}
 		*/
+
+		logger.info("pageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
+		
+		pd.setEndPage((int)Math.ceil(pd.getPageNum() / 10.0) * 10);
+		pd.setStartPage(pd.getEndPage() - 9);
+		
+		logger.info("EndPage : " + pd.getEndPage() + " | StartPage : " + pd.getStartPage());
+		
+		int total = 123; // 임시설정
+		int realEnd = (int)(Math.ceil((total * 1.0) / pd.getAmount()));
+		
+		if (realEnd < pd.getEndPage()) {
+			pd.setEndPage(realEnd);
+		}
+		
+		pd.setPrev(pd.getStartPage() > 1);
+		pd.setNext(pd.getEndPage() < realEnd);
 		
 //		model.addAttribute("boardList", boardService.getBoardList(vo));
-//		model.addAttribute("boardList", boardService.getListWithPaging(vo));
+		model.addAttribute("boardList", boardService.getListWithPaging(pd));
+		model.addAttribute("pageMaker", pd);
+	}
+	
+	public PageDTO setPage(PageDTO pd, HttpServletRequest request) {
+		pd.setPageNum(Integer.parseInt(request.getParameter("pageNum")));
+		pd.setAmount(Integer.parseInt(request.getParameter("amount")));
+	
+		return pd;
 	}
 }

@@ -53,14 +53,23 @@
 			});
 			
 			
-			var actionForm = $("#actionForm");
-			
+			/* Pagination START */
+			var actionForm = $("#actionForm");			
 			$(".paginate_button a").click(function(e) {
 				e.preventDefault(); // a 태그 클릭해도 원래 기능 동작X
 				console.log('click');
 				
 				actionForm.find("input[name='pageNum']").val($(this).attr('href'));
 				actionForm.submit();
+			});
+			/* Pagination END */
+			
+			// 게시글의 제목을 클릭했을 때 seq와 함께 pageNum, amount 값을 함께 전달
+			var getBoardForm = $("#getBoardForm");
+			$(".move").click(function(e) {
+				e.preventDefault();
+				getBoardForm.find("input[name='seq']").val($(this).attr("href"));
+				getBoardForm.submit();
 			});
 		})
 		
@@ -137,46 +146,54 @@
 				<tbody>
 					<c:forEach items="${boardList }" var="board">
 					
-					<tr>
-						<td>${board.seq }</td>
-						<td alig="left">
-							<a href="getBoard.do?seq=${board.seq }">
-								${board.title }
-							</a>
-						</td>
-						<td>${board.writer }</td>
-						<td>${board.regDate }</td>
-						<td>${board.cnt }</td>
-					</tr>
+						<tr>
+							<td>${board.seq }</td>
+							<td align="left">
+								<a class="move" href="<c:out value='${board.seq }'/>">
+									<c:out value="${board.title }"/>
+								</a>
+							</td>
+							<td>${board.writer }</td>
+							<td>${board.regDate }</td>
+							<td>${board.cnt }</td>
+						</tr>
 					
 					</c:forEach>
 				</tbody>
 			</table>
 			<hr/>
 			
-			<a class="btn btn-default pull-right" onclick="insertBoard()" href="#">
-				<spring:message code="message.board.list.link.insertBoard"/>
-			</a>
+			<form id="getBoardForm" action="getBoard.do" method="get">
+				<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
+				<input type="hidden" name="amount" value="${pageMaker.amount }">
+				<input type="hidden" name="seq">
+			</form>
+			
+			<div class="pull-right">
+				<a class="btn btn-default" onclick="insertBoard()" href="#">
+					<spring:message code="message.board.list.link.insertBoard"/>
+				</a>			
+			</div>
 			
 			<!-- Pagination START -->
 
 			<div class="text-center">
-				<ul class="pagination">
+				<ul class="pagination justify-content-center">
 					<c:if test="${pageMaker.prev }">
-						<li class="paginate_button previous">
-							<a href="${pageMaker.startPage - 1 }">이전</a>
+						<li class="page-item paginate_button previous">
+							<a class="page-link" href="${pageMaker.startPage - 1 }">이전</a>
 						</li>
 					</c:if>
 					
 					<c:forEach var="num" begin="${pageMaker.startPage }" end="${pageMaker.endPage }">
-						<li class="paginate_button" ${pageMaker.pageNum == num ? "active" : "" }>
-							<a href="${num }">${num }</a>
+						<li class="page-item paginate_button ${pageMaker.pageNum == num ? 'active' : '' }">
+							<a class="page-link" href="${num }">${num }</a>
 						</li>
 					</c:forEach>
 					
 					<c:if test="${pageMaker.next }">
-						<li class="paginate_button next">
-							<a href="${pageMaker.endPage + 1 }">다음</a>
+						<li class="page-item paginate_button next">
+							<a class="page-link" href="${pageMaker.endPage + 1 }">다음</a>
 						</li>
 					</c:if>
 				</ul>

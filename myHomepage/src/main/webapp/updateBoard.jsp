@@ -22,7 +22,7 @@
 	</head>
 	<script>
 		function boardList() {
-			location.href = "index.do";
+			location.href = "index.do?pageNum=" + ${pageMaker.pageNum} + "&amount=" + ${pageMaker.amount};
 		}
 	</script>
 	<body>
@@ -66,7 +66,7 @@
 		
 		<div class="container">
 			<h2>게시글 수정</h2>
-			<form action="updateBoard.do" method="post" enctype="multipart/form-data">
+			<form action="updateBoard.do?pageNum=' + ${pageMaker.pageNum }+ '&amount=' + ${pageMaker.amount }+ '" method="post" enctype="multipart/form-data">
 				<table class="table">
 					<tbody>
 						<tr>

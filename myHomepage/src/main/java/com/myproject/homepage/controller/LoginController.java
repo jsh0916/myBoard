@@ -3,6 +3,7 @@ package com.myproject.homepage.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -32,9 +33,17 @@ public class LoginController {
 	
 
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String home(BoardVO boardVO, PageDTO pd, Model model) {
+	public String home(BoardVO boardVO, PageDTO pd, HttpServletRequest request, Model model) {
 		logger.info("Welcome home!");
 
+		if (pd.getPageNum() == 0 && pd.getAmount() == 0) {
+			pd.setPageNum(1);
+			pd.setAmount(10);
+		} else {
+			pd.setPageNum(Integer.parseInt(request.getParameter("pageNum")));
+			pd.setAmount(Integer.parseInt(request.getParameter("amount")));
+		}
+		
 		getBoardListData(boardVO, pd, model);
 
 		return "index";
@@ -93,9 +102,7 @@ public class LoginController {
 			vo.setSearchKeyword("");
 		}
 		*/
-		pd.setPageNum(1); // 임시설정
-		pd.setAmount(20); // 임시설정
-		
+
 		logger.info("pageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
 		
 		pd.setEndPage((int)Math.ceil(pd.getPageNum() / 10.0) * 10);
