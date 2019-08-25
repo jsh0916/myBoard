@@ -27,11 +27,9 @@
 			$(".button").click(function(e) {
 				e.preventDefault();
 				
-				alert($(this).attr("href"));
-				
 				getBoardForm.attr("action", $(this).attr("href"));
 				getBoardForm.submit();
-			})
+			});
 		});
 	</script>
 	<body>
@@ -159,7 +157,7 @@
 	
 					<div>
 						<a class="button" href="updateBoard.do">글수정</a>&nbsp;&nbsp;&nbsp;
-						<a class="button" href="deleteBoard.do?seq=${board.seq }">글삭제</a>&nbsp;&nbsp;&nbsp; 
+						<a id="delete" href="deleteBoard.do?pageNum=${pageMaker.pageNum }&amount=${pageMaker.amount }&seq=${board.seq }">글삭제</a>&nbsp;&nbsp;&nbsp; 
 						<a class="button" href="index.do">글목록</a>
 					</div>
 					

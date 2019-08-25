@@ -6,12 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
@@ -56,7 +55,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) throws IOException {		// 커맨드객체 사용
 		logger.info("=============== insertBoard.do START ===============");
 		
 		// 파일 업로드 처리
@@ -72,6 +71,9 @@ public class BoardController {
 		boardService.insertBoard(vo);
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
+		
+		rttr.addAttribute("pageNum", pd.getPageNum());
+		rttr.addAttribute("amount", pd.getAmount());
 
 		logger.info("=============== insertBoard.do END ===============");
 		return "redirect:index.do";
@@ -79,9 +81,12 @@ public class BoardController {
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.GET)
-	public String updateBoardView(@ModelAttribute("board") BoardVO vo, Model model) {
+	public String updateBoardView(@ModelAttribute("board") BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== updateBoardView START ===============");
 
+		pd = setPage(pd, request);
+		
+		model.addAttribute("pageMaker", pd);
 		model.addAttribute("board", vo);
 		
 		logger.info("=============== updateBoardView END ===============");
@@ -90,12 +95,16 @@ public class BoardController {
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.POST)
-	public String updateBoard(@ModelAttribute("board") BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+	public String updateBoard(@ModelAttribute("board") BoardVO vo, PageDTO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		logger.info("=============== updateBoard.do START ===============");
 		
 		boardService.updateBoard(vo);
+		
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
+		
+		rttr.addAttribute("pageNum", pd.getPageNum());
+		rttr.addAttribute("amount", pd.getAmount());
 
 		logger.info("=============== updateBoard.do END ===============");
 		return "redirect:index.do";
@@ -103,12 +112,17 @@ public class BoardController {
 	
 	// 글 삭제
 	@RequestMapping(value="/deleteBoard.do")
-	public String deleteBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+	public String deleteBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		logger.info("=============== deleteBoard.do START ===============");
 		
+		vo.setSeq(Integer.parseInt(request.getParameter("seq")));
 		boardService.deleteBoard(vo);
+		
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
+		
+		rttr.addAttribute("pageNum", pd.getPageNum());
+		rttr.addAttribute("amount", pd.getAmount());
 		
 		logger.info("=============== deleteBoard.do END ===============");
 		return "redirect:index.do";

@@ -21,9 +21,24 @@
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.min.js"></script>
 	</head>
 	<script>
-		function boardList() {
-			location.href = "index.do?pageNum=" + ${pageMaker.pageNum} + "&amount=" + ${pageMaker.amount};
-		}
+		$(document).ready(function() {
+			var pageNum = "${pageMaker.pageNum}";
+			var amount = "${pageMaker.amount}";
+			
+			$("#update").click(function(e) {
+				e.preventDefault();
+				
+				var url =  "updateBoard.do?pageNum=" + pageNum + "&amount=" + amount;
+
+				$("#updateForm").attr("action", url);
+				$("#updateForm").submit();
+			});
+			
+			$("#list").click(function(e) {
+				e.preventDefault();
+				location.href = "index.do?pageNum=" + pageNum + "&amount=" + amount;
+			});
+		})
 	</script>
 	<body>
 		<!-- Navigation -->
@@ -66,7 +81,7 @@
 		
 		<div class="container">
 			<h2>게시글 수정</h2>
-			<form action="updateBoard.do?pageNum=' + ${pageMaker.pageNum }+ '&amount=' + ${pageMaker.amount }+ '" method="post" enctype="multipart/form-data">
+			<form id="updateForm" method="post" enctype="multipart/form-data">
 				<table class="table">
 					<tbody>
 						<tr>
@@ -103,12 +118,15 @@
 						</tr>
 						<tr>
 							<td colspan="2">
-								<input type="submit" class="btn btn-sm btn-primary" id="btnSave" value="글 수정"/>			
-								<input type="button" onclick="boardList()" class="btn btn-sm btn-primary" id="btnList" value="목록"/>
+								<input type="button" id="update" class="btn btn-sm btn-primary" value="글 수정">	
+								<input type="button" id="list" class="btn btn-sm btn-primary" value="목록">
 							</td>
 						</tr>
 					</tbody>
 				</table>
+			</form>
+			<form>
+			
 			</form>
 		</div>
 		
