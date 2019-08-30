@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.board.PageDTO;
+import com.myproject.homepage.board.PageVO;
 
 @Controller
 /*
@@ -55,7 +55,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) throws IOException {		// 커맨드객체 사용
 		logger.info("=============== insertBoard.do START ===============");
 		
 		// 파일 업로드 처리
@@ -81,7 +81,7 @@ public class BoardController {
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.GET)
-	public String updateBoardView(@ModelAttribute("board") BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+	public String updateBoardView(@ModelAttribute("board") BoardVO vo, PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== updateBoardView START ===============");
 
 		pd = setPage(pd, request);
@@ -95,7 +95,7 @@ public class BoardController {
 	
 	// 글 수정
 	@RequestMapping(value="/updateBoard.do", method=RequestMethod.POST)
-	public String updateBoard(@ModelAttribute("board") BoardVO vo, PageDTO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
+	public String updateBoard(@ModelAttribute("board") BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		logger.info("=============== updateBoard.do START ===============");
 		
 		boardService.updateBoard(vo);
@@ -105,6 +105,8 @@ public class BoardController {
 		
 		rttr.addAttribute("pageNum", pd.getPageNum());
 		rttr.addAttribute("amount", pd.getAmount());
+		rttr.addAttribute("type", pd.getType());
+		rttr.addAttribute("keyword", pd.getKeyword());
 
 		logger.info("=============== updateBoard.do END ===============");
 		return "redirect:index.do";
@@ -112,7 +114,7 @@ public class BoardController {
 	
 	// 글 삭제
 	@RequestMapping(value="/deleteBoard.do")
-	public String deleteBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
+	public String deleteBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		logger.info("=============== deleteBoard.do START ===============");
 		
 		vo.setSeq(Integer.parseInt(request.getParameter("seq")));
@@ -123,6 +125,8 @@ public class BoardController {
 		
 		rttr.addAttribute("pageNum", pd.getPageNum());
 		rttr.addAttribute("amount", pd.getAmount());
+		rttr.addAttribute("type", pd.getType());
+		rttr.addAttribute("keyword", pd.getKeyword());
 		
 		logger.info("=============== deleteBoard.do END ===============");
 		return "redirect:index.do";
@@ -130,7 +134,7 @@ public class BoardController {
 	
 	// 글 상세 조회
 	@RequestMapping(value="/getBoard.do")
-	public String getBoard(BoardVO vo, PageDTO pd, HttpServletRequest request, Model model) {
+	public String getBoard(BoardVO vo, PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== getBoard.do START ===============");
 		
 		pd = setPage(pd, request);
@@ -172,7 +176,7 @@ public class BoardController {
 	}
 	*/
 	
-	public void getBoardListData(BoardVO vo, PageDTO pd, Model model) {
+	public void getBoardListData(BoardVO vo, PageVO pd, Model model) {
 		/*
 		if (vo.getSearchCondition() == null) {
 			vo.setSearchCondition("TITLE");
@@ -204,7 +208,7 @@ public class BoardController {
 		model.addAttribute("pageMaker", pd);
 	}
 	
-	public PageDTO setPage(PageDTO pd, HttpServletRequest request) {
+	public PageVO setPage(PageVO pd, HttpServletRequest request) {
 		pd.setPageNum(Integer.parseInt(request.getParameter("pageNum")));
 		pd.setAmount(Integer.parseInt(request.getParameter("amount")));
 	

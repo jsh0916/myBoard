@@ -24,11 +24,13 @@
 		$(document).ready(function() {
 			var pageNum = "${pageMaker.pageNum}";
 			var amount = "${pageMaker.amount}";
+			var type = "${pageMaker.type}";
+			var keyword = "{pageMaker.keyword}";
 			
 			$("#update").click(function(e) {
 				e.preventDefault();
 				
-				var url =  "updateBoard.do?pageNum=" + pageNum + "&amount=" + amount;
+				var url =  "updateBoard.do?pageNum=" + pageNum + "&amount=" + amount + "&type=" + type + "&keyword=" + keyword;
 
 				$("#updateForm").attr("action", url);
 				$("#updateForm").submit();
@@ -36,7 +38,7 @@
 			
 			$("#list").click(function(e) {
 				e.preventDefault();
-				location.href = "index.do?pageNum=" + pageNum + "&amount=" + amount;
+				location.href = "index.do?pageNum=" + pageNum + "&amount=" + amount + "&type=" + type + "&keyword=" + keyword;
 			});
 		})
 	</script>

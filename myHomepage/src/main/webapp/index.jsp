@@ -71,6 +71,27 @@
 				getBoardForm.find("input[name='seq']").val($(this).attr("href"));
 				getBoardForm.submit();
 			});
+			
+			var searchForm = $("#searchForm");
+			
+			$("#searchForm button").click(function() {
+				if (!searchForm.find("option:selected")) {
+					alert("검색종류를 선택하세요");
+					
+					return false;
+				}
+				
+				if (!searchForm.find("input[name='keyword']").val()) {
+					alert("검색어를 입력해주세요.");
+					
+					return false;
+				}
+				
+				searchForm.find("input[name='pageNum']").val("1");
+				e.preventDefault();
+				
+				searchForm.submit();
+			})
 		})
 		
 		function insertBoard() {
@@ -163,10 +184,32 @@
 			</table>
 			<hr/>
 			
+			<div class="row">
+				<form id="searchForm" action="index.do" method="get">
+					<select name="type">
+						<option value="" <c:out value="${pageVO.type == null ? 'selected' : '' }"/>>----</option>
+							<option value="T" <c:out value="${pageVO.type eq 'T' ? 'selected' : '' }"/>>제목</option>
+							<option value="C" <c:out value="${pageVO.type eq 'C' ? 'selected' : '' }"/>>내용</option>
+							<option value="W" <c:out value="${pageVO.type eq 'W' ? 'selected' : '' }"/>>작성자</option>
+							<option value="TC" <c:out value="${pageVO.type eq 'TC' ? 'selected' : '' }"/>>제목 or 내용</option>
+							<option value="TW" <c:out value="${pageVO.type eq 'TW' ? 'selected' : '' }"/>>제목 or 작성자</option>
+							<option value="TWC" <c:out value="${pageVO.type eq 'TWC' ? 'selected' : '' }"/>>제목 or 내용 or 작성자</option>
+					</select>
+					
+					<input type="text" name="keyword"/>
+					<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
+					<input type="hidden" name="amount" value="${pageMaker.amount }">
+					<button class="btn btn-default">검색</button>
+				</form>
+			</div>
+			
+			
 			<form id="getBoardForm" action="getBoard.do" method="get">
+				<input type="hidden" name="seq">
 				<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
 				<input type="hidden" name="amount" value="${pageMaker.amount }">
-				<input type="hidden" name="seq">
+				<input type="hidden" name="type" value="<c:out value='${pageMaker.type }'/>">
+				<input type="hidden" name="keyword" value="<c:out value='${pageMaker.keyword }'/>">
 			</form>
 			
 			<div class="pull-right">
@@ -202,6 +245,8 @@
 			<form id="actionForm" action="index.do" method="get">
 				<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
 				<input type="hidden" name="amount" value="${pageMaker.amount }">
+				<input type="hidden" name="type" value="<c:out value='${pageMaker.type }'/>">
+				<input type="hidden" name="keyword" value="<c:out value='${pageMaker.keyword }'/>">
 			</form>
 
 			<!-- Pagination END -->

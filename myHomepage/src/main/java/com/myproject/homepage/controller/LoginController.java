@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.board.PageDTO;
+import com.myproject.homepage.board.PageVO;
 import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
 
@@ -33,7 +33,7 @@ public class LoginController {
 	
 
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String home(BoardVO boardVO, PageDTO pd, HttpServletRequest request, Model model) {
+	public String home(BoardVO boardVO, PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("Welcome home!");
 
 		if (pd.getPageNum() == 0 && pd.getAmount() == 0) {
@@ -60,7 +60,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/login.do", method=RequestMethod.POST)
-	public String login(UserVO vo, BoardVO boardVO, PageDTO pd, HttpSession session, Model model) {
+	public String login(UserVO vo, BoardVO boardVO, PageVO pd, HttpSession session, Model model) {
 		System.out.println("로그인 인증처리");
 		
 		UserVO user = userService.getUser(vo);
@@ -84,7 +84,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping("/logout.do")
-	public String logout(BoardVO vo, Model model, PageDTO pd, HttpSession session) {
+	public String logout(BoardVO vo, Model model, PageVO pd, HttpSession session) {
 		session.invalidate();
 		
 		getBoardListData(vo, pd, model);
@@ -92,7 +92,7 @@ public class LoginController {
 		return "index";
 	}
 	
-	public void getBoardListData(BoardVO vo, PageDTO pd, Model model) {
+	public void getBoardListData(BoardVO vo, PageVO pd, Model model) {
 		/*
 		if (vo.getSearchCondition() == null) {
 			vo.setSearchCondition("TITLE");

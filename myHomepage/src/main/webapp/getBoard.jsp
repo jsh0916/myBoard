@@ -1,5 +1,7 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -157,7 +159,12 @@
 	
 					<div>
 						<a class="button" href="updateBoard.do">글수정</a>&nbsp;&nbsp;&nbsp;
-						<a id="delete" href="deleteBoard.do?pageNum=${pageMaker.pageNum }&amount=${pageMaker.amount }&seq=${board.seq }">글삭제</a>&nbsp;&nbsp;&nbsp; 
+						<c:if test="${pageMaker.keyword ne ''}">
+							<a id="delete" href="deleteBoard.do?seq=${board.seq }&pageNum=${pageMaker.pageNum }&amount=${pageMaker.amount }&type=${pageMaker.type}&keyword=${pageMaker.keyword}">글삭제</a>&nbsp;&nbsp;&nbsp; 
+						</c:if>
+						<c:if test="${pageMaker.keyword eq ''}">
+							<a id="delete" href="deleteBoard.do?seq=${board.seq }&pageNum=${pageMaker.pageNum }&amount=${pageMaker.amount }">글삭제</a>&nbsp;&nbsp;&nbsp; 							
+						</c:if>
 						<a class="button" href="index.do">글목록</a>
 					</div>
 					

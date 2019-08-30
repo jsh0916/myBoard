@@ -1,6 +1,6 @@
 package com.myproject.homepage.board;
 
-public class PageDTO {
+public class PageVO {
 	private int startPage;
 	private int endPage;
 	private boolean prev;
@@ -8,6 +8,8 @@ public class PageDTO {
 	private int total;
 	private int pageNum;
 	private int amount;
+	private String type;
+	private String keyword;
 	
 	public int getStartPage() {
 		return startPage;
@@ -51,10 +53,23 @@ public class PageDTO {
 	public void setAmount(int amount) {
 		this.amount = amount;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
 	
 	@Override
 	public String toString() {
-		return "PageDTO [startPage=" + startPage + ", endPage=" + endPage + ", prev=" + prev + ", next=" + next
-				+ ", total=" + total + ", pageNum=" + pageNum + ", amount=" + amount + "]";
-	}	
+		return "PageVO [startPage=" + startPage + ", endPage=" + endPage + ", prev=" + prev + ", next=" + next
+				+ ", total=" + total + ", pageNum=" + pageNum + ", amount=" + amount + ", type=" + type + ", keyword="
+				+ keyword + "]";
+	}
 }
