@@ -177,16 +177,6 @@ public class BoardController {
 	*/
 	
 	public void getBoardListData(BoardVO vo, PageVO pd, Model model) {
-		/*
-		if (vo.getSearchCondition() == null) {
-			vo.setSearchCondition("TITLE");
-		}
-		
-		if (vo.getSearchKeyword() == null || vo.getSearchKeyword().equals("")) {
-			vo.setSearchKeyword("");
-		}
-		*/
-
 		logger.info("pageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
 		
 		pd.setEndPage((int)Math.ceil(pd.getPageNum() / 10.0) * 10);

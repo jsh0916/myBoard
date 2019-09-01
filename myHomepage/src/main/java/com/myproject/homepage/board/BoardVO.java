@@ -14,8 +14,6 @@ public class BoardVO {
 	private Date regDate;
 	private Date updateDate;
 	private int cnt;
-	private String searchCondition;
-	private String searchKeyword;
 	private MultipartFile uploadFile;
 
 	public int getSeq() {
@@ -60,18 +58,6 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	public String getSearchCondition() {
-		return searchCondition;
-	}
-	public void setSearchCondition(String searchCondition) {
-		this.searchCondition = searchCondition;
-	}
-	public String getSearchKeyword() {
-		return searchKeyword;
-	}
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
-	}
 	public MultipartFile getUploadFile() {
 		return uploadFile;
 	}
@@ -82,7 +68,6 @@ public class BoardVO {
 	@Override
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
-				+ regDate + ", updateDate=" + updateDate + ", cnt=" + cnt + ", searchCondition=" + searchCondition
-				+ ", searchKeyword=" + searchKeyword + ", uploadFile=" + uploadFile + "]";
+				+ regDate + ", updateDate=" + updateDate + ", cnt=" + cnt + ", searchCondition=" + ", uploadFile=" + uploadFile + "]";
 	}
 }

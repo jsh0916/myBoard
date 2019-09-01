@@ -35,7 +35,7 @@
 	<bean id="log" class="com.myproject.homepage.common.LogAdvice"></bean>
 	
 	<aop:config>
-		<aop:pointcut id="allPointcut" expression="execution(* com.myproject.homepage..*Impl.*(..))"/>
+		<aop:pointcut id="allPointcut" expression="execution(* com.myproject.homepage..*(..))"/>
 		
 		<aop:aspect ref="log">
 			<aop:before pointcut-ref="allPointcut" method="printLog"/>

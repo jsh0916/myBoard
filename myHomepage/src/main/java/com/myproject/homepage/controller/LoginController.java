@@ -44,6 +44,17 @@ public class LoginController {
 			pd.setAmount(Integer.parseInt(request.getParameter("amount")));
 		}
 		
+		
+		if (request.getParameter("type") != null) {
+			String type = request.getParameter("type");
+			String keyword = request.getParameter("keyword");
+			
+			pd.setType(type);
+			pd.setKeyword(keyword);
+		} else {
+			pd.setType("");
+		}
+		
 		getBoardListData(boardVO, pd, model);
 
 		return "index";
@@ -93,16 +104,7 @@ public class LoginController {
 	}
 	
 	public void getBoardListData(BoardVO vo, PageVO pd, Model model) {
-		/*
-		if (vo.getSearchCondition() == null) {
-			vo.setSearchCondition("TITLE");
-		}
-		
-		if (vo.getSearchKeyword() == null || vo.getSearchKeyword().equals("")) {
-			vo.setSearchKeyword("");
-		}
-		*/
-
+		logger.info("=============== getBoardListData START ===============");
 		logger.info("pageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
 		
 		pd.setEndPage((int)Math.ceil(pd.getPageNum() / 10.0) * 10);
@@ -110,7 +112,7 @@ public class LoginController {
 		
 		logger.info("EndPage : " + pd.getEndPage() + " | StartPage : " + pd.getStartPage());
 		
-		int total = boardService.getTotalCount(); // 임시설정
+		int total = boardService.getTotalCount();
 		int realEnd = (int)(Math.ceil((total * 1.0) / pd.getAmount()));
 		
 		if (realEnd < pd.getEndPage()) {
@@ -122,5 +124,7 @@ public class LoginController {
 		
 		model.addAttribute("boardList", boardService.getListWithPaging(pd));
 		model.addAttribute("pageMaker", pd);
+		
+		logger.info("=============== getBoardListData END ===============");
 	}
 }

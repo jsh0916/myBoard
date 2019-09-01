@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
+import com.myproject.homepage.user.dao.UserDAO;
 
 @Service("userService")
 public class UserServiceImpl implements UserService{

@@ -187,16 +187,13 @@
 			<div class="row">
 				<form id="searchForm" action="index.do" method="get">
 					<select name="type">
-						<option value="" <c:out value="${pageVO.type == null ? 'selected' : '' }"/>>----</option>
-							<option value="T" <c:out value="${pageVO.type eq 'T' ? 'selected' : '' }"/>>제목</option>
-							<option value="C" <c:out value="${pageVO.type eq 'C' ? 'selected' : '' }"/>>내용</option>
-							<option value="W" <c:out value="${pageVO.type eq 'W' ? 'selected' : '' }"/>>작성자</option>
-							<option value="TC" <c:out value="${pageVO.type eq 'TC' ? 'selected' : '' }"/>>제목 or 내용</option>
-							<option value="TW" <c:out value="${pageVO.type eq 'TW' ? 'selected' : '' }"/>>제목 or 작성자</option>
-							<option value="TWC" <c:out value="${pageVO.type eq 'TWC' ? 'selected' : '' }"/>>제목 or 내용 or 작성자</option>
+						<option value="" <c:out value="${pageMaker.type == null ? 'selected' : '' }"/>>----</option>
+							<option value="T" <c:out value="${pageMaker.type eq 'T' ? 'selected' : '' }"/>>제목</option>
+							<option value="C" <c:out value="${pageMaker.type eq 'C' ? 'selected' : '' }"/>>내용</option>
+							<option value="W" <c:out value="${pageMaker.type eq 'W' ? 'selected' : '' }"/>>작성자</option>
 					</select>
 					
-					<input type="text" name="keyword"/>
+					<input type="text" name="keyword" value="${pageMaker.keyword }"/>>
 					<input type="hidden" name="pageNum" value="${pageMaker.pageNum }">
 					<input type="hidden" name="amount" value="${pageMaker.amount }">
 					<button class="btn btn-default">검색</button>

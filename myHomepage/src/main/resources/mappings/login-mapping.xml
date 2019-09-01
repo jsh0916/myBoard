@@ -4,7 +4,7 @@
 
 <mapper namespace="UserDAO">
 
-	<select id="getUser" resultType="user">
+	<select id="getUser" resultType="userVO">
 		<![CDATA[
 			SELECT *
 			FROM USERS

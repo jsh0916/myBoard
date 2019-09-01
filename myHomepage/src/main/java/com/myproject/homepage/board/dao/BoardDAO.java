@@ -1,4 +1,4 @@
-package com.myproject.homepage.board.impl;
+package com.myproject.homepage.board.dao;
 
 import java.util.List;
 
@@ -39,7 +39,7 @@ public class BoardDAO {
 		logger.info("===> getBoard() 기능처리");
 		return (BoardVO) mybatis.selectOne("BoardDAO.getBoard", vo);
 	}
-
+	
 	public List<BoardVO> getListWithPaging(PageVO pd) {
 		logger.info("===> getListWithPaging() 기능처리");
 		return mybatis.selectList("BoardDAO.getListWithPaging", pd);
