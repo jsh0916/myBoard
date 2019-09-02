@@ -57,16 +57,7 @@
 			WHERE SEQ = #{seq}
 		]]>
 	</delete>
-	<!--  
-	<select id="getBoardList" resultMap="boardResult">
-		<![CDATA[
-			SELECT *
-			FROM BOARD
-			WHERE TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-			ORDER BY SEQ DESC
-		]]>
-	</select>
-	-->
+	
 	<select id="getBoard" resultType="boardVO">
 		<![CDATA[
 			SELECT

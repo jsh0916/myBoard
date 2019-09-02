@@ -6,8 +6,8 @@
 	<!-- Alias 설정 -->
 	<typeAliases>
 		<typeAlias alias="boardVO" type="com.myproject.homepage.board.BoardVO"></typeAlias>
+		<typeAlias alias="replyVO" type="com.myproject.homepage.board.ReplyVO"></typeAlias>
 		<typeAlias alias="userVO" type="com.myproject.homepage.user.UserVO"></typeAlias>
-		<typeAlias alias="replyVO" type="com.myproject.homepage.user.UserVO"></typeAlias>
 	</typeAliases>
 	
 	<!-- Sql Mapper 설정 -->

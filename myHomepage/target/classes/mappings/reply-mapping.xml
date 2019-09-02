@@ -2,14 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="UserDAO">
+<mapper namespace="ReplyDAO">
 
-	<select id="getUser" resultType="userVO">
+	<insert id="insertReply">
+		<![CDATA[
+			INSERT INTO REPLY
+				(bno, reply, replyer)
+			VALUES
+				(#{bno}, #{reply}, #{replyer})		
+		]]>
+	</insert>
+
+	<delete id="deleteReply">
+		<![CDATA[
+			DELETE
+			FROM REPLY
+			WHERE RNO = #{rno}
+		]]>
+	</delete>
+	
+	<update id="updateReply">
+		<![CDATA[
+			UPDATE REPLY
+			SET
+				REPLY = #{reply},
+				UPDATEDATE = CURRENT_TIME
+			WHERE
+				RNO = #{rno}
+		]]>
+	</update>
+	
+	<select id="readReply" resultType="replyVO">
 		<![CDATA[
 			SELECT *
-			FROM USERS
-			WHERE id = #{id} and PASSWORD = #{password}
+			FROM REPLY
+			WHERE RNO = #{rno}
 		]]>
 	</select>
-
+	
+	<select id="getListWithPaging" resultType="replyVO">
+		<![CDATA[
+			SELECT *
+			FROM REPLY
+			WHERE BNO = #{bno}
+			ORDER BY RNO ASC
+		]]>
+	</select>
 </mapper>

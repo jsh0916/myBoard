@@ -9,6 +9,9 @@ public class ReplyVO {
 	private String replyer;
 	private Date replyDate;
 	private Date updateDate;
+	private int parent_id;
+	private int depth;
+	private String reply_password;
 	
 	public int getRno() {
 		return rno;
@@ -46,10 +49,29 @@ public class ReplyVO {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+	public int getParent_id() {
+		return parent_id;
+	}
+	public void setParent_id(int parent_id) {
+		this.parent_id = parent_id;
+	}
+	public int getDepth() {
+		return depth;
+	}
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+	public String getReply_password() {
+		return reply_password;
+	}
+	public void setReply_password(String reply_password) {
+		this.reply_password = reply_password;
+	}
 	
 	@Override
 	public String toString() {
 		return "ReplyVO [rno=" + rno + ", bno=" + bno + ", reply=" + reply + ", replyer=" + replyer + ", replyDate="
-				+ replyDate + ", updateDate=" + updateDate + "]";
+				+ replyDate + ", updateDate=" + updateDate + ", parent_id=" + parent_id + ", depth=" + depth
+				+ ", reply_password=" + reply_password + "]";
 	}
 }
