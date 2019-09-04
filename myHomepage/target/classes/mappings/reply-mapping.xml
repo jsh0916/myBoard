@@ -7,9 +7,19 @@
 	<insert id="insertReply">
 		<![CDATA[
 			INSERT INTO REPLY
-				(bno, reply, replyer)
+				(seq,
+				 reply,
+				 replyer,
+				 parent_id,
+				 depth,
+				 reply_password)
 			VALUES
-				(#{bno}, #{reply}, #{replyer})		
+				(#{seq},
+				 #{reply},
+				 #{reply_writer},
+				 #{parent_id},
+				 #{depth},
+				 #{reply_password})		
 		]]>
 	</insert>
 

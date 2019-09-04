@@ -15,6 +15,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -134,11 +136,12 @@ public class BoardController {
 	
 	// 글 상세 조회
 	@RequestMapping(value="/getBoard.do")
-	public String getBoard(BoardVO vo, PageVO pd, HttpServletRequest request, Model model) {
+	public String getBoard(@RequestParam Map<String, String> param, BoardVO vo, PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== getBoard.do START ===============");
 		
 		pd = setPage(pd, request);
 		
+		model.addAttribute("replyList", boardService.getReplyListData(param));
 		model.addAttribute("pageMaker", pd);
 		model.addAttribute("board", boardService.getBoard(vo));
 
@@ -153,7 +156,7 @@ public class BoardController {
 	 * 2. @ModelAttribute가 설정된 메소드는 @RequestMapping 이 적용된 메소드보다 먼저 호출됨
 	 * 	  그리고 @ModelAttribute 메소드 실행 결과로 리턴된 객체는 자동으로 Model에 저장됨. 따라서 View 에서 사용 가능.
 	 * 
-	 * */
+	 * 
 	@ModelAttribute("conditionMap")
 	public Map<String, String> searchConditionMap() {
 		Map<String, String> conditionMap = new HashMap<>();
@@ -161,7 +164,7 @@ public class BoardController {
 		conditionMap.put("내용", "CONTENT");
 		
 		return conditionMap;
-	}
+	}*/
 	// 글 목록 검색
 	/*
 	@RequestMapping(value="/getBoardList.do")

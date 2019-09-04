@@ -1,6 +1,7 @@
 package com.myproject.homepage.board.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class ReplyServiceImpl implements ReplyService {
 	private ReplyDAO replyDAO;
 
 	@Override
-	public void insertReply(ReplyVO vo) {
-		replyDAO.insertReply(vo);
+	public int insertReply(Map<String, String> param) {
+		return replyDAO.insertReply(param);
 	}
 
 	@Override

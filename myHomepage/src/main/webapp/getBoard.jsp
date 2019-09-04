@@ -19,10 +19,8 @@
 		<link href="/resources/myhomepage/css/blog-post.css" rel="stylesheet">
 		
 		<!-- Bootstrap core JavaScript -->
-		<script src="/resources/myhomepage/vendor/jquery/jquery.min.js"></script>
+		<script src="/resources/myhomepage/vendor/jquery/jquery-3.4.1.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		
-		<script src="/resources/myhomepage/js/reply.js"></script>
 	</head>
 	<script>
 		$(document).ready(function(){
@@ -61,22 +59,24 @@
 					return false;
 				}
 				
-				var reply = $("reply").val().replace("\n", "<br>");
+				var reply = $("#reply").val().replace("\n", "<br>");
+				var reply_id;
 				
 				// 값 세팅
-				var objParmas = {
+				var objParams = {
 					seq				: ${board.seq },
 					parent_id		: "0",
 					depth			: "0",
 					reply_writer	: $("#reply_writer").val(),
 					reply_password	: $("#reply_password").val(),
-					reply	: reply
+					reply			: reply
 				};
 				
 				$.ajax({
 					url				: "insertReply.do",
 					dataType		: "json",
 					contentType		: "application/x-www-form-urlencoded; charset=UTF-8",
+					type			: "post",
 					async			: false,
 					data			: objParams,
 					success			: function (retVal) {
@@ -113,7 +113,7 @@
                     '    </td>' +
                     '</tr>';
 
-				if ($("#reply_area").contents().size() == 0) {
+				if ($("#reply_area").contents().length == 0) {
 					$("#reply_area").append(reply);
 				} else {
 					$("#reply_area tr:last").after(reply);
@@ -185,7 +185,8 @@
 				}
 			});
 			
-			// 댓글 수정 입력
+			/*
+			// 댓글 수정 입력 START
 			$(document).on("click", "button[name='reply_modify']", function() {
 				var check 			= false;
 				var reply_id 		= $(this).attr("reply_id");
@@ -266,9 +267,9 @@
 					// 자기 자신 삭제
 					$(this).parent().parent().remove();
 				}
-				
-				
 			});
+			// 댓글 수정 입력 END
+			*/
 			
 			// 댓글 수정 취소
 			$(document).on("click", "button[name='reply_modify_cancel']", function() {
@@ -425,11 +426,11 @@
 							<td colspan="4"></td>
 						</tr>
 						<!-- 댓글이 들어갈 공간 -->
-						<c:forEach var="replyList" items="${replyList} varStatus="status">
+						<c:forEach var="replyList" items="${replyList}" varStatus="status">
 							<!-- 댓글의 depth 표시 -->
 							<tr reply_type="<c:if test="${replyList.depth == '0' ? main : sub}"/>">  
 								<td style="width: 820px;">
-									<c:if test="${replyList.depth == '1' }"/> ->${replyList.reply}
+									<c:if test="${replyList.depth == '1' }">-></c:if> ${replyList.reply}
 								</td>
 								<td style="width: 100px">
 									${replyList.replyer }
@@ -442,7 +443,7 @@
 										<!-- 첫 댓글에만 댓글이 추가 대댓글 불가 -->
 										<button name="reply_button" parent_id="${replyList.rno }" reply_id = "${replyList.rno }">댓글</button>
 									</c:if>
-									<button name="reply_modify" parent_id=${replyList.parent_id } r_type="<c:if test="${replyList.depth == '0' ? main : sub }"/>" reply_id="${replyList.rno }">수정</button>
+									<button name="reply_modify" parent_id="${replyList.parent_id }" r_type="<c:if test="${replyList.depth == '0' ? main : sub }"/>" reply_id="${replyList.rno }">수정</button>
 									<button name="reply_del" r_type="<c:if test="${replyList.depth == '0' ? main : sub }"/>" reply_id="${replyList.rno }">삭제</button>
 								</td>
 							</tr>

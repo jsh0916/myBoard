@@ -105,4 +105,22 @@
 				SEQ > 0
 		]]>
 	</select>
+	
+	<select id="getReplyListData" resultType="replyVO">
+		<![CDATA[
+			SELECT
+				RNO,
+				SEQ,
+				PARENT_ID,
+				DEPTH,
+				REPLY,
+				REPLYER,
+				REPLY_PASSWORD
+			FROM
+				REPLY
+			WHERE
+				SEQ = #{seq}
+			ORDER BY RNO ASC
+		]]>
+	</select>
 </mapper>

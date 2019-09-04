@@ -1,6 +1,7 @@
 package com.myproject.homepage.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -19,9 +20,9 @@ public class ReplyDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public void insertReply(ReplyVO vo) {
+	public int insertReply(Map<String, String> param) {
 		logger.info("===> insertReply() 기능처리");
-		mybatis.insert("ReplyDAO.insertReply", vo);
+		return mybatis.insert("ReplyDAO.insertReply", param);
 	}
 	
 	public ReplyVO readReply(ReplyVO vo) {

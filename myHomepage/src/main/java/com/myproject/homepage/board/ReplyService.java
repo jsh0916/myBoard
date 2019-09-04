@@ -1,9 +1,10 @@
 package com.myproject.homepage.board;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReplyService {
-	public void insertReply(ReplyVO vo);
+	public int insertReply(Map<String, String> param);
 	
 	public ReplyVO readReply(ReplyVO vo);
 	

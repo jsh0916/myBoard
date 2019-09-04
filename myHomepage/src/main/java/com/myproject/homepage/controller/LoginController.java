@@ -1,6 +1,7 @@
 package com.myproject.homepage.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,10 +15,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myproject.homepage.board.BoardService;
 import com.myproject.homepage.board.BoardVO;
 import com.myproject.homepage.board.PageVO;
+import com.myproject.homepage.board.ReplyVO;
 import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
 
@@ -33,7 +36,7 @@ public class LoginController {
 	
 
 	@RequestMapping(value = "/index.do", method = RequestMethod.GET)
-	public String home(BoardVO boardVO, PageVO pd, HttpServletRequest request, Model model) {
+	public String home(BoardVO boardVO, PageVO pd, @RequestParam Map<String, String> param, HttpServletRequest request, Model model) {
 		logger.info("Welcome home!");
 
 		if (pd.getPageNum() == 0 && pd.getAmount() == 0) {
@@ -43,7 +46,6 @@ public class LoginController {
 			pd.setPageNum(Integer.parseInt(request.getParameter("pageNum")));
 			pd.setAmount(Integer.parseInt(request.getParameter("amount")));
 		}
-		
 		
 		if (request.getParameter("type") != null) {
 			String type = request.getParameter("type");
@@ -85,20 +87,11 @@ public class LoginController {
 		return "index";
 	}
 	
-	@ModelAttribute("conditionMap")
-	public Map<String, String> searchConditionMap() {
-		Map<String, String> conditionMap = new HashMap<>();
-		conditionMap.put("제목", "TITLE");
-		conditionMap.put("내용", "CONTENT");
-		
-		return conditionMap;
-	}
-	
 	@RequestMapping("/logout.do")
 	public String logout(BoardVO vo, Model model, PageVO pd, HttpSession session) {
 		session.invalidate();
 		
-		getBoardListData(vo, pd, model);
+//		getBoardListData(vo, pd, model);
 		
 		return "index";
 	}

@@ -1,6 +1,7 @@
 package com.myproject.homepage.board.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.myproject.homepage.board.BoardVO;
 import com.myproject.homepage.board.PageVO;
+import com.myproject.homepage.board.ReplyVO;
 
 
 // DAO (Date Access Object)
@@ -48,5 +50,10 @@ public class BoardDAO {
 	public int getTotalCount() {
 		logger.info("===> getTotalCount() 기능처리");
 		return mybatis.selectOne("BoardDAO.getTotalCount");
+	}
+
+	public List<ReplyVO> getReplyListData(Map<String, String> param) {
+		logger.info("===> getReplyListData() 기능처리");
+		return mybatis.selectList("BoardDAO.getReplyListData", param);
 	}
 }

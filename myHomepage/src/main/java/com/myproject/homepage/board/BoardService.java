@@ -1,6 +1,7 @@
 package com.myproject.homepage.board;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
 	public void insertBoard(BoardVO vo);
@@ -13,5 +14,7 @@ public interface BoardService {
 	
 	public List<BoardVO> getListWithPaging(PageVO pd);
 
-	public int getTotalCount(); 
+	public int getTotalCount();
+
+	public List<ReplyVO> getReplyListData(Map<String, String> param);
 }
