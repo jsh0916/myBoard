@@ -20,28 +20,39 @@ public class ReplyDAO {
 	@Autowired
 	private SqlSessionTemplate mybatis;
 	
-	public int insertReply(Map<String, String> param) {
+	public int insertReply (Map<String, String> param) {
 		logger.info("===> insertReply() 기능처리");
 		return mybatis.insert("ReplyDAO.insertReply", param);
 	}
 	
-	public ReplyVO readReply(ReplyVO vo) {
+	public ReplyVO readReply (ReplyVO vo) {
 		logger.info("===> readReply() 기능처리");
 		return mybatis.selectOne("ReplyDAO.readReply", vo);
 	}
 	
-	public void deleteReply(ReplyVO vo) {
+	public int deleteReply (Map<String, String> param) {
 		logger.info("===> deleteReply() 기능처리");
-		mybatis.delete("ReplyDAO.deleteReply", vo);
+		return mybatis.delete("ReplyDAO.deleteReply", param);
 	}
 
-	public void updateReply(ReplyVO vo) {
+	public void updateReply (ReplyVO vo) {
 		logger.info("===> updateReply() 기능처리");
 		mybatis.update("ReplyDAO.updateReply", vo);
 	}
 	
-	public List<ReplyVO> getListWithPaging(ReplyVO vo) {
-		logger.info("===> getListWithPaging() Reply 기능처리");
+	public List<ReplyVO> getListWithPaging (ReplyVO vo) {
+		logger.info("===> getListWithPaging() 기능처리");
 		return mybatis.selectList("ReplyDAO.getListWithPaging", vo);
+	}
+
+	public boolean checkReply (Map<String, String> param) {
+		logger.info("===> checkReply() 기능처리");
+		int result = mybatis.selectOne("ReplyDAO.checkReply", param);
+		
+		if (result > 0) {
+			return true;
+		} else {
+			return false;			
+		}
 	}
 }

@@ -21,13 +21,18 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
+	public int deleteReply(Map<String, String> param) {
+		return replyDAO.deleteReply(param);
+	}
+	
+	@Override
+	public boolean checkReply(Map<String, String> param) {
+		return replyDAO.checkReply(param);
+	}
+	
+	@Override
 	public ReplyVO readReply(ReplyVO vo) {
 		return replyDAO.readReply(vo);
-	}
-
-	@Override
-	public void deleteReply(ReplyVO vo) {
-		replyDAO.deleteReply(vo);
 	}
 
 	@Override
@@ -39,7 +44,4 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> getListWithPaging(ReplyVO vo) {
 		return replyDAO.getListWithPaging(vo);
 	}
-
-	
-
 }

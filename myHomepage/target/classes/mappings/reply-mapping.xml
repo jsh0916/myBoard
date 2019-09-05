@@ -6,28 +6,33 @@
 
 	<insert id="insertReply">
 		<![CDATA[
-			INSERT INTO REPLY
-				(seq,
-				 reply,
-				 replyer,
-				 parent_id,
-				 depth,
-				 reply_password)
-			VALUES
-				(#{seq},
-				 #{reply},
-				 #{reply_writer},
-				 #{parent_id},
-				 #{depth},
-				 #{reply_password})		
+			INSERT INTO REPLY (
+				seq,
+				reply,
+				replyer,
+				parent_id,
+				depth,
+				reply_password
+			) VALUES (
+				#{seq},
+				#{reply},
+				#{reply_writer},
+				#{parent_id},
+				#{depth},
+				#{reply_password}
+			)		
 		]]>
 	</insert>
 
 	<delete id="deleteReply">
 		<![CDATA[
 			DELETE
-			FROM REPLY
-			WHERE RNO = #{rno}
+			FROM
+				REPLY
+			WHERE
+				RNO = #{reply_rno}
+			AND
+				REPLY_PASSWORD = #{reply_password}
 		]]>
 	</delete>
 	
@@ -56,6 +61,19 @@
 			FROM REPLY
 			WHERE BNO = #{bno}
 			ORDER BY RNO ASC
+		]]>
+	</select>
+	
+	<select id="checkReply" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM
+				REPLY
+			WHERE
+				RNO = #{reply_rno}
+			AND
+				REPLY_PASSWORD = #{reply_password}
 		]]>
 	</select>
 </mapper>

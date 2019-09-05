@@ -27,6 +27,7 @@ public class ReplyController {
 	@ResponseBody
 	public Map<String, String> insertReply (@RequestParam Map<String, String> param) {
 		logger.info("=============== insertReply START ===============");
+
 		Map<String, String> retVal = new HashMap<>();
 		
 		// 패스워드 암호화
@@ -39,7 +40,7 @@ public class ReplyController {
 
 		if (result > 0) {
 			retVal.put("code", "OK");
-			retVal.put("reply_id", param.get("reply_id"));
+			retVal.put("reply_rno", param.get("reply_rno"));
 			retVal.put("parent_id", param.get("parent_id"));
 			retVal.put("message", "등록에 성공 하였습니다.");
 		} else {
@@ -48,14 +49,64 @@ public class ReplyController {
 		}
 		
 		logger.info("=============== insertReply END ===============");
+		
 		return retVal;
 	}
 	
 	@RequestMapping(value="deleteReply.do", method=RequestMethod.POST)
 	@ResponseBody
 	public Map<String, String> deleteReply (@RequestParam Map<String, String> param) {
+		logger.info("=============== deleteReply START ===============");
+
 		Map<String, String> retVal = new HashMap<>();
 		
+		// 패스워드 암호화
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		String password = encoder.encodePassword(param.get("reply_password").toString(), null);
+		param.put("reply_password", password);
+		
+		// 정보입력
+		int result = replyService.deleteReply(param);
+		
+		if (result > 0) {
+			retVal.put("code", "OK");
+		} else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "삭제에 실패했습니다. 패스워드를 확인해주세요");
+		}
+		
+		logger.info("=============== deleteReply END ===============");
+		
+		return retVal;
+	}
+	
+	@RequestMapping(value="checkReply.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> checkReply (@RequestParam Map<String, String> param) {
+		logger.info("=============== checkReply START ===============");
+		
+		Map<String, String> retVal = new HashMap<>();
+		
+		// 패스워드 암호화
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		String password = encoder.encodePassword(param.get("reply_password").toString(), null);
+		param.put("reply_password", password);
+		
+		// 정보입력
+		boolean check = replyService.checkReply(param);
+		
+		logger.info("CHECK: " + check);
+		
+		if (check) {
+			retVal.put("code", "OK");
+			retVal.put("reply_rno", param.get("reply_rno"));
+		} else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "패스워드를 확인해 주세요.");
+		}
+		
+		logger.info("=============== checkReply END ===============");
+	
 		return retVal;
 	}
 }

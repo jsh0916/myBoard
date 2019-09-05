@@ -8,9 +8,11 @@ public interface ReplyService {
 	
 	public ReplyVO readReply(ReplyVO vo);
 	
-	public void deleteReply(ReplyVO vo);
+	public int deleteReply(Map<String, String> param);
 	
 	public void updateReply(ReplyVO vo);
 	
 	public List<ReplyVO> getListWithPaging(ReplyVO vo);
+
+	public boolean checkReply(Map<String, String> param);
 }
