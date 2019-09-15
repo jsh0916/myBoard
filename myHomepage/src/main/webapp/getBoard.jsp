@@ -85,7 +85,7 @@
 							
 							return false;
 						} else {
-							reply_rno = retVal.rno;
+							reply_rno = retVal.reply_rno;
 						}
 					},
 					error			: function() {
@@ -332,7 +332,118 @@
 			
 			// 댓글 수정 저장
 			$(document).on("click", "button[name='reply_modify_save']", function() {
+				var reply_rno = $(this).attr("reply_rno");
 				
+				if ($.trim($("#reply_modify_writer_" + reply_rno).val()) == "") {
+					alert("이름을 입력하세요");
+					$("#reply_modify_writer_" + reply_rno).focus();
+					
+					return false;
+				}
+				
+				if ($.trim($("#reply_modify_password_" + reply_rno).val()) == "") {
+					alert("패스워드를 입력하세요.");
+					$("#reply_modify_password_" + reply_rno).focus();
+					
+					return false;
+				}
+				
+				if ($.trim($("#reply_modify_content_" + reply_rno).val()) == "") {
+					alert("내용을 입력하세요.");
+					$("#reply_modify_content").focus();
+					
+					return false;
+				}
+				
+				var reply_content = $("#reply_modify_content_" + reply_rno).val().replace("\n", "<br>");
+				var r_type = $(this).attr("r_type");
+				var parent_id;
+				var depth;
+				
+				if (r_type == "main") {
+					parent_id = "0";
+					depth = "0";
+				} else {
+					parent_id = $(this).attr("parent_id");
+					depth = "1";
+				}
+				
+				var objParams = {
+					seq				:	${board.seq },
+					reply_id		:	reply_rno,
+					parent_id		:	parent_id,
+					depth			:	depth,
+					reply_writer	:	$("#reply_modify_writer_" + reply_rno).val(),
+					reply_password  :	$("#reply_modify_password_" + reply_rno).val(),
+					reply_content	:	reply_content
+				};
+				
+				$.ajax({
+					url				:	"updateReply.do",
+					dataType		:	"json",
+					contentType		:	"application/x-www-form-urlencoded; charset=UTF-8",
+					type			:	"post",
+					async			:	false,
+					data			:	objParams,
+					success			:	function(retVal) {
+						if (retVal.code != "OK") {
+							alert(retVal.message);
+							
+							return false;
+						} else {
+							reply_rno = retVal.reply_rno;
+							parent_id = retVal.parent_id;
+						}
+					},
+					error			:	function() {
+						console.log("AJAX_ERROR");
+					}
+				});
+				
+				if (r_type=="main"){
+                    reply = 
+                        '<tr reply_type="main">'						+
+                        '   <td style="width: 820px;">'					+
+                        $("#reply_modify_content_" + reply_rno).val()	+
+                        '   </td>'										+
+                        '   <td style="width: 100px;">'					+
+                        $("#reply_modify_writer_" + reply_rno).val()	+
+                        '   </td>'										+
+                        '   <td style="width: 100px;">'					+
+                        '       <input type="password" id="reply_password_' + reply_rno + '" style="width:100px;" maxlength="10" placeholder="패스워드"/>' +
+                        '   </td>'										+
+                        '   <td align="center">'						+
+                        '       <button name="reply_reply" reply_rno = "' + reply_rno + '">댓글</button>' +
+                        '       <button name="reply_modify" r_type="main" parent_id="0" reply_rno = "' + reply_rno + '">수정</button>' +
+                        '       <button name="reply_del" r_type="main" reply_rno="' + reply_rno + '">삭제</button>' +
+                        '   </td>'										+
+                        '</tr>';
+                } else {
+                    reply = 
+                        '<tr reply_type="sub">'							+
+                        '   <td style="width: 820px;"> → '				+
+                        $("#reply_modify_content_" + reply_rno).val()	+
+                        '   </td>'										+
+                        '   <td style="width: 100px;">'					+
+                        $("#reply_modify_writer_" + reply_rno).val()	+
+                        '   </td>'										+
+                        '   <td style="width: 100px;">'					+
+                        '       <input type="password" id="reply_password_' + reply_rno + '" style="width:100px;" maxlength="10" placeholder="패스워드"/>' +
+                        '   </td>'										+
+                        '   <td align="center">'						+
+                        '       <button name="reply_modify" r_type="sub" parent_id="' + parent_id + '" reply_rno="' + reply_rno + '">수정</button>' +
+                        '       <button name="reply_del" r_type = "sub" reply_rno="' + reply_rno + '">삭제</button>' +
+                        '   </td>'										+
+                        '</tr>';
+                }
+				
+				var prevTr = $(this).parent().parent();
+				// 자기 위에 붙이기
+				prevTr.after(reply);
+				
+				// 자기 자신 삭제
+				$(this).parent().parent().remove();
+				status = false;
 			});
 			
 			// 대댓글 입력창

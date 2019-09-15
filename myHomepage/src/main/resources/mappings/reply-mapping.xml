@@ -40,10 +40,13 @@
 		<![CDATA[
 			UPDATE REPLY
 			SET
-				REPLY = #{reply},
-				UPDATEDATE = CURRENT_TIME
+				PARENT_ID = #{parent_id},
+				depth = #{depth},
+				REPLY = #{reply_content},
+				REPLYER = #{reply_writer},
+				REPLY_PASSWORD = #{reply_password}
 			WHERE
-				RNO = #{rno}
+				RNO = #{reply_id}
 		]]>
 	</update>
 	

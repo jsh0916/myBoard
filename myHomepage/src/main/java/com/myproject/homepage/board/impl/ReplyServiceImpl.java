@@ -36,8 +36,8 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public void updateReply(ReplyVO vo) {
-		replyDAO.updateReply(vo);
+	public boolean updateReply(Map<String, String> param) {
+		return replyDAO.updateReply(param);
 	}
 
 	@Override

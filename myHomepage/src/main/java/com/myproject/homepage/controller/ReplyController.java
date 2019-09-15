@@ -109,4 +109,31 @@ public class ReplyController {
 	
 		return retVal;
 	}
+	
+	@RequestMapping(value="updateReply.do", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, String> updateReply (@RequestParam Map<String, String> param) {
+		logger.info("=============== updateReply START ===============");
+		
+		Map<String, String> retVal = new HashMap<>();
+		
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		String password = encoder.encodePassword(param.get("reply_password").toString(), null);
+		param.put("reply_password", password);
+		
+		boolean check = replyService.updateReply(param);
+		
+		if (check) {
+			retVal.put("code", "OK");
+			retVal.put("reply_rno", param.get("reply_rno"));
+			retVal.put("message", "수정에 성공 하였습니다.");
+		} else {
+			retVal.put("code", "FAIL");
+			retVal.put("message", "수정에 실패 하였습니다.");
+		}
+		
+		logger.info("=============== updateReply END ===============");
+		
+		return retVal;
+	}
 }

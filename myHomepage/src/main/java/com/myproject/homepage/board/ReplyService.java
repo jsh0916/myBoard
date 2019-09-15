@@ -10,7 +10,7 @@ public interface ReplyService {
 	
 	public int deleteReply(Map<String, String> param);
 	
-	public void updateReply(ReplyVO vo);
+	public boolean updateReply(Map<String, String> param);
 	
 	public List<ReplyVO> getListWithPaging(ReplyVO vo);
 

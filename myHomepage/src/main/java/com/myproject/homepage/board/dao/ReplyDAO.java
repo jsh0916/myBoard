@@ -35,9 +35,15 @@ public class ReplyDAO {
 		return mybatis.delete("ReplyDAO.deleteReply", param);
 	}
 
-	public void updateReply (ReplyVO vo) {
+	public boolean updateReply (Map<String, String> param) {
 		logger.info("===> updateReply() 기능처리");
-		mybatis.update("ReplyDAO.updateReply", vo);
+		int result = mybatis.update("ReplyDAO.updateReply", param);
+		
+		if (result > 0) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public List<ReplyVO> getListWithPaging (ReplyVO vo) {
