@@ -243,7 +243,6 @@
 					if (r_type == "sub") {
 						txt_reply_content = txt_reply_content.replace("-> ", ""); // 대댓글의 뎁스표시(화살표) 없애기
 					}
-					
 					var txt_reply_writer = $.trim($(this).parent().prev().prev().html()); // 댓글작성자 가져오기
 					
 					// 입력받는 창 등록
