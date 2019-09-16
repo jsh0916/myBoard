@@ -75,7 +75,7 @@ public class BoardServiceImpl implements BoardService{
 			// 3. 자식을 돌린다.
 			for (ReplyVO replyChild : replyListChild) {
 				// 3-1. 부모의 자식인 것들만 넣는다.
-				if (replyParent.getBno() == replyChild.getParent_id()) {
+				if (replyParent.getRno() == replyChild.getParent_id()) {
 					newReplyList.add(replyChild);
 				}
 			}

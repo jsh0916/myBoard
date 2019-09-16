@@ -107,7 +107,7 @@
 					'	<input type="password" id="reply_password_' + reply_rno +'" style="width: 100px;" maxlength="10" placeholder="패스워드"/>' +
 					'    </td>'+
                     '    <td align="center">'+
-                    '       <button name="reply_button" reply_rno = "' + reply_rno + '">댓글</button>' +
+                    '       <button name="reply_reply" reply_rno = "' + reply_rno + '">댓글</button>' +
                     '       <button name="reply_modify" r_type="main" parent_id="0" reply_rno="' + reply_rno + '">수정</button>' +
                     '       <button name="reply_del" r_type="main" reply_rno="' + reply_rno + '">삭제</button>      ' +
                     '    </td>' +
@@ -298,7 +298,7 @@
                         '       <input type="password" id="reply_password_' + reply_rno + '" style="width:100px;" maxlength="10" placeholder="패스워드"/>' +
                         '   </td>'							+
                         '   <td align="center">'			+
-                        '       <button name="reply_button" reply_rno="' + reply_rno + '">댓글</button>' +
+                        '       <button name="reply_reply" reply_rno="' + reply_rno + '">댓글</button>' +
                         '       <button name="reply_modify" r_type="main" parent_id="0" reply_rno="' + reply_rno + '">수정</button>' +
                         '       <button name="reply_del" reply_rno="' + reply_rno + '">삭제</button>' +
                         '   </td>'							+
@@ -370,7 +370,7 @@
 				
 				var objParams = {
 					seq				:	${board.seq },
-					reply_id		:	reply_rno,
+					reply_rno		:	reply_rno,
 					parent_id		:	parent_id,
 					depth			:	depth,
 					reply_writer	:	$("#reply_modify_writer_" + reply_rno).val(),
@@ -421,7 +421,7 @@
                 } else {
                     reply = 
                         '<tr reply_type="sub">'							+
-                        '   <td style="width: 820px;"> → '				+
+                        '   <td style="width: 820px;"> -> '				+
                         $("#reply_modify_content_" + reply_rno).val()	+
                         '   </td>'										+
                         '   <td style="width: 100px;">'					+
@@ -448,12 +448,151 @@
 			
 			// 대댓글 입력창
 			$(document).on("click", "button[name='reply_reply']", function() {
+				if (status) {
+					alert("수정과 대댓글은 동시에 불가합니다.");
+					
+					return false;
+				}
 				
+				status = true;
+				
+				// 댓글 수정창 삭제
+				$("#reply_add").remove();
+				
+				var reply_rno = $(this).attr("reply_rno");
+				var last_check = false;	// 마지막 tr 체크
+				
+				// 입력받는 창 등록
+				var replyEditor =
+					'<tr id="reply_add" class="reply_reply">'	+
+                    '    <td style="width: 820px;">'			+
+                    '        <textarea name="reply_reply_content" rows="3" cols="50"></textarea>' +
+                    '    </td>'									+
+                    '    <td style="width: 100px;">'					+
+                    '        <input type="text" name="reply_reply_writer" style="width: 100%;" maxlength="10" placeholder="작성자"/>' +
+                    '    </td>'									+
+                    '    <td style="width: 100px;">'			+
+                    '        <input type="password" name="reply_reply_password" style="width:100%;" maxlength="10" placeholder="패스워드"/>' +
+                    '    </td>'									+
+                    '    <td align="center">'					+
+                    '        <button name="reply_reply_save" parent_id="' + reply_rno + '">등록</button>' +
+                    '        <button name="reply_reply_cancel">취소</button>' +
+                    '    </td>'									+
+                    '</tr>';
+                    
+				var prevTr = $(this).parent().parent().next();
+				
+				// 부모의 부모 다음이 sub이면 마지막 sub 뒤에 붙인다.
+				// 마지막 리플 처리
+				if (prevTr.attr("reply_type") == undefined) {
+					prevTr = $(this).parent().parent();
+				} else {
+					// 댓글의 다음이 sub면 계속 넘어감
+					while (prevTr.attr("reply_type") == "sub") {
+						prevTr = prevTr.next();
+					}
+					
+					// next 뒤에 tr이 없다면 마지막이라는 표시 last_check = true
+					if (prevTr.attr("reply_type") == undefined) {
+						last_check = true;
+					} else {
+						prevTr = prevTr.prev();
+					}
+				}
+				
+				// 마지막이면 제일 마지막 tr 뒤에 댓글 입력을 붙인다.
+				if (last_check) {
+					$("#reply_arae tr:last").after(replyEditor);
+				} else {
+					prevTr.after(replyEditor);
+				}
 			});
 			
 			// 대댓글 등록
 			$(document).on("click", "button[name='reply_reply_save']", function() {
+				var reply_reply_writer = $("input[name='reply_reply_writer']");
+				var reply_reply_password = $("input[name='reply_reply_password']");
+				var reply_reply_content = $("textarea[name='reply_reply_content']");
 				
+				if ($.trim(reply_reply_writer.val()) == "") {
+					alert("이름을 입력하세요.");
+					reply_reply_writer.focus();
+					
+					return false;
+				}
+				
+				if ($.trim(reply_reply_password.val()) == "") {
+					alert("패스워드를 입력하세요.");
+					reply_reply_password.focus();
+					
+					return false;
+				}
+				
+				if ($.trim(reply_reply_content.val()) == "") {
+					alert("내용을 입력하세요.");
+					reply_reply_content.focus();
+					
+					return false;
+				}
+
+				var reply_reply_content_val = reply_reply_content.val().replace("\n", "<br>");
+			
+				var objParams = {
+					seq				:	${board.seq },
+					parent_id		:	$(this).attr("parent_id"),
+					depth			:	"1",
+					reply_writer	:	reply_reply_writer.val(),
+					reply_password	:	reply_reply_password.val(),
+					reply			:	reply_reply_content_val
+				};
+				
+				var reply_rno;
+				var parent_id;
+				
+				$.ajax({
+					url				:	"replyReplyInsert.do",
+					dataType		:	"json",
+					contentType		:	"application/x-www-form-urlencoded; charset=UTF-8",
+					type			:	"post",
+					async			:	false,
+					data			:	objParams,
+					success			:	function(retVal) {
+						if (retVal.code != "OK") {
+							alert(retVal.message);
+						} else {
+							reply_rno = retVal.reply_rno;
+							parent_id = retVal.parent_id;
+						}
+					},
+					error			:	function() {
+						console.log("AJAX_ERROR");
+					}
+				});
+				
+				var reply = 
+                    '<tr reply_type="sub">'					+
+                    '    <td style="width: 820px;"> → '		+
+                    		reply_reply_content_val			+
+                    '    </td>'+
+                    '    <td style="width: 100px;">'		+
+                    		reply_reply_writer.val()		+
+                    '    </td>'								+
+                    '    <td style="width: 100px;">'		+
+                    '        <input type="password" id="reply_password_' + reply_rno + '" style="width:100px;" maxlength="10" placeholder="패스워드"/>' +
+                    '    </td>'								+
+                    '    <td align="center">'				+
+                    '       <button name="reply_modify" r_type="sub" parent_id="' + parent_id + '" reply_rno="' + reply_rno + '">수정</button>' +
+                    '       <button name="reply_del" r_type="sub" reply_rno="' + reply_rno + '">삭제</button>' +
+                    '    </td>'								+
+                    '</tr>';
+                    
+				var prevTr = $(this).parent().parent().prev();
+				
+				prevTr.after(reply);
+				
+				$("#reply_add").remove();
+				
+				status = false;
 			});
 			
 			// 대댓글 입력창 취소
@@ -554,7 +693,7 @@
 								<td align="center">
 									<c:if test="${replyList.depth != '1' }">
 										<!-- 첫 댓글에만 댓글이 추가 대댓글 불가 -->
-										<button name="reply_button" parent_id="${replyList.rno }" reply_rno = "${replyList.rno }">댓글</button>
+										<button name="reply_reply" parent_id="${replyList.rno }" reply_rno = "${replyList.rno }">댓글</button>
 									</c:if>
 									<button name="reply_modify" parent_id="${replyList.parent_id }" r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>" reply_rno="${replyList.rno }">수정</button>
 									<button name="reply_del" r_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>" reply_rno="${replyList.rno }">삭제</button>

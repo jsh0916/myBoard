@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class ReplyVO {
 	private int rno;
-	private int bno;
+	private int seq;
 	private String reply;
 	private String replyer;
 	private Date replyDate;
@@ -19,11 +19,11 @@ public class ReplyVO {
 	public void setRno(int rno) {
 		this.rno = rno;
 	}
-	public int getBno() {
-		return bno;
+	public int getSeq() {
+		return seq;
 	}
-	public void setBno(int bno) {
-		this.bno = bno;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 	public String getReply() {
 		return reply;
@@ -70,7 +70,7 @@ public class ReplyVO {
 	
 	@Override
 	public String toString() {
-		return "ReplyVO [rno=" + rno + ", bno=" + bno + ", reply=" + reply + ", replyer=" + replyer + ", replyDate="
+		return "ReplyVO [rno=" + rno + ", seq=" + seq + ", reply=" + reply + ", replyer=" + replyer + ", replyDate="
 				+ replyDate + ", updateDate=" + updateDate + ", parent_id=" + parent_id + ", depth=" + depth
 				+ ", reply_password=" + reply_password + "]";
 	}

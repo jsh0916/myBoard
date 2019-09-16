@@ -46,7 +46,7 @@
 				REPLYER = #{reply_writer},
 				REPLY_PASSWORD = #{reply_password}
 			WHERE
-				RNO = #{reply_id}
+				RNO = #{reply_rno}
 		]]>
 	</update>
 	
