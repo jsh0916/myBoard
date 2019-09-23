@@ -3,6 +3,8 @@ package com.myproject.homepage.board;
 import java.util.List;
 import java.util.Map;
 
+import com.myproject.homepage.board.vo.ReplyVO;
+
 public interface ReplyService {
 	public int insertReply(Map<String, String> param);
 	

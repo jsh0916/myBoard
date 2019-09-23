@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myproject.homepage.board.ReplyService;
-import com.myproject.homepage.board.ReplyVO;
 import com.myproject.homepage.board.dao.ReplyDAO;
+import com.myproject.homepage.board.vo.ReplyVO;
 
 @Service("replyService")
 public class ReplyServiceImpl implements ReplyService {

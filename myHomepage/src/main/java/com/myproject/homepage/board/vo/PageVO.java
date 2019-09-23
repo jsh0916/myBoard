@@ -1,4 +1,4 @@
-package com.myproject.homepage.board;
+package com.myproject.homepage.board.vo;
 
 public class PageVO {
 	private int startPage;

@@ -1,6 +1,8 @@
-package com.myproject.homepage.board;
+package com.myproject.homepage.board.vo;
 
 import java.sql.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +16,9 @@ public class BoardVO {
 	private Date regDate;
 	private Date updateDate;
 	private int cnt;
-	private MultipartFile uploadFile;
+	private List<AttachFileVO> attachList;
+
+	private MultipartFile[] uploadFile;
 
 	public int getSeq() {
 		return seq;
@@ -58,16 +62,23 @@ public class BoardVO {
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
-	public MultipartFile getUploadFile() {
+	public MultipartFile[] getUploadFile() {
 		return uploadFile;
 	}
-	public void setUploadFile(MultipartFile uploadFile) {
+	public void setUploadFile(MultipartFile[] uploadFile) {
 		this.uploadFile = uploadFile;
 	}
-
+	public List<AttachFileVO> getAttachList() {
+		return attachList;
+	}
+	public void setAttachList(List<AttachFileVO> attachList) {
+		this.attachList = attachList;
+	}
+	
 	@Override
 	public String toString() {
 		return "BoardVO [seq=" + seq + ", title=" + title + ", writer=" + writer + ", content=" + content + ", regDate="
-				+ regDate + ", updateDate=" + updateDate + ", cnt=" + cnt + ", searchCondition=" + ", uploadFile=" + uploadFile + "]";
+				+ regDate + ", updateDate=" + updateDate + ", cnt=" + cnt + ", attachList=" + attachList
+				+ ", uploadFile=" + Arrays.toString(uploadFile) + "]";
 	}
 }

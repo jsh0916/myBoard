@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AttachDAO">
+
+	<insert id="insertReply">
+		<![CDATA[
+			INSERT INTO REPLY (
+				seq,
+				reply,
+				replyer,
+				parent_id,
+				depth,
+				reply_password
+			) VALUES (
+				#{seq},
+				#{reply},
+				#{reply_writer},
+				#{parent_id},
+				#{depth},
+				#{reply_password}
+			)		
+		]]>
+	</insert>
+
+	<delete id="deleteReply">
+		<![CDATA[
+			DELETE
+			FROM
+				REPLY
+			WHERE
+				RNO = #{reply_rno}
+			AND
+				REPLY_PASSWORD = #{reply_password}
+		]]>
+	</delete>
+	
+	<update id="updateReply">
+		<![CDATA[
+			UPDATE REPLY
+			SET
+				PARENT_ID = #{parent_id},
+				depth = #{depth},
+				REPLY = #{reply_content},
+				REPLYER = #{reply_writer},
+				REPLY_PASSWORD = #{reply_password}
+			WHERE
+				RNO = #{reply_rno}
+		]]>
+	</update>
+	
+	<select id="readReply" resultType="replyVO">
+		<![CDATA[
+			SELECT *
+			FROM REPLY
+			WHERE RNO = #{rno}
+		]]>
+	</select>
+	
+	<select id="getListWithPaging" resultType="replyVO">
+		<![CDATA[
+			SELECT *
+			FROM REPLY
+			WHERE BNO = #{bno}
+			ORDER BY RNO ASC
+		]]>
+	</select>
+	
+	<select id="checkReply" resultType="int">
+		<![CDATA[
+			SELECT
+				COUNT(*)
+			FROM
+				REPLY
+			WHERE
+				RNO = #{reply_rno}
+			AND
+				REPLY_PASSWORD = #{reply_password}
+		]]>
+	</select>
+</mapper>

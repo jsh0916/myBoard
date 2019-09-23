@@ -5,8 +5,9 @@
 <configuration>
 	<!-- Alias 설정 -->
 	<typeAliases>
-		<typeAlias alias="boardVO" type="com.myproject.homepage.board.BoardVO"></typeAlias>
-		<typeAlias alias="replyVO" type="com.myproject.homepage.board.ReplyVO"></typeAlias>
+		<typeAlias alias="boardVO" type="com.myproject.homepage.board.vo.BoardVO"></typeAlias>
+		<typeAlias alias="replyVO" type="com.myproject.homepage.board.vo.ReplyVO"></typeAlias>
+		<typeAlias alias="attachFileVO" type="com.myproject.homepage.board.vo.AttachFileVO"></typeAlias>
 		<typeAlias alias="userVO" type="com.myproject.homepage.user.UserVO"></typeAlias>
 	</typeAliases>
 	
@@ -15,5 +16,6 @@
 		<mapper resource="mappings/board-mapping.xml" />
 		<mapper resource="mappings/login-mapping.xml" />
 		<mapper resource="mappings/reply-mapping.xml" />
+		<mapper resource="mappings/attach-mapping.xml" />
 	</mappers>
 </configuration>

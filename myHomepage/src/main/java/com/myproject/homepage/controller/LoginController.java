@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.myproject.homepage.board.BoardService;
-import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.board.PageVO;
+import com.myproject.homepage.board.vo.BoardVO;
+import com.myproject.homepage.board.vo.PageVO;
 import com.myproject.homepage.user.UserService;
 import com.myproject.homepage.user.UserVO;
 

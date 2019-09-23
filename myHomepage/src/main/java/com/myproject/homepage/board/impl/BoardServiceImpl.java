@@ -8,10 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myproject.homepage.board.BoardService;
-import com.myproject.homepage.board.BoardVO;
-import com.myproject.homepage.board.PageVO;
-import com.myproject.homepage.board.ReplyVO;
 import com.myproject.homepage.board.dao.BoardDAO;
+import com.myproject.homepage.board.vo.BoardVO;
+import com.myproject.homepage.board.vo.PageVO;
+import com.myproject.homepage.board.vo.ReplyVO;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{

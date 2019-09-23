@@ -3,6 +3,10 @@ package com.myproject.homepage.board;
 import java.util.List;
 import java.util.Map;
 
+import com.myproject.homepage.board.vo.BoardVO;
+import com.myproject.homepage.board.vo.PageVO;
+import com.myproject.homepage.board.vo.ReplyVO;
+
 public interface BoardService {
 	public void insertBoard(BoardVO vo);
 	

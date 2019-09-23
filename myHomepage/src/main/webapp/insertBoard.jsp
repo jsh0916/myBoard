@@ -98,7 +98,7 @@
 								<label for="tag">업로드</label>
 							</td>
 							<td>
-								<input type="file" class="form-control" name="uploadFile">
+								<input type="file" class="form-control" name="uploadFile" multiple>
 							</td>
 						</tr>
 						<tr>
