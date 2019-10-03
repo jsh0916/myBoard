@@ -77,7 +77,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, MultipartFile[] uploadFile, Model model) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) throws IOException {		// 커맨드객체 사용
 		logger.info("=============== insertBoard.do START ===============");
 		
 		// 파일 업로드 처리
@@ -94,28 +94,31 @@ public class BoardController {
 		
 		String uploadFolder = "C:\\upload";
 
-		for (MultipartFile multipartFile : uploadFile) {
+		for (AttachFileVO list : vo.getAttachList()) {
 			logger.info("=============== File Upload START ===============");
 			
-			logger.info("Upload File Name : " + multipartFile.getName());
-			logger.info("Upload File Size : " + multipartFile.getSize());
+			logger.info("Upload File Name : " + list.getFileName());
+			logger.info("Upload File UploadPath : " + list.getUploadPath());
 			
-			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
+			File saveFile = new File(uploadFolder, list.getFileName());
 			
 			try {
-				multipartFile.transferTo(saveFile);
+//				multipartFile.transferTo(saveFile);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
 		}
-		
-		boardService.insertBoard(vo);
+//		boardService.insertBoard(vo);
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
 		
 		rttr.addAttribute("pageNum", pd.getPageNum());
 		rttr.addAttribute("amount", pd.getAmount());
-
+		
+		if (vo.getAttachList() != null) {
+			vo.getAttachList().forEach(attach -> logger.info("attach : " + attach));
+		}
+		
 		logger.info("=============== insertBoard.do END ===============");
 		return "redirect:index.do";
 	}
@@ -268,8 +271,6 @@ public class BoardController {
 	 * 5. 한 폴더 내에 너무 많은 파일이 생성 되었을 때 속도 저하, 개수의 제한 문제 --> 년/월/일 단위의 폴더 생성 하여 저장
 	 * 
 	 * */
-
-	/*
 	@RequestMapping(value="/uploadAjaxAction.do", method=RequestMethod.POST, produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public ResponseEntity<List<AttachFileVO>> uploadAjaxAction(BoardVO vo) {
@@ -336,7 +337,6 @@ public class BoardController {
 		
 		return new ResponseEntity<>(list, HttpStatus.OK);
 	}
-	*/
 	/*
 	 * Spring 에서는 HttpEntity란 클래스를 제공하는데 이 클래스의 역할은 Http 프로토콜을 이용하는
 	 * 통신의 header와 body 관련 정보를 저장할 수 있게끔 해준다. 이를 상속받은 클래스로 RequestEntity 와 ResponseEntity 가 있음
@@ -348,7 +348,6 @@ public class BoardController {
 	 * 
 	 * */
 	
-	/*
 	@RequestMapping(value="/showThumbnail.do")
 	@ResponseBody
 	public ResponseEntity<byte[]> getFile(String fileName) {
@@ -466,5 +465,4 @@ public class BoardController {
 		
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
 	}
-	*/
 }
