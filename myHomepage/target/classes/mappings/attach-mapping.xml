@@ -4,79 +4,42 @@
 
 <mapper namespace="AttachDAO">
 
-	<insert id="insertReply">
+	<insert id="insertAttach">
 		<![CDATA[
-			INSERT INTO REPLY (
-				seq,
-				reply,
-				replyer,
-				parent_id,
-				depth,
-				reply_password
+			INSERT INTO ATTACH (
+				UUID,
+				UPLOADPATH,
+				FILENAME,
+				FILETYPE,
+				SEQ
 			) VALUES (
+				#{uuid},
+				#{uploadPath},
+				#{fileName},
+				#{fileType},
 				#{seq},
-				#{reply},
-				#{reply_writer},
-				#{parent_id},
-				#{depth},
-				#{reply_password}
-			)		
+			)
 		]]>
 	</insert>
 
-	<delete id="deleteReply">
+	<delete id="deleteAttach">
 		<![CDATA[
 			DELETE
 			FROM
-				REPLY
+				ATTACH
 			WHERE
-				RNO = #{reply_rno}
-			AND
-				REPLY_PASSWORD = #{reply_password}
+				UUID = #{uuid}
 		]]>
 	</delete>
 	
-	<update id="updateReply">
-		<![CDATA[
-			UPDATE REPLY
-			SET
-				PARENT_ID = #{parent_id},
-				depth = #{depth},
-				REPLY = #{reply_content},
-				REPLYER = #{reply_writer},
-				REPLY_PASSWORD = #{reply_password}
-			WHERE
-				RNO = #{reply_rno}
-		]]>
-	</update>
-	
-	<select id="readReply" resultType="replyVO">
-		<![CDATA[
-			SELECT *
-			FROM REPLY
-			WHERE RNO = #{rno}
-		]]>
-	</select>
-	
-	<select id="getListWithPaging" resultType="replyVO">
-		<![CDATA[
-			SELECT *
-			FROM REPLY
-			WHERE BNO = #{bno}
-			ORDER BY RNO ASC
-		]]>
-	</select>
-	
-	<select id="checkReply" resultType="int">
+	<select id="findByBno" resultType="attachFileVO">
 		<![CDATA[
 			SELECT
-				COUNT(*)
+				*
 			FROM
-				REPLY
+				ATTACH
 			WHERE
-				RNO = #{reply_rno}
-			AND
-				REPLY_PASSWORD = #{reply_password}
+				BNO = #{bno}
 		]]>
 	</select>
 </mapper>

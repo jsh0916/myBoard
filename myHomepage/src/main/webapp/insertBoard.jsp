@@ -16,7 +16,7 @@
 		<link href="/resources/myhomepage/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		
 		<!-- Bootstrap core JavaScript -->
-		<script src="/resources/myhomepage/vendor/jquery/jquery.min.js"></script>
+		<script src="/resources/myhomepage/vendor/jquery/jquery-3.4.1.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.min.js"></script>
 	</head>
@@ -24,7 +24,169 @@
 		function boardList() {
 			location.href = "index.do";
 		}
+		
+		$(document).ready(function(e) {
+			var formObj = $("form[role='form']");
+			
+			$("input[type='submit']").on("click", function(e) {
+				e.preventDefault();
+				console.log("submit clicked");
+
+				var str = "";
+				
+				$(".uploadResult ul li").each(function(i, obj) {
+					var jobj = $(obj);
+					console.log(jobj);
+				
+					str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+					str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+					str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("uploadPath") + "'>";
+					str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+				});
+				
+				formObj.append(str);
+// 				formObj.submit();				
+			});
+			
+			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
+			var maxSize = 5242880; // 5MB
+			
+			function checkExtension(fileName, fileSize) {
+				if (fileSize >= maxSize) {
+					alert("첨부할 수 있는 파일용량을 초과하였습니다.");
+					
+					return false;
+				}
+				
+				if (regex.test(fileName)) {
+					alert("해당 종류의 파일은 업로드할 수 없습니다.");
+					
+					return false;
+				}
+				
+				return true;
+			}
+			
+			// <input type='file'>의 내용이 변경되는 것을 확인 후 처리
+			$("input[type='file']").change(function(e){
+				var formData = new FormData();
+				var inputFile = $("input[name='uploadFile']");
+				var files = inputFile[0].files;
+				
+				for (var i = 0; i < files.length; i++) {
+					if (!checkExtension(files[i].name, files[i].size)) {
+						return false;
+					}
+					
+					formData.append("uploadFile", files[i]);
+				}
+				
+				$.ajax({
+					url			:	'uploadAjaxAction.do',
+					processData	:	false,
+					contentType	:	false,
+					data		:	formData,
+					type		:	'post',
+					dataType	:	'json',
+					success		:	function(result) {
+						console.log(result);
+						
+						showUploadResult(result);
+					}
+				});
+			});
+			
+			function showUploadResult(uploadResultArr) {
+				if (!uploadResultArr || uploadResultArr.length == 0) {
+					return;
+				}
+				
+				var uploadUL = $(".uploadResult ul");
+				
+				var str = "";
+				
+				$(uploadResultArr).each(function(i, obj) {
+					if (obj.image) {
+						// 브라우저에서 GET 방식으로 첨부파일의 이름을 사용할 때에는 파일 이름에 포함된 공백, 한글 이름을 주의
+						// 이를 위해 encodeURIComponent()를 이용해 URI 호출에 적합한 문자열로 인코딩 처리
+						var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
+						
+						str += "<li data-path='" + obj.uploadPath + "'";
+						str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+						str += "<div>";
+						str += "<span> " + obj.fileName + "</span>";
+						str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+						str += "<img src='/showThumbnail.do?fileName=" + fileCallPath + "'>";
+						str += "</div>";
+						str += "</li>";
+					} else {
+						var fileCallPath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid + "_" + obj.fileName);
+						var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+						
+						str += "<li data-path='" + obj.uploadPath + "'";
+						str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+						str += "<div>";
+						str += "<span> " + obj.fileName + "</span>";
+						str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
+						str += "<a href='downloadFile.do?fileName=" + fileCallPath + "'><img src='/resources/img/attach.png'></a>";
+						str += "</div>";
+						str += "</li>";
+					}
+				});
+				
+				uploadUL.append(str);
+			}
+			
+			// 첨부파일 삭제
+			$(".uploadResult").on("click", "button", function(e) {
+				console.log("delete file");
+				
+				var targetFile = $(this).data("file");
+				var type = $(this).data("type");
+				var targetLi = $(this).closest("li");
+				
+				$.ajax({
+					url			:	"/deleteFile.do",
+					data		:	{fileName : targetFile, type: type},
+					dataType	:	"text",
+					type		:	"post",
+					success		:	function(result) {
+						alert(result);
+						targetLi.remove();
+					}
+				});
+			});
+		});
+		
 	</script>
+	<style>
+		.uploadResult {
+			width: 100%;
+			background-color: gray;
+		}
+		
+		.uploadResult ul {
+			display: flex;
+			flex-flow: row;
+			justify-content: center;
+			align-items: center;
+		}
+		
+		.uploadResult ul li {
+			list-style: none;
+			padding: 10px;
+			aling-content: center;
+			text-align: center;
+		}
+		
+		.uploadResult ul li img {
+			width: 100px;
+		}
+		
+		.uploadResult ul li span {
+			color: white;
+		}
+	</style>
 	<body>
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -66,7 +228,7 @@
 		
 		<div class="container">
 			<h2>게시글 등록</h2>
-			<form action="insertBoard.do" method="post" enctype="multipart/form-data">
+			<form role="form" action="insertBoard.do" method="post" enctype="multipart/form-data">
 				<table class="table">
 					<tbody>
 						<tr>
@@ -98,7 +260,13 @@
 								<label for="tag">업로드</label>
 							</td>
 							<td>
-								<input type="file" class="form-control" name="uploadFile" multiple>
+								<div>
+									<input type="file" class="form-control" name="uploadFile" multiple>								
+								</div>
+								<div class="uploadResult">
+									<ul>
+									</ul>
+								</div>
 							</td>
 						</tr>
 						<tr>
