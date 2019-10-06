@@ -23,13 +23,13 @@ public class AttachDAO {
 		return mybatis.insert("AttachDAO.insertAttach", vo);
 	}
 	
-	public int deleteAttach (AttachFileVO vo) {
+	public void deleteAttach (int seq) {
 		logger.info("===> deleteAttach() 기능처리");
-		return mybatis.delete("AttachDAO.deleteAttach", vo);
+		mybatis.delete("AttachDAO.deleteAttach", seq);
 	}
 	
-	public List<AttachFileVO> findBySeq (Long bno) {
+	public List<AttachFileVO> findBySeq (int seq) {
 		logger.info("===> FindBySeq() 기능처리");
-		return mybatis.selectList("AttachDAO.findBySeq", bno);
+		return mybatis.selectList("AttachDAO.findBySeq", seq);
 	}
 }

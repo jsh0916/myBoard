@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -63,13 +65,15 @@ public class BoardController {
 	
 	// 글 등록
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.GET)
-	public String insertBoardView(HttpServletRequest request, Model model) {
+	public String insertBoardView(PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== insertBoardView START ===============");
 		
 		String userName = request.getParameter("userName");
-		
 		logger.info("userName : " + userName);
 		
+		pd = setPage(pd, request);
+		
+		model.addAttribute("pageMaker", pd);
 		model.addAttribute("userName", userName);
 		
 		logger.info("=============== insertBoardView END ===============");
@@ -77,38 +81,27 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {		// 커맨드객체 사용
 		logger.info("=============== insertBoard.do START ===============");
 		
 		// 파일 업로드 처리
-		/*
-		MultipartFile uploadFile = vo.getUploadFile();
-		if (!uploadFile.isEmpty()) {
-			String fileName = uploadFile.getOriginalFilename();
-			uploadFile.transferTo(new File("C:/upload/tmp/" + fileName));
-			
-			logger.info("FileName : " + fileName);
-			logger.info("FileSize : " + uploadFile.getSize());
-		}
-		*/
-		
 		String uploadFolder = "C:\\upload";
 
-		for (AttachFileVO list : vo.getAttachList()) {
+		for (MultipartFile multipartFile : vo.getUploadFile()) {
 			logger.info("=============== File Upload START ===============");
 			
-			logger.info("Upload File Name : " + list.getFileName());
-			logger.info("Upload File UploadPath : " + list.getUploadPath());
+			logger.info("Upload File Name : " + multipartFile.getOriginalFilename());
 			
-			File saveFile = new File(uploadFolder, list.getFileName());
+			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
 			
 			try {
-//				multipartFile.transferTo(saveFile);
+				multipartFile.transferTo(saveFile);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
 		}
-//		boardService.insertBoard(vo);
+
+		boardService.insertBoard(vo);
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
 		
@@ -116,6 +109,7 @@ public class BoardController {
 		rttr.addAttribute("amount", pd.getAmount());
 		
 		if (vo.getAttachList() != null) {
+			System.out.println("AttachFile!!!");
 			vo.getAttachList().forEach(attach -> logger.info("attach : " + attach));
 		}
 		
@@ -161,8 +155,17 @@ public class BoardController {
 	public String deleteBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		logger.info("=============== deleteBoard.do START ===============");
 		
+		List<AttachFileVO> attachList = boardService.getAttachList(vo.getSeq());
 		vo.setSeq(Integer.parseInt(request.getParameter("seq")));
-		boardService.deleteBoard(vo);
+
+		if (attachList != null || attachList.size() != 0) { // 게시글에 첨부파일이 있는지 확인 후 저장되어 있는 첨부파일 데이터 삭제
+			vo.setAttachList(attachList);
+			deleteFiles(attachList);
+			
+			rttr.addFlashAttribute("result", "success");
+		}
+
+		boardService.deleteBoard(vo); // 게시글 삭제
 		
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
@@ -174,6 +177,29 @@ public class BoardController {
 		
 		logger.info("=============== deleteBoard.do END ===============");
 		return "redirect:index.do";
+	}
+	
+	private void deleteFiles(List<AttachFileVO> attachList) {
+		if (attachList == null || attachList.size() == 0) {
+			return;
+		}
+		
+		logger.info("Delete AttachList : " + attachList);
+		
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("C:\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+				Files.deleteIfExists(file);
+				
+				if (Files.probeContentType(file).startsWith("image")) {
+					Path thumbNail = Paths.get("C:\\upload\\" + attach.getUploadPath() +"\\s_" + attach.getUuid() + "_" + attach.getFileName());
+					
+					Files.delete(thumbNail);
+				}
+			} catch (Exception e) {
+				logger.error("Delete File Error " + e.getMessage());
+			}
+		});
 	}
 	
 	// 글 상세 조회
@@ -290,9 +316,7 @@ public class BoardController {
 			uploadPath.mkdirs();
 		}
 		
-		MultipartFile[] uploadFile = vo.getUploadFile();
-		
-		for (MultipartFile multipartFile : uploadFile) {
+		for (MultipartFile multipartFile : vo.getUploadFile()) {
 			logger.info("Upload File Name : " + multipartFile.getOriginalFilename());
 			logger.info("Upload File Size : " + multipartFile.getSize());
 			
@@ -439,6 +463,7 @@ public class BoardController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
 	
+	/*
 	@RequestMapping(value="/deleteFile.do")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type) {
@@ -464,5 +489,13 @@ public class BoardController {
 		}
 		
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}*/
+	
+	@RequestMapping(value="/getAttachList.do", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileVO>> getAttachList(int seq) {
+		logger.info("GetAttachList : " + seq);
+		
+		return new ResponseEntity<List<AttachFileVO>>(boardService.getAttachList(seq), HttpStatus.OK);
 	}
 }

@@ -36,6 +36,9 @@
 			VALUES
 				(#{title}, #{writer}, #{content})		
 		]]>
+			<selectKey resultType="int" keyProperty="seq" order="AFTER">
+				SELECT LAST_INSERT_ID()
+			</selectKey>
 	</insert>
 
 	<update id="updateBoard">

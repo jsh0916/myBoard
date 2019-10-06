@@ -26,27 +26,8 @@
 		}
 		
 		$(document).ready(function(e) {
-			var formObj = $("form[role='form']");
-			
-			$("input[type='submit']").on("click", function(e) {
-				e.preventDefault();
-				console.log("submit clicked");
-
-				var str = "";
-				
-				$(".uploadResult ul li").each(function(i, obj) {
-					var jobj = $(obj);
-					console.log(jobj);
-				
-					str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
-					str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
-					str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("uploadPath") + "'>";
-					str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
-				});
-				
-				formObj.append(str);
-// 				formObj.submit();				
-			});
+			var pageNum = "${pageMaker.pageNum}";
+			var amount = "${pageMaker.amount}";
 			
 			var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 			var maxSize = 5242880; // 5MB
@@ -92,7 +73,10 @@
 						console.log(result);
 						
 						showUploadResult(result);
-					}
+					},
+					error		:	function(request, status, error) {
+			             alert("code : " + request.status + "\n" + "message : " + request.responseText + "\n");
+			        }
 				});
 			});
 			
@@ -106,13 +90,13 @@
 				var str = "";
 				
 				$(uploadResultArr).each(function(i, obj) {
-					if (obj.image) {
+					if (obj.fileType) {
 						// 브라우저에서 GET 방식으로 첨부파일의 이름을 사용할 때에는 파일 이름에 포함된 공백, 한글 이름을 주의
 						// 이를 위해 encodeURIComponent()를 이용해 URI 호출에 적합한 문자열로 인코딩 처리
 						var fileCallPath = encodeURIComponent(obj.uploadPath + "/s_" + obj.uuid + "_" + obj.fileName);
 						
 						str += "<li data-path='" + obj.uploadPath + "'";
-						str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+						str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.fileType + "'>";
 						str += "<div>";
 						str += "<span> " + obj.fileName + "</span>";
 						str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
@@ -124,7 +108,7 @@
 						var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
 						
 						str += "<li data-path='" + obj.uploadPath + "'";
-						str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.image + "'>";
+						str += " data-uuid='" + obj.uuid + "' data-filename='" + obj.fileName + "' data-type='" + obj.fileType + "'>";
 						str += "<div>";
 						str += "<span> " + obj.fileName + "</span>";
 						str += "<button type='button' data-file=\'" + fileCallPath + "\' data-type='file' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
@@ -155,6 +139,30 @@
 						targetLi.remove();
 					}
 				});
+			});
+			
+			var formObj = $("form[role='form']");
+			
+			$("input[type='submit']").on("click", function(e) {
+				e.preventDefault();
+				console.log("submit clicked");
+
+				var str = "";
+				
+				$(".uploadResult ul li").each(function(i, obj) {
+					var jobj = $(obj);
+					console.log(jobj);
+				
+					str += "<input type='hidden' name='attachList[" + i + "].fileName' value='" + jobj.data("filename") + "'>";
+					str += "<input type='hidden' name='attachList[" + i + "].uuid' value='" + jobj.data("uuid") + "'>";
+					str += "<input type='hidden' name='attachList[" + i + "].uploadPath' value='" + jobj.data("path") + "'>";
+					str += "<input type='hidden' name='attachList[" + i + "].fileType' value='" + jobj.data("type") + "'>";
+				});
+
+				var url = "insertBoard.do?pageNum=" + pageNum + "&amount=" + amount;
+				$("#insertForm").attr("action", url);
+
+				formObj.append(str).submit();
 			});
 		});
 		
@@ -228,7 +236,7 @@
 		
 		<div class="container">
 			<h2>게시글 등록</h2>
-			<form role="form" action="insertBoard.do" method="post" enctype="multipart/form-data">
+			<form id="insertForm" role="form" action="insertBoard.do" method="post" enctype="multipart/form-data">
 				<table class="table">
 					<tbody>
 						<tr>
@@ -244,7 +252,7 @@
 								<label for="reg_id">작성자</label>
 							</td>
 							<td>
-								<input type="text" class="form-control" name="writer" readonly="readonly" value="${board.writer }">
+								<input type="text" class="form-control" name="writer" readonly="readonly" value="${userName }">
 							</td>
 						</tr>
 						<tr>

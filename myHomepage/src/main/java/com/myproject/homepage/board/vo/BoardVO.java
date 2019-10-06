@@ -17,7 +17,6 @@ public class BoardVO {
 	private Date updateDate;
 	private int cnt;
 	private List<AttachFileVO> attachList;
-
 	private MultipartFile[] uploadFile;
 
 	public int getSeq() {

@@ -35,14 +35,6 @@ public class LoginController {
 	public String home(BoardVO boardVO, PageVO pd, @RequestParam Map<String, String> param, HttpServletRequest request, Model model) {
 		logger.info("Welcome home!");
 
-		if (pd.getPageNum() == 0 && pd.getAmount() == 0) {
-			pd.setPageNum(1);
-			pd.setAmount(10);
-		} else {
-			pd.setPageNum(Integer.parseInt(request.getParameter("pageNum")));
-			pd.setAmount(Integer.parseInt(request.getParameter("amount")));
-		}
-		
 		if (request.getParameter("type") != null) {
 			String type = request.getParameter("type");
 			String keyword = request.getParameter("keyword");
@@ -54,6 +46,8 @@ public class LoginController {
 		}
 		
 		getBoardListData(boardVO, pd, model);
+		
+		logger.info("PageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
 
 		return "index";
 	}
@@ -95,6 +89,11 @@ public class LoginController {
 	public void getBoardListData(BoardVO vo, PageVO pd, Model model) {
 		logger.info("=============== getBoardListData START ===============");
 		logger.info("pageNum : " + pd.getPageNum() + " | Amount : " + pd.getAmount());
+		
+		if (pd.getPageNum() <= 0 && pd.getAmount() <= 0) {
+			pd.setPageNum(1);
+			pd.setAmount(10);
+		}
 		
 		pd.setEndPage((int)Math.ceil(pd.getPageNum() / 10.0) * 10);
 		pd.setStartPage(pd.getEndPage() - 9);

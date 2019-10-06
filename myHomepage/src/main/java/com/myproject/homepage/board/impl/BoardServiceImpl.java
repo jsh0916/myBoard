@@ -4,23 +4,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myproject.homepage.board.BoardService;
+import com.myproject.homepage.board.dao.AttachDAO;
 import com.myproject.homepage.board.dao.BoardDAO;
+import com.myproject.homepage.board.vo.AttachFileVO;
 import com.myproject.homepage.board.vo.BoardVO;
 import com.myproject.homepage.board.vo.PageVO;
 import com.myproject.homepage.board.vo.ReplyVO;
+import com.myproject.homepage.controller.BoardController;
 
 @Service("boardService")
 public class BoardServiceImpl implements BoardService{
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+	
 	@Autowired
 	private BoardDAO boardDAO;
+	@Autowired
+	private AttachDAO attachDAO;
 
 	@Override
 	public void insertBoard(BoardVO vo) {
 		boardDAO.insertBoard(vo);
+		
+		if (vo.getAttachList() == null || vo.getAttachList().size() <= 0) {
+			return;
+		} else {
+			vo.getAttachList().forEach(attach -> {
+				attach.setSeq(vo.getSeq());
+				attachDAO.insertAttach(attach);
+			});			
+		}
 	}
 
 	@Override
@@ -31,6 +49,12 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void deleteBoard(BoardVO vo) {
 		boardDAO.deleteBoard(vo);
+		
+		if (vo.getAttachList() == null || vo.getAttachList().size() <= 0) {
+			return;
+		} else {
+			attachDAO.deleteAttach(vo.getSeq());
+		}
 	}
 
 	@Override
@@ -84,4 +108,10 @@ public class BoardServiceImpl implements BoardService{
 		return newReplyList;
 	}
 
+	@Override
+	public List<AttachFileVO> getAttachList(int seq) {
+		logger.info("Attach List SEQ : " + seq);
+		
+		return attachDAO.findBySeq(seq);
+	}
 }
