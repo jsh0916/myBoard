@@ -27,7 +27,13 @@
 <!-- 		<script src="/resources/myhomepage/js/board.js"></script> -->
 	</head>
 	<script>
-		$(document).ready(function() {	
+		var pageNum = "${pageMaker.pageNum}";
+		var amount = "${pageMaker.amount}";
+		var type = "${pageMaker.type}";
+		var keyword = "${pageMaker.keyword}";
+
+		$(document).ready(function() {
+			
 			$("#loginButton").click(function() {
 				$(".login-modal, .overlay").css("display", "block");
 				
@@ -91,18 +97,19 @@
 				e.preventDefault();
 				
 				searchForm.submit();
-			})
+			});			
 		})
-		
+
 		function insertBoard() {
 			var userName = "${userName }";
 			
 			if (userName == "") {
 				alert("로그인해주시기 바랍니다.");
 			} else {
-				location.href = "insertBoard.do?userName=" + userName;
+				location.href = "insertBoard.do?userName=" + userName + "&pageNum=" + pageNum + "&amount=" + amount + "&type=" + type + "&keyword=" + keyword;
 			}
 		}
+		
 	</script>
 	<body>
 		<!-- Navigation -->

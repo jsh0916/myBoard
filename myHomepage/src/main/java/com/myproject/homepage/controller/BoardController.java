@@ -63,13 +63,15 @@ public class BoardController {
 	
 	// 글 등록
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.GET)
-	public String insertBoardView(HttpServletRequest request, Model model) {
+	public String insertBoardView(PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== insertBoardView START ===============");
 		
 		String userName = request.getParameter("userName");
-		
 		logger.info("userName : " + userName);
 		
+		pd = setPage(pd, request);
+		
+		model.addAttribute("pageMaker", pd);
 		model.addAttribute("userName", userName);
 		
 		logger.info("=============== insertBoardView END ===============");
@@ -77,38 +79,27 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
-	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) throws IOException {		// 커맨드객체 사용
+	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {		// 커맨드객체 사용
 		logger.info("=============== insertBoard.do START ===============");
 		
 		// 파일 업로드 처리
-		/*
-		MultipartFile uploadFile = vo.getUploadFile();
-		if (!uploadFile.isEmpty()) {
-			String fileName = uploadFile.getOriginalFilename();
-			uploadFile.transferTo(new File("C:/upload/tmp/" + fileName));
-			
-			logger.info("FileName : " + fileName);
-			logger.info("FileSize : " + uploadFile.getSize());
-		}
-		*/
-		
 		String uploadFolder = "C:\\upload";
 
-		for (AttachFileVO list : vo.getAttachList()) {
+		for (MultipartFile multipartFile : vo.getUploadFile()) {
 			logger.info("=============== File Upload START ===============");
 			
-			logger.info("Upload File Name : " + list.getFileName());
-			logger.info("Upload File UploadPath : " + list.getUploadPath());
+			logger.info("Upload File Name : " + multipartFile.getOriginalFilename());
 			
-			File saveFile = new File(uploadFolder, list.getFileName());
+			File saveFile = new File(uploadFolder, multipartFile.getOriginalFilename());
 			
 			try {
-//				multipartFile.transferTo(saveFile);
+				multipartFile.transferTo(saveFile);
 			} catch (Exception e) {
 				logger.error(e.getMessage());
 			}
 		}
-//		boardService.insertBoard(vo);
+
+		boardService.insertBoard(vo);
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
 		
@@ -116,6 +107,7 @@ public class BoardController {
 		rttr.addAttribute("amount", pd.getAmount());
 		
 		if (vo.getAttachList() != null) {
+			System.out.println("AttachFile!!!");
 			vo.getAttachList().forEach(attach -> logger.info("attach : " + attach));
 		}
 		
@@ -290,9 +282,7 @@ public class BoardController {
 			uploadPath.mkdirs();
 		}
 		
-		MultipartFile[] uploadFile = vo.getUploadFile();
-		
-		for (MultipartFile multipartFile : uploadFile) {
+		for (MultipartFile multipartFile : vo.getUploadFile()) {
 			logger.info("Upload File Name : " + multipartFile.getOriginalFilename());
 			logger.info("Upload File Size : " + multipartFile.getSize());
 			

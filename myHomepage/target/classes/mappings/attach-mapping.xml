@@ -39,7 +39,7 @@
 			FROM
 				ATTACH
 			WHERE
-				BNO = #{bno}
+				SEQ = #{seq}
 		]]>
 	</select>
 </mapper>
