@@ -1,5 +1,7 @@
 package com.myproject.homepage.board.vo;
 
+import org.springframework.web.util.UriComponentsBuilder;
+
 public class PageVO {
 	private int startPage;
 	private int endPage;
@@ -64,6 +66,17 @@ public class PageVO {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	
+	// 브라우저에서 GET 방식 등의 파라ㅏ미터 전송에 사용되는 문장열(Query String)을 손쉽게 처리할 수 있는 클래스
+	public String getListLink() {
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("")
+				.queryParam("pageNum", this.pageNum)
+				.queryParam("amount", this.amount)
+				.queryParam("type", this.getType())
+				.queryParam("keyword", this.getKeyword());
+		
+		return builder.toUriString();
 	}
 	
 	@Override

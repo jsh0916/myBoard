@@ -17,7 +17,7 @@
 				#{uploadPath},
 				#{fileName},
 				#{fileType},
-				#{seq},
+				#{seq}
 			)
 		]]>
 	</insert>
@@ -28,14 +28,18 @@
 			FROM
 				ATTACH
 			WHERE
-				UUID = #{uuid}
+				SEQ = #{seq}
 		]]>
 	</delete>
 	
-	<select id="findByBno" resultType="attachFileVO">
+	<select id="findBySeq" resultType="attachFileVO">
 		<![CDATA[
 			SELECT
-				*
+				UUID,
+				UPLOADPATH,
+				FILENAME,
+				IF (FILETYPE, 'TRUE', 'FALSE') AS FILETYPE,
+				SEQ
 			FROM
 				ATTACH
 			WHERE

@@ -5,7 +5,7 @@ public class AttachFileVO {
 	private String uploadPath;	// 업로드 경로
 	private String fileName;	// 원본 파일의 이름
 	private boolean fileType;	// 이미지 여부
-	private Long seq;			// board number
+	private int seq;			// board number
 	
 	public String getFileName() {
 		return fileName;
@@ -31,10 +31,10 @@ public class AttachFileVO {
 	public void setFileType(boolean fileType) {
 		this.fileType = fileType;
 	}
-	public Long getSeq() {
+	public int getSeq() {
 		return seq;
 	}
-	public void setSeq(Long seq) {
+	public void setSeq(int seq) {
 		this.seq = seq;
 	}
 	

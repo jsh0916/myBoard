@@ -3,6 +3,7 @@ package com.myproject.homepage.board;
 import java.util.List;
 import java.util.Map;
 
+import com.myproject.homepage.board.vo.AttachFileVO;
 import com.myproject.homepage.board.vo.BoardVO;
 import com.myproject.homepage.board.vo.PageVO;
 import com.myproject.homepage.board.vo.ReplyVO;
@@ -21,4 +22,6 @@ public interface BoardService {
 	public int getTotalCount();
 
 	public List<ReplyVO> getReplyListData(Map<String, String> param);
+	
+	public List<AttachFileVO> getAttachList(int seq); 
 }

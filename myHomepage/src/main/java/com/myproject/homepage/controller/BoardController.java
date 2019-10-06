@@ -7,6 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -153,8 +155,17 @@ public class BoardController {
 	public String deleteBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {
 		logger.info("=============== deleteBoard.do START ===============");
 		
+		List<AttachFileVO> attachList = boardService.getAttachList(vo.getSeq());
 		vo.setSeq(Integer.parseInt(request.getParameter("seq")));
-		boardService.deleteBoard(vo);
+
+		if (attachList != null || attachList.size() != 0) { // 게시글에 첨부파일이 있는지 확인 후 저장되어 있는 첨부파일 데이터 삭제
+			vo.setAttachList(attachList);
+			deleteFiles(attachList);
+			
+			rttr.addFlashAttribute("result", "success");
+		}
+
+		boardService.deleteBoard(vo); // 게시글 삭제
 		
 		pd = setPage(pd, request);
 		getBoardListData(vo, pd, model);
@@ -166,6 +177,29 @@ public class BoardController {
 		
 		logger.info("=============== deleteBoard.do END ===============");
 		return "redirect:index.do";
+	}
+	
+	private void deleteFiles(List<AttachFileVO> attachList) {
+		if (attachList == null || attachList.size() == 0) {
+			return;
+		}
+		
+		logger.info("Delete AttachList : " + attachList);
+		
+		attachList.forEach(attach -> {
+			try {
+				Path file = Paths.get("C:\\upload\\" + attach.getUploadPath() + "\\" + attach.getUuid() + "_" + attach.getFileName());
+				Files.deleteIfExists(file);
+				
+				if (Files.probeContentType(file).startsWith("image")) {
+					Path thumbNail = Paths.get("C:\\upload\\" + attach.getUploadPath() +"\\s_" + attach.getUuid() + "_" + attach.getFileName());
+					
+					Files.delete(thumbNail);
+				}
+			} catch (Exception e) {
+				logger.error("Delete File Error " + e.getMessage());
+			}
+		});
 	}
 	
 	// 글 상세 조회
@@ -429,6 +463,7 @@ public class BoardController {
 		return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
 	}
 	
+	/*
 	@RequestMapping(value="/deleteFile.do")
 	@ResponseBody
 	public ResponseEntity<String> deleteFile(String fileName, String type) {
@@ -454,5 +489,13 @@ public class BoardController {
 		}
 		
 		return new ResponseEntity<String>("deleted", HttpStatus.OK);
+	}*/
+	
+	@RequestMapping(value="/getAttachList.do", produces=MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public ResponseEntity<List<AttachFileVO>> getAttachList(int seq) {
+		logger.info("GetAttachList : " + seq);
+		
+		return new ResponseEntity<List<AttachFileVO>>(boardService.getAttachList(seq), HttpStatus.OK);
 	}
 }
