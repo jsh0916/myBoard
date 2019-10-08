@@ -44,6 +44,15 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void updateBoard(BoardVO vo) {
 		boardDAO.updateBoard(vo);
+		
+		attachDAO.deleteAttach(vo.getSeq());
+		
+		if (vo.getAttachList() != null && vo.getAttachList().size() > 0) {
+			vo.getAttachList().forEach(attach -> {
+				attach.setSeq(vo.getSeq());
+				attachDAO.insertAttach(attach);
+			});
+		}
 	}
 
 	@Override

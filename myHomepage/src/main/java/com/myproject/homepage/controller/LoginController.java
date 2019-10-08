@@ -81,7 +81,7 @@ public class LoginController {
 	public String logout(BoardVO vo, Model model, PageVO pd, HttpSession session) {
 		session.invalidate();
 		
-//		getBoardListData(vo, pd, model);
+		getBoardListData(vo, pd, model);
 		
 		return "index";
 	}
