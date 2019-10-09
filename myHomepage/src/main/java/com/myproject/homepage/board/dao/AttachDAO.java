@@ -32,4 +32,9 @@ public class AttachDAO {
 		logger.info("===> FindBySeq() 기능처리");
 		return mybatis.selectList("AttachDAO.findBySeq", seq);
 	}
+
+	public List<AttachFileVO> getAllFiles() {
+		logger.info("===> getAllFiles() 기능처리");
+		return mybatis.selectList("AttachDAO.getAllFiles");
+	}
 }

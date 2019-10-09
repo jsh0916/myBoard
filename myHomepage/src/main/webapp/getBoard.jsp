@@ -53,8 +53,8 @@
 						str += "</div>";
 						str += "</li>";
 					} else {
-						var fileCallPath = encodeURIComponent(attach.uploadPath + "/" + attach.uuid + "_" + attach.fileName);
-						var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
+// 						var fileCallPath = encodeURIComponent(attach.uploadPath + "/" + attach.uuid + "_" + attach.fileName);
+// 						var fileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
 						
 						str += "<li data-path='" + attach.uploadPath + "'";
 						str += " data-uuid='" + attach.uuid + "' data-filename='" + attach.fileName + "' data-type='" + attach.fileType + "'>";

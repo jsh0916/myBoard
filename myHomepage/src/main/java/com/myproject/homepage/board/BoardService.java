@@ -24,4 +24,6 @@ public interface BoardService {
 	public List<ReplyVO> getReplyListData(Map<String, String> param);
 	
 	public List<AttachFileVO> getAttachList(int seq); 
+	
+	public List<AttachFileVO> getAllFiles();
 }
