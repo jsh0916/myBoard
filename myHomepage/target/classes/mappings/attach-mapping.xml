@@ -46,4 +46,15 @@
 				SEQ = #{seq}
 		]]>
 	</select>
+	
+	<select id="getAllFiles" resultType="attachFileVO">
+		<![CDATA[
+			SELECT
+				*
+			FROM
+				ATTACH
+			WHERE
+				UPLOADPATH = DATE_FORMAT(CURDATE() - 1, '%Y\%m\%d')
+		]]>
+	</select>
 </mapper>

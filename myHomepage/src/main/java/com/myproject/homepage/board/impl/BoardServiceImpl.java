@@ -123,4 +123,10 @@ public class BoardServiceImpl implements BoardService{
 		
 		return attachDAO.findBySeq(seq);
 	}
+
+	@Override
+	public List<AttachFileVO> getAllFiles() {
+		
+		return attachDAO.getAllFiles();
+	}
 }
