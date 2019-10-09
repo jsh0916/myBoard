@@ -43,7 +43,7 @@ public class FileCheckTask {
 	 * 2. 해당 폴더의 파일 목록에서 DB에 없는 파일을 찾는다.
 	 * 3. 이후 DB에 없는 파일을 삭제한다.
 	 * */
-	@Scheduled(cron="5 * * * * *")
+	@Scheduled(cron="* * 02 * * *")
 	public void checkFiles() throws Exception {
 		logger.warn("==================== File Check Task Run ====================");
 		logger.warn("" + new Date());
