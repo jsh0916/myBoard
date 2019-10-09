@@ -1,4 +1,4 @@
-package com.myproject.homepage.controller;
+package com.myproject.homepage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,27 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 @Controller
-public class SampleController {
+public class CommonController {
 	private static final Logger logger = LoggerFactory.getLogger(SampleController.class);
-	
-	@RequestMapping(value="/test_all")
-	public void doAll() {
-		logger.info("do all can access everybody");
-	}
-	
-	@RequestMapping(value="/test_member")
-	public void doMember() {
-		logger.info("logined member");
-	}
-	
-	@RequestMapping(value="/test_admin")
-	public void doAdmin() {
-		logger.info("admin only");
-	}
 	
 	@RequestMapping(value="/accessError")
 	public void accessDenied(Authentication auth, Model model) {
