@@ -13,9 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{
 	private static final Logger logger = LoggerFactory.getLogger(CustomLoginSuccessHandler.class);
 	

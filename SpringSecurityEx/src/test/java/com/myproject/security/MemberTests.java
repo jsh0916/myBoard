@@ -1,5 +1,7 @@
 package com.myproject.security;
 
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
@@ -17,24 +19,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.myproject.homepage.SampleController;
 
 import lombok.Setter;
-import lombok.extern.log4j.Log4j;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"file:src/main/webapp/WEB-INF/spring/root-context.xml",
 	"file:src/main/webapp/WEB-INF/spring/security-context.xml"
 })
-@Log4j
 public class MemberTests {
 	private static final Logger logger = LoggerFactory.getLogger(SampleController.class);
 	
-	@Setter
-	@Autowired
+	@Setter(onMethod_ = @Autowired)
 	private PasswordEncoder pwencoder;
 	
-	@Setter
-	@Autowired
+	@Setter(onMethod_ = @Autowired)
 	private DataSource ds;
 	
+	/*
+	@SuppressWarnings("null")
 	@Test
 	public void testInsertMember() {
 		logger.info("TestInsertMember Method Start");
@@ -46,6 +46,9 @@ public class MemberTests {
 			PreparedStatement pstmt = null;
 			
 			try {
+				con = ds.getConnection();
+				pstmt = con.prepareStatement(sql);
+				
 				pstmt.setString(2, pwencoder.encode("pw" + i));
 				
 				if (i < 80) {
@@ -80,7 +83,8 @@ public class MemberTests {
 				}
 			}
 		}
-	}
+	}*/
+	
 	
 	@Test
 	public void testInsertAuth() {
