@@ -7,6 +7,7 @@
 
 	<bean id="customLoginSuccess" class="com.myproject.security.CustomLoginSuccessHandler"></bean>
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<bean id="customUserDetailsService" class="com.myproject.security.CustomUserDetailsService"></bean>
 	
 	<security:http>
 		<security:intercept-url pattern="/sample/all" access="permitAll"/>
@@ -16,7 +17,13 @@
 		
 		<security:access-denied-handler error-page="/accessError"/>
 		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
-		<security:logout logout-url="/customLogout" invalidate-session="true"/>
+		
+		<!--
+			자동 로그인(remeber-me) 체크 시 쿠키값을 DB에 자동으로 저장.
+			로그아웃 시 security:logout 에서 delete-cookies 로 쿠키 삭제.
+		-->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID"/>		
 	</security:http>
 	
 	<!-- 
@@ -29,7 +36,7 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 	 -->
-	 
+	<!-- 
 	 <security:authentication-manager>
 		<security:authentication-provider>
 			<security:jdbc-user-service data-source-ref="dataSource"
@@ -38,4 +45,11 @@
 			<security:password-encoder ref="bcryptPasswordEncoder"/>
 		</security:authentication-provider>
 	</security:authentication-manager>
+	 -->
+	 <security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	 
 </beans>

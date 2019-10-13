@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.myproject.homepage.board.vo.BoardVO;
 import com.myproject.homepage.board.vo.PageVO;
 import com.myproject.homepage.board.vo.ReplyVO;
+import com.myproject.homepage.domain.MemberVO;
 
 
 // DAO (Date Access Object)
@@ -55,5 +56,9 @@ public class BoardDAO {
 	public List<ReplyVO> getReplyListData(Map<String, String> param) {
 		logger.info("===> getReplyListData() 기능처리");
 		return mybatis.selectList("BoardDAO.getReplyListData", param);
+	}
+	
+	public MemberVO read(String userid) {
+		return (MemberVO) mybatis.selectOne("MemberVO.read", userid);
 	}
 }

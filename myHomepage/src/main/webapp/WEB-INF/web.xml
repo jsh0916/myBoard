@@ -23,7 +23,7 @@
   
   <filter-mapping>
   	<filter-name>springSecurityFilterChain</filter-name>
-  	<url-pattern>/</url-pattern>
+  	<url-pattern>/*</url-pattern>
   </filter-mapping>
   
   <!-- DispatcherServlet이 생성되어 presentation-layer.xml 파일을 읽고 스프링 컨테이너를 구동하여 Controller 객체들이 메모리에 생성되기 전에 

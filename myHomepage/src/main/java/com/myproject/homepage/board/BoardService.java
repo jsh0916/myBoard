@@ -7,6 +7,7 @@ import com.myproject.homepage.board.vo.AttachFileVO;
 import com.myproject.homepage.board.vo.BoardVO;
 import com.myproject.homepage.board.vo.PageVO;
 import com.myproject.homepage.board.vo.ReplyVO;
+import com.myproject.homepage.domain.MemberVO;
 
 public interface BoardService {
 	public void insertBoard(BoardVO vo);
@@ -26,4 +27,6 @@ public interface BoardService {
 	public List<AttachFileVO> getAttachList(int seq); 
 	
 	public List<AttachFileVO> getAllFiles();
+	
+	public MemberVO read(String userid);
 }

@@ -6,23 +6,50 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="customLoginSuccess" class="com.myproject.homepage.security.CustomLoginSuccessHandler"></bean>
+	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<bean id="customUserDetailsService" class="com.myproject.homepage.security.CustomUserDetailsService"></bean>
 	
-	<security:http auto-config="true" use-expressions="true">
-		<security:intercept-url pattern="/test_all" access="permitAll"/>
+	<security:http>
+		<security:intercept-url pattern="/sample/all" access="permitAll"/>
 		<!-- test_member.do 의 URI 는 ROLE_MEMBER 라는 권한이 있는 사용자만 접근가능 -->
-		<security:intercept-url pattern="/test_member" access="hasRole('ROLE_MEMBER')"/>
-		<security:intercept-url pattern="/test_admin" access="hasRole('ROLE_ADMIN')"/>
-		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
+		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')"/>
+		<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
 		
 		<security:access-denied-handler error-page="/accessError"/>
+		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
+		
+		<!--
+			자동 로그인(remeber-me) 체크 시 쿠키값을 DB에 자동으로 저장.
+			로그아웃 시 security:logout 에서 delete-cookies 로 쿠키 삭제.
+		-->
+		<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800"/>
+		<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSION_ID"/>		
 	</security:http>
 	
+	<!-- 
 	<security:authentication-manager>
 		<security:authentication-provider>
 			<security:user-service>
-				<security:user name="member" password="{noop}member" authorities="ROLE_MEMBER"/>
-				<security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
+				<security:user name="member" password="member" authorities="ROLE_MEMBER"/>
+				<security:user name="admin" password="admin" authorities="ROLE_MEMBER, ROLE_ADMIN"/>
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
+	 -->
+	<!-- 
+	 <security:authentication-manager>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource"
+				users-by-username-query="select userid, userpw, enabled from tbl_member where userid = ?"
+				authorities-by-username-query="select userid, auth from tbl_member_auth where userid = ?"/>
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	 -->
+	 <security:authentication-manager>
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+			<security:password-encoder ref="bcryptPasswordEncoder"/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	 
 </beans>
