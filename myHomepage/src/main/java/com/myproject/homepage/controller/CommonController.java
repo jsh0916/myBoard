@@ -12,13 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class CommonController {
 	private static final Logger logger = LoggerFactory.getLogger(SampleController.class);
 	
-	@RequestMapping(value="/accessError")
-	public void accessDenied(Authentication auth, Model model) {
-		logger.info("access Denied : " + auth);
-		
-		model.addAttribute("msg", "Access Denied");
-	}
-	
 	@RequestMapping(value="/customLogin")
 	public void loginInput(String error, String logout, Model model) {
 		logger.info("error : " + error);

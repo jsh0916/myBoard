@@ -17,9 +17,10 @@ import com.myproject.homepage.board.vo.BoardVO;
 import com.myproject.homepage.board.vo.PageVO;
 import com.myproject.homepage.board.vo.ReplyVO;
 import com.myproject.homepage.controller.BoardController;
+import com.myproject.homepage.domain.MemberVO;
 
-@Service("boardService")
-public class BoardServiceImpl implements BoardService{
+@Service
+public class BoardServiceImpl implements BoardService {
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@Autowired
@@ -128,5 +129,10 @@ public class BoardServiceImpl implements BoardService{
 	public List<AttachFileVO> getAllFiles() {
 		
 		return attachDAO.getAllFiles();
+	}
+
+	@Override
+	public MemberVO read(String userid) {
+		return boardDAO.read(userid);
 	}
 }

@@ -27,6 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -65,6 +66,7 @@ public class BoardController {
 	
 	// 글 등록
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.GET)
+	@PreAuthorize("isAuthenticated()")
 	public String insertBoardView(PageVO pd, HttpServletRequest request, Model model) {
 		logger.info("=============== insertBoardView START ===============");
 		
@@ -81,6 +83,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="insertBoard.do", method=RequestMethod.POST)
+	@PreAuthorize("isAuthenticated()")
 	public String insertBoard(BoardVO vo, PageVO pd, HttpServletRequest request, RedirectAttributes rttr, Model model) {		// 커맨드객체 사용
 		logger.info("=============== insertBoard.do START ===============");
 		

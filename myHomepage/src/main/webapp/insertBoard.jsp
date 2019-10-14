@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 
 <!DOCTYPE html>
 <html>
@@ -252,7 +253,8 @@
 								<label for="reg_id">작성자</label>
 							</td>
 							<td>
-								<input type="text" class="form-control" name="writer" readonly="readonly" value="${userName }">
+<%-- 								<input type="text" class="form-control" name="writer" readonly="readonly" value="${userName }"> --%>
+								<input type="text" class="form-control" name="writer" readonly="readonly" value="<sec:authentication property='principal.username'/>"/>
 							</td>
 						</tr>
 						<tr>

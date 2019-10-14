@@ -32,18 +32,4 @@ public class SampleController {
 		
 		model.addAttribute("msg", "Access Denied");
 	}
-	
-	@RequestMapping(value="/customLogin")
-	public void loginInput(String error, String logout, Model model) {
-		logger.info("error : " + error);
-		logger.info("logout : " + logout);
-		
-		if (error != null) {
-			model.addAttribute("error", "Login Error Check Your Account");
-		}
-		
-		if (logout != null) {
-			model.addAttribute("logout", "Logout!!");
-		}
-	}
 }

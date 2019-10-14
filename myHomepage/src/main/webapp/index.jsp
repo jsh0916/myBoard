@@ -103,11 +103,11 @@
 		function insertBoard() {
 			var userName = "${userName }";
 			
-			if (userName == "") {
+			/* if (userName == "") {
 				alert("로그인해주시기 바랍니다.");
 			} else {
+			} */
 				location.href = "insertBoard.do?userName=" + userName + "&pageNum=" + pageNum + "&amount=" + amount + "&type=" + type + "&keyword=" + keyword;
-			}
 		}
 		
 	</script>
@@ -276,14 +276,21 @@
 				<h4>How would you like to checkout?</h4>
 			</div>
 			<div class="modal-content">
-				<form class="login-form" action="login.do" method="post">
+				<form class="login-form" action="/login.do" method="post">
 					<fieldset class="form-group">
-						<input class="form-control username" type="text" name="id" placeholder="Username" required="required"/>
+						<input class="form-control username" type="text" name="username" placeholder="Username" required="required"/>
 					</fieldset>
 					<fieldset class="form-group">
 						<input class="form-control" type="password" name="password" placeholder="Password" required="required"/>
 					</fieldset>
+					<div class="checkbox">
+						<label>
+							<input name="remember-me" type="checkbox">Remember Me
+						</label>
+					</div>
 					<button class="btn btn-primary" type="submit">Submit</button><span><a class="register-link" href="#0">Don't have an account?</a></span>
+					
+					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf_token}"/>
 				</form>
 				<div class="register-slide"><a class="close-register" href="#0"><i class="lnr lnr-cross"></i></a>
 					<p>Click the "Create Account" checkbox to create an account during checkout.</p><a class="close-modal btn btn-primary" href="#0">Begin Checkout</a>

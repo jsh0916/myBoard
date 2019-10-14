@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="customLoginSuccess" class="com.myproject.homepage.security.CustomLoginSuccessHandler"></bean>
+<!-- 	<bean id="customLoginSuccess" class="com.myproject.homepage.security.CustomLoginSuccessHandler"></bean> -->
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 	<bean id="customUserDetailsService" class="com.myproject.homepage.security.CustomUserDetailsService"></bean>
 	
@@ -16,7 +16,8 @@
 		<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
 		
 		<security:access-denied-handler error-page="/accessError"/>
-		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/>
+<!-- 		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess"/> -->
+		<security:form-login login-page="/customLogin"/>
 		
 		<!--
 			자동 로그인(remeber-me) 체크 시 쿠키값을 DB에 자동으로 저장.
