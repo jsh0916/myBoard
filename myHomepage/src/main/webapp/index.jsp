@@ -278,7 +278,7 @@
 			<div class="modal-content">
 				<form class="login-form" action="/login.do" method="post">
 					<fieldset class="form-group">
-						<input class="form-control username" type="text" name="username" placeholder="Username" required="required"/>
+						<input class="form-control username" type="text" name="id" placeholder="Username" required="required"/>
 					</fieldset>
 					<fieldset class="form-group">
 						<input class="form-control" type="password" name="password" placeholder="Password" required="required"/>
