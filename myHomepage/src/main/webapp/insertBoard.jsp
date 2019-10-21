@@ -20,6 +20,9 @@
 		<script src="/resources/myhomepage/vendor/jquery/jquery-3.4.1.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.min.js"></script>
+		
+		<!-- CK Editor -->
+		<script src="/resources/ckeditor/ckeditor.js"></script>
 	</head>
 	<script>
 		function boardList() {
@@ -27,6 +30,9 @@
 		}
 		
 		$(document).ready(function(e) {
+			
+			CKEDITOR.replace('content', {height: 500});
+			
 			var pageNum = "${pageMaker.pageNum}";
 			var amount = "${pageMaker.amount}";
 			
@@ -253,8 +259,7 @@
 								<label for="reg_id">작성자</label>
 							</td>
 							<td>
-<%-- 								<input type="text" class="form-control" name="writer" readonly="readonly" value="${userName }"> --%>
-								<input type="text" class="form-control" name="writer" readonly="readonly" value="<sec:authentication property='principal.username'/>"/>
+								<input type="text" class="form-control" name="writer" readonly="readonly" value="${userName }">
 							</td>
 						</tr>
 						<tr>
@@ -262,7 +267,7 @@
 								<label for="content">내용</label>
 							</td>
 							<td>
-								<textarea class="form-control" rows="5" name="content" placeholder="내용을 입력해 주세요" ></textarea>
+								<textarea class="form-control" rows="5" id="content" name="content" placeholder="내용을 입력해 주세요" ></textarea>
 							</td>
 						</tr>
 						<tr>

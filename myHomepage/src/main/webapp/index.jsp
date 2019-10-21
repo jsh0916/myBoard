@@ -25,6 +25,8 @@
 		<script src="/resources/myhomepage/vendor/bootstrap/js/bootstrap.min.js"></script>
 		
 <!-- 		<script src="/resources/myhomepage/js/board.js"></script> -->
+		<!-- CK Editor -->
+		<script src="/resources/ckeditor/ckeditor.js"></script>
 	</head>
 	<script>
 		var pageNum = "${pageMaker.pageNum}";
