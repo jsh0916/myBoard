@@ -113,6 +113,22 @@
 		}
 		
 	</script>
+	<style>
+		html, body {
+			height: 100%;
+			margin: 0;
+		}
+		
+		.container-div {
+			min-height: 90%;
+			padding-top: 2%;
+		}
+		
+		footer {
+			height: 50px;
+			margin-top: -0.4%;
+		}
+	</style>
 	<body>
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -161,7 +177,7 @@
 		</nav>
 	
 		<!-- Image board Page Content -->
-		<div class="container">
+		<div class="container container-div">
 			<table class="table table-bordered table-hover">
 				<thead>
 					<tr>
