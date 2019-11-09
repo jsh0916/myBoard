@@ -290,8 +290,8 @@
 	
 	<div class="login-modal">
 		<div class="modal-inner">
-			<div class="modal-top"><i class="material-icons">exit_to_app</i><br/>
-				<h4>How would you like to checkout?</h4>
+			<div class="modal-top"><i class="material-icons">LOGIN</i><br/>
+				<h4>홈페이지에 오신걸 환영합니다.</h4>
 			</div>
 			<div class="modal-content">
 				<form class="login-form" action="/login.do" method="post">
@@ -301,12 +301,16 @@
 					<fieldset class="form-group">
 						<input class="form-control" type="password" name="password" placeholder="Password" required="required"/>
 					</fieldset>
+					<!-- 
 					<div class="checkbox">
 						<label>
 							<input name="remember-me" type="checkbox">Remember Me
 						</label>
 					</div>
-					<button class="btn btn-primary" type="submit">Submit</button><span><a class="register-link" href="#0">Don't have an account?</a></span>
+					 -->
+					<button class="btn btn-primary" type="submit">로그인</button>
+					
+<!-- 					<span><a class="register-link" href="#0">Don't have an account?</a></span> -->
 					
 					<input type="hidden" name="${_csrf.parameterName }" value="${_csrf_token}"/>
 				</form>

@@ -719,7 +719,7 @@
 		<!-- Navigation -->
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="#">Start Bootstrap</a>
+				<a class="navbar-brand" href="#">기억보단 기록</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse"
 					data-target="#navbarResponsive" aria-controls="navbarResponsive"
 					aria-expanded="false" aria-label="Toggle navigation">
@@ -742,29 +742,24 @@
 			<div class="row">
 	
 				<!-- Post Content Column -->
-				<div class="col-lg-8">
+				<div class="col-lg-12">
 	
 					<!-- Title -->
 					<h1 class="mt-4">${board.title }</h1>
 	
-					<!-- Author -->
+					<!-- Author, Date/Time -->
 					<p class="lead">
-						by <a href="#">${board.writer }</a>
+						작성자 : <a href="#">${board.writer }</a>	|	Posted on ${board.regDate }
 					</p>
 	
 					<hr>
 	
-					<!-- Date/Time -->
-					<p>Posted on ${board.regDate }</p>
+					<!-- Preview Image
+					<img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
 	
 					<hr>
-	
-					<!-- Preview Image -->
-					<img class="img-fluid rounded" src="http://placehold.it/900x300"
-						alt="">
-	
-					<hr>
-	
+					-->
+					
 					<!-- Post Content -->					
 					<p>
 						${board.content }
@@ -809,8 +804,22 @@
 							</form>
 						</div>
 					</div>
-					
-					<table border='1' id="reply_area" style="width: 1200px;">
+					<table class="card my-4">
+						<tr class="card-header">
+							<td>
+								이름: <input type="text" id="reply_writer" name="reply_writer" maxlength="10" placeholder="작성자"/>
+								패스워드: <input type="password" id="reply_password" name="reply_password" maxlength="10" placeholder="패스워드"/>
+							<button id="reply_save" name="reply_save">댓글 등록</button>
+							</td>
+						</tr>
+						<tr class="card-body">
+							<td>
+								<textarea id="reply" name="reply" rows="4" cols="50" placeholder="댓글을 입력하세요."></textarea>
+							</td>
+						</tr>
+					</table>
+
+					<table border='1' id="reply_area" style="width: 100%;">
 						<tr reply_type="all" style="display: none;"> <!-- 뒤에 댓글 붙이기 쉽게 선언 -->
 							<td colspan="4"></td>
 						</tr>
@@ -818,13 +827,13 @@
 						<c:forEach var="replyList" items="${replyList}" varStatus="status">
 							<!-- 댓글의 depth 표시 -->
 							<tr reply_type="<c:if test="${replyList.depth == '0'}">main</c:if><c:if test="${replyList.depth == '1'}">sub</c:if>"><!-- 댓글의 depth 표시 -->
-								<td style="width: 820px;">
+								<td style="width: 65%;">
 									<c:if test="${replyList.depth == '1' }">-></c:if> ${replyList.reply}
 								</td>
-								<td style="width: 100px">
+								<td style="width: 10%">
 									${replyList.replyer }
 								</td>
-								<td style="width: 100px;">
+								<td style="width: 10%;">
 									<input type="password" id="reply_password_${replyList.rno }" style="width: 100px" maxlength="10" placeholder="패스워드">
 								</td>
 								<td align="center">
@@ -838,21 +847,7 @@
 							</tr>
 						</c:forEach>
 					</table>
-					<table border="1" style="width: 1200px; border-color: #46AA46">
-						<tr>
-							<td width="500px">
-								이름: <input type="text" id="reply_writer" name="reply_writer" style="width:170px;" maxlength="10" placeholder="작성자"/>
-								패스워드: <input type="password" id="reply_password" name="reply_password" style="width:170px;" maxlength="10" placeholder="패스워드"/>
-							<button id="reply_save" name="reply_save">댓글 등록</button>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<textarea id="reply" name="reply" rows="4" cols="50" placeholder="댓글을 입력하세요."></textarea>
-							</td>
-						</tr>
-					</table>
-	
+
 					<!-- Single Comment 
 					<div class="media mb-4">
 						<img class="d-flex mr-3 rounded-circle"
