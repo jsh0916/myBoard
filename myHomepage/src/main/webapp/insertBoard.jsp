@@ -152,6 +152,12 @@
 			
 			$("input[type='submit']").on("click", function(e) {
 				e.preventDefault();
+				
+				if ($.trim($(".title").text()) == "") {
+					alert("제목을 입력해주세요");
+					return false;
+				}
+				
 				console.log("submit clicked");
 
 				var str = "";

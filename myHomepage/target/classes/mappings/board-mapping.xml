@@ -71,6 +71,17 @@
 				SEQ = #{seq}
 		]]>
 	</select>
+	
+	<update id="updateCnt">
+		<![CDATA[
+			UPDATE
+				BOARD
+			SET
+				CNT = CNT + 1
+			WHERE
+				SEQ = #{seq}
+		]]>
+	</update>
 
 	<select id="getListWithPaging" resultMap="boardResult">
 		<![CDATA[
@@ -82,7 +93,7 @@
 				) TMP,
 				(
 					SELECT
-						@ROWNUM:=@ROWNUM + 1 AS NUM, SEQ, TITLE, WRITER, CONTENT, REGDATE, UPDATEDATE
+						@ROWNUM:=@ROWNUM + 1 AS NUM, SEQ, TITLE, WRITER, CONTENT, REGDATE, CNT, UPDATEDATE
 					FROM
 						BOARD
 					WHERE

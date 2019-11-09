@@ -61,4 +61,9 @@ public class BoardDAO {
 	public MemberVO read(String userid) {
 		return (MemberVO) mybatis.selectOne("MemberVO.read", userid);
 	}
+
+	public void updateCnt(int seq) {
+		logger.info("===> updateCnt() 기능처리");
+		mybatis.update("BoardDAO.updateCnt", seq);
+	}
 }

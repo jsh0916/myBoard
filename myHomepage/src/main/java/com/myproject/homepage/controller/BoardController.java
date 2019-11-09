@@ -279,9 +279,6 @@ public class BoardController {
 		return pd;
 	}
 	
-	
-	
-	
 	@RequestMapping(value="/uploadAjax.do")
 	public String uploadAjax() {
 		logger.info("upload ajax");
